@@ -8,6 +8,8 @@ using ExitGames.Client.Photon;
 
 public class PlayerCard : MonoBehaviourPunCallbacks
 {
+
+
     public Text pName;
     public Text idNum;
     public Text pReady;
@@ -26,13 +28,14 @@ public class PlayerCard : MonoBehaviourPunCallbacks
         idNum.text = idNumber;
 
 
-        if(name == PhotonNetwork.LocalPlayer.NickName)
+        if (name == PhotonNetwork.LocalPlayer.NickName)
         {
             readyBut.SetActive(true);
+            bool notReady = false;
+            Cproperties["Ready"] = notReady;
+            PhotonNetwork.SetPlayerCustomProperties(Cproperties);
         }
     }
-
-
 
     public void readyUp()
     {
