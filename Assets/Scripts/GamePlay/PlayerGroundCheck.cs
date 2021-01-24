@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerGroundCheck : MonoBehaviour
 {
-    PlayerController playerController;
+    PlayerManager playerController;
 
-    void Awake()
+    void Start()
     {
-        playerController = transform.parent.gameObject.GetComponent<PlayerController>();
-        Debug.Log("Test1" + playerController);
+        playerController = transform.parent.gameObject.GetComponent<PlayerManager>();
+        Debug.Log("PlayerController: " + playerController);
     }
 
     void OnTriggerEnter(Collider other)

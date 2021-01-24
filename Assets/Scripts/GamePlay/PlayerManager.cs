@@ -32,7 +32,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if(photonView.IsMine || !PhotonNetwork.IsConnected)
+        if(photonView.IsMine)
         {
             Look();
             Move();
@@ -67,15 +67,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     public void SetGroundedState(bool _grounded)
     {
-        if (photonView.IsMine || !PhotonNetwork.IsConnected)
-        {
-            grounded = _grounded;
-        }
+        grounded = _grounded;
     }
 
     void FixedUpdate()
     {
-        if (photonView.IsMine || !PhotonNetwork.IsConnected)
+        if (photonView.IsMine)
         {
             rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
         }
