@@ -66,12 +66,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     void Look()
     {
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
-        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
 
+        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
-        cameraHolder.transform.rotation = Quaternion.Euler(-verticalLookRotation, 0f, 0f);
-        //cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
     [PunRPC]
