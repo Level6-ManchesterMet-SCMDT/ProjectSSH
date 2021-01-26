@@ -8,11 +8,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
     float verticalLookRotation;
-    bool grounded;
+    public bool grounded;
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
 
     Rigidbody rb;
+    Animator _animator;
 
     void Awake()
     {
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
         Look();
         Move();
         Jump();
+        _animator.SetBool("Grounded", grounded);
     }
 
     void Move()
@@ -39,7 +41,9 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
+            Debug.Log("Grounded Jump: " + grounded);
             rb.AddForce(transform.up * jumpForce);
+            
         }
     }
 

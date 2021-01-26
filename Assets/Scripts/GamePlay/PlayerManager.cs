@@ -6,6 +6,7 @@ using Photon.Pun;
 public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] GameObject cameraHolder;
+    [SerializeField] Animator animator;
     [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
     public float speed = 0.03f;
@@ -13,8 +14,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     float verticalLookRotation;
     bool grounded;
+    bool FinishedJumping = false;
     Vector3 smoothMoveVelocity;
     Vector3 moveAmount;
+
     Rigidbody rb;
 
     private void Awake()
@@ -45,6 +48,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             Look();
             Move();
             Jump();
+
+            
         }
     }
 
@@ -60,10 +65,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
             rb.AddForce(transform.up * jumpForce);
+            animator.SetBool("Jumped", true);
+            
         }
+        else if (FinishedJumping) 
+        {
+            animator.SetBool("Jumped", false);
+        }
+        FinishedJumping = false;
     }
 
-    void Look()
+    void FinishedJump()
+    {
+        FinishedJumping = true;
+    }
+
+
+        void Look()
     {
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
 

@@ -5,41 +5,52 @@ using Photon.Pun;
 
 public class AnimationPlayerController : MonoBehaviourPunCallbacks
 {
-    Animator animator;
+    Animator _animator;
+    PlayerController _playerController;
 
-    // Start is called before the first frame update
+    public float MaxSpeed = 10;
+
     void Start()
     {
         if (photonView.IsMine)
         {
-            animator = GetComponent<Animator>();
+            _animator = GetComponent<Animator>();
         }
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         if (photonView.IsMine)
         {
-            if (Input.GetKey("w") && Input.GetKey("left shift"))
+            var leftRightPressed  = Input.GetAxis("Horizontal");
+            var forwardBackwardPressed = Input.GetAxis("Vertical");
+
+            if(!Input.GetKey("left shift"))
             {
-                Debug.Log("Running");
-                animator.SetBool("IsWalking", true);
-                animator.SetBool("IsRunning", true);
+                if(forwardBackwardPressed > 0.5f)
+                {
+                    forwardBackwardPressed = 0.5f;
+                }
+
+                if (leftRightPressed > 0.5f)
+                {
+                    leftRightPressed = 0.5f;
+                }
+
+                if (leftRightPressed < -0.5f)
+                {
+                    leftRightPressed = -0.5f;
+                }
             }
 
-            if (Input.GetKey("w") && !Input.GetKey("left shift"))
-            {
-                Debug.Log("Walking");
-                animator.SetBool("IsWalking", true);
-                animator.SetBool("IsRunning", false);
-            }
-            if (Input.GetKeyUp("w"))
-            {
-                Debug.Log("Stopped Walking");
-                animator.SetBool("IsWalking", false);
-                animator.SetBool("IsRunning", false);
-            }
+            Move(leftRightPressed, forwardBackwardPressed);
         }
+    }
+
+    private void Move(float x, float y)
+    {
+        _animator.SetFloat("VelX", x);
+        _animator.SetFloat("VelY", y);
     }
 }
