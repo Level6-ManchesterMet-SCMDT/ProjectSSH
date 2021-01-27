@@ -2,49 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.Animations.Rigging;
 
 public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] GameObject cameraHolder;
     [SerializeField] Animator animator;
-    [SerializeField] GameObject gun;
-    [SerializeField] GameObject right_hand_IK;
-    [SerializeField] GameObject left_hand_IK;
-    [SerializeField] GameObject rog_layers_hand_IK;
+    [SerializeField] float mouseSensitivity, sprintSpeed, walkSpeed, jumpForce, smoothTime;
 
-    public float speed = 12f;
-    public float gravity = -9.81f;
-    public float jumpHeight = 3f;
-    public float mouseSensitivity;
-
-    public Transform groundCheck;
-    public float groundDistance = 0.4f;
-    public LayerMask groundMask;
-
+    public float speed = 0.03f;
     public static GameObject LocalPlayerInstance;
-
-    private Vector3 moveDirection = Vector3.zero;
 
     float verticalLookRotation;
     bool grounded;
-    bool Armed = true;
     bool FinishedJumping = false;
-    bool isGrounded;
-    bool animationInProgress = false;
-    Vector3 velocity;
+    Vector3 smoothMoveVelocity;
+    Vector3 moveAmount;
 
-    Rig constrainthands;
-    TwoBoneIKConstraint constraintRightHand;
-    TwoBoneIKConstraint constraintLeftHand;
-
-    public CharacterController player;
+    Rigidbody rb;
 
     private void Awake()
     {
         if (photonView.IsMine)
         {
             PlayerManager.LocalPlayerInstance = this.gameObject;
+            rb = GetComponent<Rigidbody>();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
@@ -56,14 +37,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (!photonView.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-
-        }
-        else
-        {
-            constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
-            constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
-            constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
-
+            Destroy(rb);
         }
     }
 
@@ -71,63 +45,29 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(photonView.IsMine || !PhotonNetwork.IsConnected)
         {
-            Gravity();
             Look();
             Move();
-            if (!animationInProgress) { 
-                Jump();
-                Rifle();
-            }
-        }
-    }
+            Jump();
 
-    void Rifle()
-    {
-        if (Input.GetKey("f") && !Armed)
-        {
-            animator.SetBool("Armed", true);
-           
-        }
-        if (Input.GetKey("f") && Armed)
-        {
-            animator.SetBool("Armed", false);
-            Debug.Log(constrainthands.weight);
-            constrainthands.weight = 0.0f;
-        }
-    }
-
-
-    void Gravity()
-    {
-        velocity.y += gravity * Time.deltaTime;
-
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
+            
         }
     }
 
     void Move()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        Vector3 moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
 
-        Vector3 move = transform.right * x + transform.forward * z;
-
-        player.Move(move * speed * Time.deltaTime);
-        player.Move(velocity * Time.deltaTime);
+        moveAmount = Vector3.SmoothDamp(moveAmount, moveDir * (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed), ref smoothMoveVelocity, smoothTime);
     }
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            rb.AddForce(transform.up * jumpForce);
             animator.SetBool("Jumped", true);
+            
         }
-
         else if (FinishedJumping) 
         {
             animator.SetBool("Jumped", false);
@@ -135,33 +75,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         FinishedJumping = false;
     }
 
-    void AnimationInProgress()
-    {
-        animationInProgress = true;
-    }
-
     void FinishedJump()
     {
         FinishedJumping = true;
-        animationInProgress = false;
     }
 
-    void FinishedPuttingBack()
-    {
-        Armed = false;
-        gun.SetActive(false);
-        animationInProgress = false;
-    }
 
-    void FinishedEquipping()
-    {
-        Armed = true;
-        gun.SetActive(true);
-        constrainthands.weight = 1.0f;
-        animationInProgress = false;
-    }
-    
-    void Look()
+        void Look()
     {
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
 
@@ -175,6 +95,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public void SetGroundedState(bool _grounded)
     {
         grounded = _grounded;
+    }
+
+    void FixedUpdate()
+    {
+        if (photonView.IsMine)
+        {
+            rb.MovePosition(rb.position + transform.TransformDirection(moveAmount) * Time.fixedDeltaTime);
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
