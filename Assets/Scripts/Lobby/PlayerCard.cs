@@ -10,11 +10,11 @@ public class PlayerCard : MonoBehaviourPunCallbacks
 {
 
 
-    public Text pName;
-    public Text idNum;
-    public Text pReady;
+    public TextMesh pName;
+    //public Text idNum;
+    //public Text pReady;
 
-    public GameObject readyBut;
+    //public GameObject readyBut;
 
     private ExitGames.Client.Photon.Hashtable Cproperties = new ExitGames.Client.Photon.Hashtable();
 
@@ -22,28 +22,28 @@ public class PlayerCard : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
 
 
-    public void setValue(string name, string idNumber)
+    public void setValue(string name)//, string idNumber)
     {
         pName.text = name;
-        idNum.text = idNumber;
+        //idNum.text = idNumber;
 
 
         if (name == PhotonNetwork.LocalPlayer.NickName)
         {
-            readyBut.SetActive(true);
+            //readyBut.SetActive(true);
             bool notReady = false;
             Cproperties["Ready"] = notReady;
             PhotonNetwork.SetPlayerCustomProperties(Cproperties);
         }
     }
 
-    public void readyUp()
-    {
-        bool ready = true;
-        Cproperties["Ready"] = ready;
-        PhotonNetwork.SetPlayerCustomProperties(Cproperties);
-        readyBut.SetActive(false);
-    }
+    //public void readyUp()
+    //{
+    //    bool ready = true;
+    //    Cproperties["Ready"] = ready;
+    //    PhotonNetwork.SetPlayerCustomProperties(Cproperties);
+    //    readyBut.SetActive(false);
+    //}
 
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {

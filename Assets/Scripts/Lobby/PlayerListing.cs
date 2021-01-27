@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
-//using ExitGames.Client.Photon;
+using ExitGames.Client.Photon;
 
 public class PlayerListing : MonoBehaviourPunCallbacks
 {
@@ -12,12 +12,18 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     public GameObject PlayerCard;
     public GameObject startGameButton;
-    //public GameObject readyBut;
+    public Transform[] pCardSpawners;
+
+    public GameObject PlayerIdleCard;
+
+    private ExitGames.Client.Photon.Hashtable Cproperties = new ExitGames.Client.Photon.Hashtable();
+
+    public GameObject readyBut;
 
     private Player[] players;
     private Dictionary<int, GameObject> playerList;
 
-    
+    int pCount = 0;
     public void Start()
     {
         players = PhotonNetwork.PlayerList;
@@ -26,13 +32,30 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
 
 
+        //foreach (Player p in PhotonNetwork.PlayerList)
+        //{
+        //    GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+        //    card.transform.SetParent(gameObject.transform);
+        //    card.transform.localScale = Vector3.one;
+        //    card.GetComponent<PlayerCard>().setValue(p.NickName, p.ActorNumber.ToString());
+        //    playerList.Add(p.ActorNumber, card);
+        //}
+
+
+
         foreach (Player p in PhotonNetwork.PlayerList)
         {
-            GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
-            card.transform.SetParent(gameObject.transform);
+            GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
+
+            //GameObject card = PhotonNetwork.Instantiate(PlayerIdleCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+            card.transform.SetParent(pCardSpawners[p.ActorNumber - 1].transform);
             card.transform.localScale = Vector3.one;
-            card.GetComponent<PlayerCard>().setValue(p.NickName, p.ActorNumber.ToString());
+            card.transform.localPosition = new Vector3(0f, 0f, 0f);
+            card.transform.localRotation = Quaternion.identity;
+            card.GetComponent<PlayerCard>().setValue(p.NickName);//, p.ActorNumber.ToString());
             playerList.Add(p.ActorNumber, card);
+            //pCount++;
+            
         }
     }
 
@@ -46,12 +69,23 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        Debug.Log("Enter");
-        GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
-        card.transform.SetParent(gameObject.transform);
+        //Debug.Log("Enter");
+        //GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+        //card.transform.SetParent(gameObject.transform);
+        //card.transform.localScale = Vector3.one;
+        //card.GetComponent<PlayerCard>().setValue(newPlayer.NickName, newPlayer.ActorNumber.ToString());
+        //playerList.Add(newPlayer.ActorNumber, card);
+
+        GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
+
+        //GameObject card = PhotonNetwork.Instantiate(PlayerIdleCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+        card.transform.SetParent(pCardSpawners[newPlayer.ActorNumber - 1].transform);
         card.transform.localScale = Vector3.one;
-        card.GetComponent<PlayerCard>().setValue(newPlayer.NickName, newPlayer.ActorNumber.ToString());
+        card.transform.localPosition = new Vector3(0f, 0f, 0f);
+        card.transform.localRotation = Quaternion.identity;
+        card.GetComponent<PlayerCard>().setValue(newPlayer.NickName);//, p.ActorNumber.ToString());
         playerList.Add(newPlayer.ActorNumber, card);
+        //pCount++;
     }
 
     public void startGame()
@@ -76,10 +110,10 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     private void updatePlayerList()
     {
-        Debug.Log(PhotonNetwork.CurrentRoom);
-        Debug.Log(PhotonNetwork.IsMasterClient);
+        //Debug.Log(PhotonNetwork.CurrentRoom);
+        //Debug.Log(PhotonNetwork.IsMasterClient);
 
-        //lobbynames.text = PhotonNetwork.CurrentRoom.Name;
+        lobbynames.text = PhotonNetwork.CurrentRoom.Name;
         if (PhotonNetwork.IsMasterClient)
         {
             startGameButton.SetActive(true);
@@ -88,12 +122,12 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
 
 
-    //public void readyUp()
-    //{
-    //    bool ready = true;
-    //    Cproperties[GeomTuneGame.Player_Ready] = ready;
-    //    PhotonNetwork.SetPlayerCustomProperties(Cproperties);
-    //    readyBut.SetActive(false);
-    //}
+    public void readyUp()
+    {
+        bool ready = true;
+        Cproperties["Ready"] = ready;
+        PhotonNetwork.SetPlayerCustomProperties(Cproperties);
+        readyBut.SetActive(false);
+    }
 
 }
