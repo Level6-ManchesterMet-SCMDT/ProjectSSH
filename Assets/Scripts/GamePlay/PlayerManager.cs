@@ -31,12 +31,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     bool Armed = true;
     bool FinishedJumping = false;
     bool isGrounded;
-    bool animationInProgress = false;
+    bool holdingGun = true;
     Vector3 velocity;
 
     Rig constrainthands;
     TwoBoneIKConstraint constraintRightHand;
     TwoBoneIKConstraint constraintLeftHand;
+    RigBuilder rb;
 
     public CharacterController player;
 
@@ -63,7 +64,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
             constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
             constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
-
+            rb = transform.GetComponent<RigBuilder>();
         }
     }
 
@@ -74,10 +75,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             Gravity();
             Look();
             Move();
-            if (!animationInProgress) { 
-                Jump();
-                Rifle();
+            Jump();
+            Rifle();
+            if (holdingGun) {
+
+                constrainthands.weight += 0.01f;
             }
+            else
+                constrainthands.weight -= 0.01f;
         }
     }
 
@@ -86,14 +91,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (Input.GetKey("f") && !Armed)
         {
             animator.SetBool("Armed", true);
-           
+            animator.SetFloat("Arming", 1.0f);
+
         }
         if (Input.GetKey("f") && Armed)
         {
             animator.SetBool("Armed", false);
-            Debug.Log(constrainthands.weight);
-            constrainthands.weight = 0.0f;
+            animator.SetFloat("Arming", 0.01f);
         }
+
+        if (Input.GetKey(KeyCode.Mouse1) && Armed)
+        {
+            animator.SetBool("Aiming", true);
+        }else animator.SetBool("Aiming", false);
     }
 
 
@@ -135,32 +145,33 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         FinishedJumping = false;
     }
 
-    void AnimationInProgress()
-    {
-        animationInProgress = true;
-    }
-
     void FinishedJump()
     {
         FinishedJumping = true;
-        animationInProgress = false;
     }
 
     void FinishedPuttingBack()
     {
         Armed = false;
         gun.SetActive(false);
-        animationInProgress = false;
+    }
+
+    void StartEquipping()
+    {
+        gun.SetActive(true);
     }
 
     void FinishedEquipping()
     {
         Armed = true;
-        gun.SetActive(true);
-        constrainthands.weight = 1.0f;
-        animationInProgress = false;
+        holdingGun = true;
     }
-    
+
+    void StartedPuttingBack()
+    {
+        holdingGun = false;
+    }
+
     void Look()
     {
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
