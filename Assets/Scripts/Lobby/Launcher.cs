@@ -13,6 +13,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject homePanel;
     public GameObject lobbyPanel;
 
+    public Camera mainCam;
+    GrabCamera grabCam;
     //public Text input;
     //public Text roomInput;
     //public Text ConnectText;
@@ -30,7 +32,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.AutomaticallySyncScene = true;
 
-
+        grabCam = FindObjectOfType<GrabCamera>();
         //bool ready = false;
         //Cproperties[] = ready;
         //PhotonNetwork.SetPlayerCustomProperties(Cproperties);
@@ -64,6 +66,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedLobby()
     {
+        grabCam.GrabCameraFrom(mainCam.gameObject);
         Debug.Log("Connected");
         connectPanel.SetActive(false);
         homePanel.SetActive(true);
@@ -102,6 +105,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         homePanel.SetActive(false);
         lobbyPanel.SetActive(true);
+        //grabCam.DisableCam();
+        //mainCam.enabled = false;
     }
 
 }
