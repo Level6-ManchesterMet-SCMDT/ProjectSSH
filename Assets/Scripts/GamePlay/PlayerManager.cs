@@ -25,6 +25,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public static GameObject LocalPlayerInstance;
 
     private Vector3 moveDirection = Vector3.zero;
+    private PhotonView PV;
 
     float verticalLookRotation;
     bool grounded;
@@ -32,6 +33,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     bool FinishedJumping = false;
     bool isGrounded;
     bool holdingGun = true;
+
     Vector3 velocity;
 
     Rig constrainthands;
@@ -61,6 +63,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
+
             constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
             constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
             constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
@@ -164,12 +167,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     void FinishedEquipping()
     {
         Armed = true;
-        holdingGun = true;
+        SetHoldingGunState(true);
     }
 
     void StartedPuttingBack()
     {
-        holdingGun = false;
+        SetHoldingGunState(false);
     }
 
     void Look()
@@ -188,15 +191,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         grounded = _grounded;
     }
 
+    [PunRPC]
+    public void SetHoldingGunState(bool _holdingGun)
+    {
+        holdingGun = _holdingGun;
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(grounded);
+            stream.SendNext(holdingGun);
         }
         else
         {
             this.grounded = (bool)stream.ReceiveNext();
+            this.holdingGun = (bool)stream.ReceiveNext();
         }
     }
 }
