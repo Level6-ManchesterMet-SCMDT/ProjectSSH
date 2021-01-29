@@ -81,7 +81,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             Jump();
             Rifle();
             if (holdingGun) {
-
                 constrainthands.weight += 0.01f;
             }
             else
@@ -94,19 +93,21 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (Input.GetKey("f") && !Armed)
         {
             animator.SetBool("Armed", true);
-            animator.SetFloat("Arming", 1.0f);
 
         }
         if (Input.GetKey("f") && Armed)
         {
             animator.SetBool("Armed", false);
-            animator.SetFloat("Arming", 0.01f);
         }
 
         if (Input.GetKey(KeyCode.Mouse1) && Armed)
         {
             animator.SetBool("Aiming", true);
-        }else animator.SetBool("Aiming", false);
+        }
+        else
+        {
+            animator.SetBool("Aiming", false);
+        }
     }
 
 
