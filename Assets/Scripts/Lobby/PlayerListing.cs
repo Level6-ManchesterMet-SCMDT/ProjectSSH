@@ -23,7 +23,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     private Player[] players;
     private Dictionary<int, GameObject> playerList;
 
-    int pCount = 0;
+    //int pCount = 0;
     public void Start()
     {
         players = PhotonNetwork.PlayerList;
