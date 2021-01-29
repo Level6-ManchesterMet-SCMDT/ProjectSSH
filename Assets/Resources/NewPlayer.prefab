@@ -1751,7 +1751,7 @@ MonoBehaviour:
   speed: 12
   gravity: -9.81
   jumpHeight: 3
-  mouseSensitivity: 0
+  mouseSensitivity: 3
   groundCheck: {fileID: 6280829597465408994}
   groundDistance: 0.4
   groundMask:

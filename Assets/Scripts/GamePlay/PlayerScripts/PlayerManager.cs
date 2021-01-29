@@ -59,16 +59,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (!photonView.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-
         }
-        else
-        {
-
             constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
             constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
             constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
             rb = transform.GetComponent<RigBuilder>();
-        }
     }
 
     void Update()
@@ -80,12 +75,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             Move();
             Jump();
             Rifle();
-            if (holdingGun) {
-                constrainthands.weight += 0.01f;
-            }
-            else
-                constrainthands.weight -= 0.01f;
         }
+
+        if (holdingGun)
+        {
+            constrainthands.weight += 0.01f;
+        }
+        else
+            constrainthands.weight -= 0.01f;
     }
 
     void Rifle()
@@ -188,10 +185,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
-        Debug.Log("Look");
     }
 
-    [PunRPC]
     public void SetGroundedState(bool _grounded)
     {
         grounded = _grounded;
@@ -208,12 +203,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (stream.IsWriting)
         {
             stream.SendNext(grounded);
-            stream.SendNext(holdingGun);
         }
         else
         {
             this.grounded = (bool)stream.ReceiveNext();
-            this.holdingGun = (bool)stream.ReceiveNext();
         }
     }
 }
