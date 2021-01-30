@@ -4,13 +4,11 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
+public class PlayerManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject cameraHolder;
     [SerializeField] Animator animator;
     [SerializeField] GameObject gun;
-    [SerializeField] GameObject right_hand_IK;
-    [SerializeField] GameObject left_hand_IK;
     [SerializeField] GameObject rog_layers_hand_IK;
 
     public float speed = 12f;
@@ -25,7 +23,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public static GameObject LocalPlayerInstance;
 
     private Vector3 moveDirection = Vector3.zero;
-    private PhotonView PV;
 
     float verticalLookRotation;
     bool grounded;
@@ -37,9 +34,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     Vector3 velocity;
 
     Rig constrainthands;
-    TwoBoneIKConstraint constraintRightHand;
-    TwoBoneIKConstraint constraintLeftHand;
-    RigBuilder rb;
+    //TwoBoneIKConstraint constraintRightHand;
+    //TwoBoneIKConstraint constraintLeftHand;
+    //RigBuilder rb;
 
     public CharacterController player;
 
@@ -61,9 +58,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             Destroy(GetComponentInChildren<Camera>().gameObject);
         }
             constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
-            constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
-            constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
-            rb = transform.GetComponent<RigBuilder>();
+            //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
+            //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
+            //rb = transform.GetComponent<RigBuilder>();
     }
 
     void Update()
@@ -192,21 +189,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         grounded = _grounded;
     }
 
-    [PunRPC]
     public void SetHoldingGunState(bool _holdingGun)
     {
         holdingGun = _holdingGun;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(grounded);
-        }
-        else
-        {
-            this.grounded = (bool)stream.ReceiveNext();
-        }
     }
 }

@@ -6,13 +6,14 @@ public class PlayerStats : MonoBehaviour
 {
 
     public int maxHealth = 100;
-    public int currentHealth;
-    public HealthBar healthBar;
+
+    private int currentHealth;
+    private HealthBar healthBar;
 
     private void Start()
     {
         currentHealth = maxHealth;
-        healthBar = GameObject.Find("Canvas/UI/HealthBar").GetComponent<HealthBar>(); ;
+        healthBar = GameObject.Find("Canvas/UI/HealthBar").GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
     }
 
