@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     [SerializeField] Animator animator;
     [SerializeField] GameObject gun;
     [SerializeField] GameObject rog_layers_hand_IK;
+    [SerializeField] GameObject canvas;
 
     public float speed = 12f;
     public float gravity = -9.81f;
@@ -47,6 +48,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             PlayerManager.LocalPlayerInstance = this.gameObject;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            
         }
         DontDestroyOnLoad(this.gameObject);
     }
@@ -57,11 +59,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
         }
-            constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
-            //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
-            //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
-            //rb = transform.GetComponent<RigBuilder>();
+        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+        if (photonView.IsMine)
+        {
+            canvas.SetActive(true);
+        }
+        
+        //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
+        //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
+        //rb = transform.GetComponent<RigBuilder>();
     }
+
 
     void Update()
     {

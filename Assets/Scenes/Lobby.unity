@@ -5422,7 +5422,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh42782
+  m_Name: pb_Mesh129276
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -11760,5 +11760,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: idlePlayer
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8931814883181721043, guid: 79950bfc9e43c91499d422231fe3e504,
+        type: 3}
+      propertyPath: m_SynchronizeLayers.Array.data[0].SynchronizeType
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4511264659475102749, guid: 79950bfc9e43c91499d422231fe3e504, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 79950bfc9e43c91499d422231fe3e504, type: 3}

@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
 
+    
+    [SerializeField] GameObject healthBarRef;
+
     public int maxHealth = 100;
 
     private int currentHealth;
@@ -13,7 +16,7 @@ public class PlayerStats : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        healthBar = GameObject.Find("Canvas/UI/HealthBar").GetComponent<HealthBar>();
+        healthBar = healthBarRef.GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
     }
 

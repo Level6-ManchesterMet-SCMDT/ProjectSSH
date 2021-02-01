@@ -12,9 +12,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         // check whether this client already has a player setup
         if(PlayerManager.LocalPlayerInstance == null)
         {
-
+            Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
             //if not, we need to make them one - spawn a character for the local player
-            PhotonNetwork.Instantiate(this.playerPrefab.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+            PhotonNetwork.Instantiate(this.playerPrefab.name, spawnpoint.position, spawnpoint.rotation, 0);
             
         }
         else
@@ -23,8 +23,4 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    void Update()
-    {
-        
-    }
 }
