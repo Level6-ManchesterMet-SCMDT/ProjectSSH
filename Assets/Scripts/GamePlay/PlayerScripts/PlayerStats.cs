@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
 {
     
     [SerializeField] GameObject healthBarRef;
@@ -16,7 +17,7 @@ public class PlayerStats : MonoBehaviour
     private bool dead = false;
     private HealthBar healthBar;
 
-    Rig constrainthands;
+    TwoBoneIKConstraint constraintLeftHand;
 
     private void Start()
     {
@@ -24,7 +25,7 @@ public class PlayerStats : MonoBehaviour
         healthBar = healthBarRef.GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
         SetKinematic(true);
-        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+        constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
     }
 
     // Update is called once per frame
@@ -42,7 +43,7 @@ public class PlayerStats : MonoBehaviour
 
         if (dead)
         {
-            constrainthands.weight -= 0.01f;
+            constraintLeftHand.data.targetPositionWeight -= 0.01f;
         }
     }
 
@@ -89,6 +90,18 @@ public class PlayerStats : MonoBehaviour
         foreach (Rigidbody rb in bodies)
         {
             rb.isKinematic = newValue;
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(dead);
+        }
+        else
+        {
+            this.dead = (bool)stream.ReceiveNext();
         }
     }
 }

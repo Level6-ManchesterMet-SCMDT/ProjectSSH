@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerManager : MonoBehaviourPunCallbacks
+public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] GameObject cameraHolder;
     [SerializeField] Animator animator;
@@ -205,5 +205,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public void SetHoldingGunState(bool _holdingGun)
     {
         holdingGun = _holdingGun;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(holdingGun);
+        }
+        else
+        {
+            this.holdingGun = (bool)stream.ReceiveNext();
+        }
     }
 }

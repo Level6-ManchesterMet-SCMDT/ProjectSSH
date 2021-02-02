@@ -4,7 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Animations.Rigging;
 
-public class Gun : MonoBehaviourPunCallbacks
+public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 {
     public float damage = 10f;
     public float range = 100f;
@@ -145,6 +145,18 @@ public class Gun : MonoBehaviourPunCallbacks
     {
         muzzleFlash.Play(); //play muzzleflash on shooting
         cartridgeEffect.Play();
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(isReloading);
+        }
+        else
+        {
+            this.isReloading = (bool)stream.ReceiveNext();
+        }
     }
 
 }
