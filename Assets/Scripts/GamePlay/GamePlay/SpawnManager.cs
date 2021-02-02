@@ -6,7 +6,10 @@ public class SpawnManager : MonoBehaviour
 {
     public static SpawnManager Instance;
 
+    public GameObject[] spawnpointsTeamOne;
+    public GameObject[] spawnpointsTeamTwo;
     public GameObject[] spawnpoints;
+    public int nextPlayersTeam;
 
     void Awake()
     {
@@ -17,4 +20,15 @@ public class SpawnManager : MonoBehaviour
     {
         return spawnpoints[Random.Range(0, spawnpoints.Length)].transform;
     }
+
+    
+/*    public void UpdateTeam()
+    {
+        if (nextPlayerTeam == 1)
+        {
+            nextPlayerTeam = 2;
+        }
+        else nextPlayerTeam = 1;
+    }*/
+
 }

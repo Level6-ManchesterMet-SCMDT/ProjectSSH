@@ -6,6 +6,7 @@ using Photon.Pun;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab;
+    public int myTeam;
 
     void Start()
     {
@@ -23,4 +24,17 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
+/*    [PunRPC]
+    void RPC_GetTeam()
+    {
+        myTeam = SpawnManager.nextPlayersTeam;
+        SpawnManager.UpdateTeam();
+        PV.RPC("RPC_SentTeam", RpcTarget.OtherBuffered, myTeam);
+    }
+
+    [PunRPC]
+    void RPC_SentTeam(int whichTeam)
+    {
+        myTeam = whichTeam;
+    }*/
 }

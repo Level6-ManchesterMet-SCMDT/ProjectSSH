@@ -103,27 +103,32 @@ public class Gun : MonoBehaviourPunCallbacks
             RaycastHit hit;
             if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
-                    Target target = hit.transform.GetComponent<Target>();
-
-                    if (target != null)
-                    {
-                        target.TakeDamage(damage); //deal damage to object or player
-                    }
+                if (hit.transform.tag == "SceneObject")
+                {
+                    hit.transform.GetComponent<SceneObjectHealth>().TakeDamage(damage); //deal damage to object or player
+                }
 
                 if(hit.rigidbody != null)
                 {
                     hit.rigidbody.AddForce(-hit.normal * impactForce); //add force to object with rigidbody
                 }
+
                 if (hit.transform.tag == "PlayerNL")
                 {
                     GameObject impactGO = PhotonNetwork.Instantiate(playerNLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
                     Destroy(impactGO, 2f);
 
+                    float rDamage = Random.Range(damage - 5f, damage + 5f);
+                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "Dead");
                 }
+
                 else if (hit.transform.tag == "PlayerL")
                 {
                     GameObject impactGO = PhotonNetwork.Instantiate(playerLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
                     Destroy(impactGO, 2f);
+
+                    float rDamage = Random.Range(damage + 40f, damage + 50f);
+                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "HeadshotDead");
                 }
                 else
                 {
@@ -141,4 +146,5 @@ public class Gun : MonoBehaviourPunCallbacks
         muzzleFlash.Play(); //play muzzleflash on shooting
         cartridgeEffect.Play();
     }
+
 }

@@ -59,12 +59,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
         }
-        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+
         if (photonView.IsMine)
         {
             canvas.SetActive(true);
         }
-        
+
+        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+
         //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
         //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
         //rb = transform.GetComponent<RigBuilder>();
@@ -155,6 +157,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         FinishedJumping = false;
     }
 
+    void Look()
+    {
+        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+
+        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+
+        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+    }
+
+
+    //Animations
+
     void FinishedJump()
     {
         FinishedJumping = true;
@@ -180,16 +195,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     void StartedPuttingBack()
     {
         SetHoldingGunState(false);
-    }
-
-    void Look()
-    {
-        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
-
-        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-
-        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
     public void SetGroundedState(bool _grounded)
