@@ -94,11 +94,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             animator.SetBool("Armed", false);
         }
 
-        if (Input.GetKey(KeyCode.Mouse1) && Armed)
-        {
-            animator.SetBool("Aiming", true);
-        }
-        else animator.SetBool("Aiming", false);
+        //if (Input.GetKey(KeyCode.Mouse1) && Armed)
+        //{
+        //    animator.SetBool("Aiming", true);
+        //}
+        //else animator.SetBool("Aiming", false);
 
         if (Input.GetMouseButtonDown(0))
         {

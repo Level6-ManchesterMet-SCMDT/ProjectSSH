@@ -66,6 +66,13 @@ public class Gun : MonoBehaviourPunCallbacks
                 return;
             }
 
+
+            if (Input.GetKey(KeyCode.Mouse1))
+            {
+                animator.SetBool("Aiming", true);
+            }
+            else animator.SetBool("Aiming", false);
+
             Shoot();
             
             UIAmmo.ammo = currentAmmo;
