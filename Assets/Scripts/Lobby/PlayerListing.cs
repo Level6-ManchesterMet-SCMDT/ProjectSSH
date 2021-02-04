@@ -23,43 +23,26 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     private Player[] players;
     private Dictionary<int, GameObject> playerList;
 
-    //int pCount = 0;
     public void Start()
     {
         players = PhotonNetwork.PlayerList;
         playerList = new Dictionary<int, GameObject>();
+
         updatePlayerList();
-
-
-
-        //foreach (Player p in PhotonNetwork.PlayerList)
-        //{
-        //    GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
-        //    card.transform.SetParent(gameObject.transform);
-        //    card.transform.localScale = Vector3.one;
-        //    card.GetComponent<PlayerCard>().setValue(p.NickName, p.ActorNumber.ToString());
-        //    playerList.Add(p.ActorNumber, card);
-        //}
-
-
 
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
 
-            //GameObject card = PhotonNetwork.Instantiate(PlayerIdleCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
             card.transform.SetParent(pCardSpawners[p.ActorNumber - 1].transform);
             card.transform.localScale = Vector3.one;
             card.transform.localPosition = new Vector3(0f, 0f, 0f);
             card.transform.localRotation = Quaternion.identity;
-            card.GetComponent<PlayerCard>().setValue(p.NickName);//, p.ActorNumber.ToString());
+            card.GetComponent<PlayerCard>().setValue(p.NickName);
             playerList.Add(p.ActorNumber, card);
-            //pCount++;
             
         }
     }
-
-
 
     public override void OnPlayerLeftRoom(Player other)
     {
@@ -69,23 +52,14 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        //Debug.Log("Enter");
-        //GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
-        //card.transform.SetParent(gameObject.transform);
-        //card.transform.localScale = Vector3.one;
-        //card.GetComponent<PlayerCard>().setValue(newPlayer.NickName, newPlayer.ActorNumber.ToString());
-        //playerList.Add(newPlayer.ActorNumber, card);
-
         GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
 
-        //GameObject card = PhotonNetwork.Instantiate(PlayerIdleCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
         card.transform.SetParent(pCardSpawners[newPlayer.ActorNumber - 1].transform);
         card.transform.localScale = Vector3.one;
         card.transform.localPosition = new Vector3(0f, 0f, 0f);
         card.transform.localRotation = Quaternion.identity;
-        card.GetComponent<PlayerCard>().setValue(newPlayer.NickName);//, p.ActorNumber.ToString());
+        card.GetComponent<PlayerCard>().setValue(newPlayer.NickName);
         playerList.Add(newPlayer.ActorNumber, card);
-        //pCount++;
     }
 
     public void startGame()
@@ -110,9 +84,6 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     private void updatePlayerList()
     {
-        //Debug.Log(PhotonNetwork.CurrentRoom);
-        //Debug.Log(PhotonNetwork.IsMasterClient);
-
         lobbynames.text = PhotonNetwork.CurrentRoom.Name;
         if (PhotonNetwork.IsMasterClient)
         {
