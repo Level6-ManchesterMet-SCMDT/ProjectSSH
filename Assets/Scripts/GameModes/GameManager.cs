@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         gameModeNumber = Int32.Parse(PhotonNetwork.CurrentRoom.CustomProperties["GameMode"].ToString());
-
     }
 
     void Update()
