@@ -119,7 +119,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                     Destroy(impactGO, 2f);
 
                     float rDamage = Random.Range(damage - 5f, damage + 5f);
-                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "Dead");
+                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "Dead", PhotonNetwork.LocalPlayer.NickName);
                 }
 
                 else if (hit.transform.tag == "PlayerL")
@@ -128,7 +128,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                     Destroy(impactGO, 2f);
 
                     float rDamage = Random.Range(damage + 40f, damage + 50f);
-                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "HeadshotDead");
+                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "HeadshotDead", PhotonNetwork.LocalPlayer.NickName);
                 }
                 else
                 {

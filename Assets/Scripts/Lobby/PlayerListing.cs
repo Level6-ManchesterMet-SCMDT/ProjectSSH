@@ -97,6 +97,10 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     {
         bool ready = true;
         Cproperties["Ready"] = ready;
+        Cproperties["Deaths"] = 0;
+        Cproperties["Kills"] = 0;
+        Cproperties["AbilityPoints"] = 0;
+        Cproperties["Currency"] = 0;
         PhotonNetwork.SetPlayerCustomProperties(Cproperties);
         readyBut.SetActive(false);
     }

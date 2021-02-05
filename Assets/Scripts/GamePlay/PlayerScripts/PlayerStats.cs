@@ -9,6 +9,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     
     [SerializeField] GameObject healthBarRef;
     [SerializeField] GameObject rog_layers_hand_IK;
+    [SerializeField] GameObject UpdateUI;
 
     public float maxHealth = 100f;
     public Animator animator;
@@ -34,7 +35,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
 
         if (Input.GetKeyDown(KeyCode.G))
         {
-            TakeDamage(20f, "Death");
+            TakeDamage(20f, "Death", "");
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -47,7 +48,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void TakeDamage(float damage, string deathAnim)
+    public void TakeDamage(float damage, string deathAnim, string playerName)
     {
         currentHealth -= damage;
 
@@ -62,6 +63,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         {
             dead = true;
             animator.SetBool(deathAnim, true);
+            PhotonNetwork.LocalPlayer.CustomProperties["Deaths"] = (int)PhotonNetwork.LocalPlayer.CustomProperties["Deaths"] + 1;
         }
     }
 

@@ -6894,6 +6894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarRef: {fileID: 8077995263797960038}
   rog_layers_hand_IK: {fileID: 4846458336598626578}
+  UpdateUI: {fileID: 0}
   maxHealth: 100
   animator: {fileID: 128864864605220760}
 --- !u!1 &6793580518739362743
@@ -17653,8 +17654,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3934923843482080886, guid: 53d05ef737786eb459d45483afe69c50,
         type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 6656933301093085016}
+    - target: {fileID: 3934923843482080886, guid: 53d05ef737786eb459d45483afe69c50,
+        type: 3}
       propertyPath: hasUpdated
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4030907094853823337, guid: 53d05ef737786eb459d45483afe69c50,
+        type: 3}
+      propertyPath: m_Text
+      value: 0:00
       objectReference: {fileID: 0}
     - target: {fileID: 5116606683964951681, guid: 53d05ef737786eb459d45483afe69c50,
         type: 3}
