@@ -41,7 +41,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         //    playerList.Add(p.ActorNumber, card);
         //}
 
-
+        
 
         foreach (Player p in PhotonNetwork.PlayerList)
         {
@@ -54,6 +54,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
             card.transform.localRotation = Quaternion.identity;
             card.GetComponent<PlayerCard>().setValue(p.NickName);//, p.ActorNumber.ToString());
             playerList.Add(p.ActorNumber, card);
+            
             //pCount++;
             
         }

@@ -45,13 +45,13 @@ public class Gun : MonoBehaviourPunCallbacks
     void Update()
     {
 
-        if (isReloading)
-        {
-            constraintLeftHand.data.targetPositionWeight -= 0.01f;
-            Debug.Log("Test");
-        }
-        else
-            constraintLeftHand.data.targetPositionWeight += 0.01f;
+       // if (isReloading)
+        //{
+            //constraintLeftHand.data.targetPositionWeight -= 0.01f;
+            //Debug.Log("Test");
+        //}
+        //else
+            //constraintLeftHand.data.targetPositionWeight += 0.01f;
 
         if (photonView.IsMine || !PhotonNetwork.IsConnected)
         {
@@ -67,11 +67,11 @@ public class Gun : MonoBehaviourPunCallbacks
             }
 
 
-            if (Input.GetKey(KeyCode.Mouse1))
-            {
-                animator.SetBool("Aiming", true);
-            }
-            else animator.SetBool("Aiming", false);
+            //if (Input.GetKey(KeyCode.Mouse1))
+            //{
+            //    animator.SetBool("Aiming", true);
+            //}
+            //else animator.SetBool("Aiming", false);
 
             Shoot();
             

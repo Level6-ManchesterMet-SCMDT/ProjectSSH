@@ -11,6 +11,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject gun;
     [SerializeField] GameObject rog_layers_hand_IK;
 
+    [SerializeField] GameObject arms;
+
+    [SerializeField] Camera fpsCam;
+    [SerializeField] Camera Cam;
+    //[SerializeField] Transform spine2;
+
     public float speed = 12f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
@@ -31,9 +37,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     bool isGrounded;
     bool holdingGun = true;
 
+   
     Vector3 velocity;
 
     Rig constrainthands;
+
+    RigBuilder rigBuilder;
     //TwoBoneIKConstraint constraintRightHand;
     //TwoBoneIKConstraint constraintLeftHand;
     //RigBuilder rb;
@@ -53,14 +62,43 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+        //Camera cam = GetComponentInChildren<Camera>();
+        
         if (!photonView.IsMine)
         {
-            Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(Cam.gameObject);
+            
+            fpsCam.enabled = false;
+            //Destroy(fpsCam.GetComponent<Camera>());
+            //Destroy(GetComponentInChildren<Camera>().gameObject);
+            //GetComponentInChildren<Camera>().enabled = false;
+            arms.layer = 0;
+            gun.layer = 0;
+
+            for (int i = 0; i < gun.transform.childCount; i++)
+            {
+                gun.transform.GetChild(i).gameObject.layer = 0;
+
+                for (int j = 0; j < gun.transform.GetChild(i).transform.childCount; j++)
+                {
+                    gun.transform.GetChild(i).transform.GetChild(j).gameObject.layer = 0;
+                }
+            }
+            //constrainthands.enabled = false;
         }
-            constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
-            //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
-            //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
-            //rb = transform.GetComponent<RigBuilder>();
+        else
+        {
+            //Cam.enabled = true;
+        }
+
+        
+        
+
+
+        //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
+        //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
+        //rb = transform.GetComponent<RigBuilder>();
     }
 
     void Update()
@@ -74,6 +112,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             Rifle();
         }
 
+        
         if (holdingGun)
         {
             constrainthands.weight += 0.01f;
@@ -94,11 +133,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             animator.SetBool("Armed", false);
         }
 
-        //if (Input.GetKey(KeyCode.Mouse1) && Armed)
-        //{
-        //    animator.SetBool("Aiming", true);
-        //}
-        //else animator.SetBool("Aiming", false);
+        if (Input.GetKey(KeyCode.Mouse1) && Armed)
+        {
+            animator.SetBool("Aiming", true);
+        }
+        else animator.SetBool("Aiming", false);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -192,5 +231,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public void SetHoldingGunState(bool _holdingGun)
     {
         holdingGun = _holdingGun;
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(holdingGun);
+        }
+        else
+        {
+            this.holdingGun = (bool)stream.ReceiveNext();
+        }
     }
 }
