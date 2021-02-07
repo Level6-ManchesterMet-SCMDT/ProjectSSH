@@ -4,7 +4,7 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
+public class PlayerStats : MonoBehaviourPunCallbacks
 {
     
     [SerializeField] GameObject healthBarRef;
@@ -59,18 +59,20 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
 
         healthBar.SetHealth(currentHealth);
 
-        if (currentHealth <= 0f)
+        if (currentHealth <= 0f && dead == false)
         {
+            Debug.Log("currentHealth");
             dead = true;
             animator.SetBool(deathAnim, true);
             PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("RPC_PlayerDied", RpcTarget.All, PhotonNetwork.LocalPlayer.NickName, playerReference);
+            photonView.RPC("RPC_PlayerDied", RpcTarget.All, photonView.Owner.NickName, playerReference);
         }
     }
 
     [PunRPC]
     void RPC_PlayerDied(string playerDied, string playerKiller)
     {
+        Debug.Log("RPC_PlayerDied");
         UpdateUI.GetComponent<UpdateUI>().PlayerDied(playerDied, playerKiller);
     }
 
@@ -102,15 +104,4 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if (stream.IsWriting)
-        {
-            stream.SendNext(dead);
-        }
-        else
-        {
-            this.dead = (bool)stream.ReceiveNext();
-        }
-    }
 }

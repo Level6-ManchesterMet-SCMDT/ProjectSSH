@@ -9,14 +9,6 @@ public class PlayerHit : MonoBehaviour
 
     public void TakeDamage(float damage, string deathAnim, string playerName)
     {
-        PhotonView photonView = PhotonView.Get(this);
-        photonView.RPC("TookDamage", RpcTarget.All, damage, deathAnim, playerName);
-    }
-
-    [PunRPC]
-    void TookDamage(float damage, string deathAnim, string playerName)
-    {
         Player.GetComponent<PlayerStats>().TakeDamage(damage, deathAnim, playerName);
     }
-
 }

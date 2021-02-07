@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class UpdateUI : MonoBehaviourPunCallbacks
 {
@@ -15,33 +16,56 @@ public class UpdateUI : MonoBehaviourPunCallbacks
     private List<int> playerKills;
     private List<int> playerDeaths;
 
-
-    void Update()
-    {
-        switch(currentGameMode)
-        {
-            case "TeamDeathMatch":
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void playerInstantiated(string[] intantiatedPlayerNames)
+    void Awake()
     {
         playerNames = new List<string>();
         playerKills = new List<int>();
         playerDeaths = new List<int>();
 
-        foreach (var players in intantiatedPlayerNames)
+        foreach (Player p in PhotonNetwork.PlayerList)
         {
-            playerNames.Add(players);
-        }
+            int n = p.ActorNumber - 1;
 
-        playerKills.Add(0);
-        playerDeaths.Add(0);
-        UpdateScores();
+            playerKills.Add(0);
+            playerDeaths.Add(0);
+
+            playerNames.Add(p.NickName);
+            Score[n].SetActive(true);
+            Score[n].transform.GetChild(0).GetComponent<Text>().text = playerNames[n];
+            Score[n].transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerKills[n].ToString();
+            Score[n].transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerDeaths[n].ToString();
+        }
     }
+
+    public override void OnPlayerLeftRoom(Player other)
+    {
+/*        playerNames.Remove(other.NickName);
+        Score[other.ActorNumber].SetActive(false);
+        Score[other.ActorNumber].transform.GetChild(0).GetComponent<Text>().text = playerNames[other.ActorNumber];
+        Score[other.ActorNumber].transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerKills[other.ActorNumber].ToString();
+        Score[other.ActorNumber].transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerDeaths[other.ActorNumber].ToString();*/
+    }
+
+    public override void OnPlayerEnteredRoom(Player newPlayer)
+    {
+        playerNames.Add(newPlayer.NickName);
+        int n = newPlayer.ActorNumber - 1;
+        Score[n].SetActive(true);
+        Score[n].transform.GetChild(0).GetComponent<Text>().text = playerNames[n];
+        Score[n].transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerKills[n].ToString();
+        Score[n].transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerDeaths[n].ToString();
+    }
+
+
+    void Update()
+    {
+
+    }
+
+/*    public void playerInstantiated(string[] intantiatedPlayerNames)
+    {
+        UpdateScores();
+    }*/
 
     public void RoundOver()
     {
@@ -55,22 +79,21 @@ public class UpdateUI : MonoBehaviourPunCallbacks
             if(playerDied == playerNames[i])
             {
                 playerDeaths[i]++;
+                UpdateScores();
             }
 
             if (playerKiller == playerNames[i])
             {
                 playerKills[i]++;
+                UpdateScores();
             }
         }
-        UpdateScores();
     }
 
     public void UpdateScores()
     {
         for(int i = 0; i < playerNames.Count; i++)
         {
-            Score[i].SetActive(true);
-            Score[i].transform.GetChild(0).GetComponent<Text>().text = playerNames[i];
             Score[i].transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerKills[i].ToString();
             Score[i].transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerDeaths[i].ToString();
         }
