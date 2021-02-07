@@ -48,7 +48,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void TakeDamage(float damage, string deathAnim, string playerName)
+    public void TakeDamage(float damage, string deathAnim, string playerReference)
     {
         currentHealth -= damage;
 
@@ -63,8 +63,15 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
         {
             dead = true;
             animator.SetBool(deathAnim, true);
-            PhotonNetwork.LocalPlayer.CustomProperties["Deaths"] = (int)PhotonNetwork.LocalPlayer.CustomProperties["Deaths"] + 1;
+            PhotonView photonView = PhotonView.Get(this);
+            photonView.RPC("RPC_PlayerDied", RpcTarget.All, PhotonNetwork.LocalPlayer.NickName, playerReference);
         }
+    }
+
+    [PunRPC]
+    void RPC_PlayerDied(string playerDied, string playerKiller)
+    {
+        UpdateUI.GetComponent<UpdateUI>().PlayerDied(playerDied, playerKiller);
     }
 
     public void HealDamage(float damage)
@@ -83,7 +90,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks, IPunObservable
     {
         SetKinematic(false);
         GetComponent<Animator>().enabled = false;
-        Destroy(gameObject, 5);
+        //Destroy(gameObject, 5);
     }
 
     void SetKinematic(bool newValue)

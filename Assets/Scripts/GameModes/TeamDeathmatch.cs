@@ -2,44 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
+using System.Linq;
 
-public class TeamDeathmatch : GameModes
+public class TeamDeathmatch : GameModes, IPunObservable
 {
     public float maxTime;
 
     private float deathmatchTimer;
+
+    private List<string> photonViewIDs;
+    private string[] newPhotonViewIDs = new string[0];
     private List<string> playerNames;
-    private List<string> playerKills;
-    private List<string> playerDeaths;
-    private List<GameObject> players;
+    private string[] newPlayerNames = new string[0];
 
-    void Start()
+    private float totalTime;
+    private float seconds = 0;
+    private float minutes;
+    private string decimals = "0";
+    private int photonviewID;
+
+    void Awake()
     {
-        players = new List<GameObject>();
-        playerNames = new List<string>();
-        playerKills = new List<string>();
-        playerDeaths = new List<string>();
-
         deathmatchTimer = maxTime;
+        photonViewIDs = new List<string>();
+        playerNames = new List<string>();
+        //newPhotonViews = new int[0]();
 
     }
 
     void Update()
     {
-        if (deathmatchTimer > 0)
+        MatchTimer();
+
+        if (deathmatchTimer <= 0)
         {
-            deathmatchTimer -= Time.deltaTime;
-            
-        }
-        else
-        {
-            foreach(GameObject player in players)
+            foreach (string photonViewID in photonViewIDs)
             {
-                player.transform.Find("Canvas/UI").GetComponent<UpdateUI>().RoundOver();
+                PhotonView.Find(Int32.Parse(photonViewID)).gameObject.transform.Find("Canvas/UI").GetComponent<UpdateUI>().RoundOver();
             }
         }
-
-
+        foreach (string photonViewID in photonViewIDs)
+        {
+            PhotonView.Find(Int32.Parse(photonViewID)).gameObject.transform.Find("Canvas/UI").GetComponent<UpdateUI>().UpdateTimer(deathmatchTimer, maxTime, seconds, minutes, decimals);
+        }
     }
 
     public override void RunGameMode(GameObject playerPrefab)
@@ -51,23 +57,98 @@ public class TeamDeathmatch : GameModes
             //if not, we need to make them one - spawn a character for the local player
             GameObject player = PhotonNetwork.Instantiate(playerPrefab.name, spawnpoint.position, spawnpoint.rotation, 0);
 
-            players.Add(player);
+            PhotonView photonView = PhotonView.Get(this);
 
-            playerNames.Add(PhotonNetwork.NickName);
-            playerKills.Add(PhotonNetwork.LocalPlayer.CustomProperties["Kills"].ToString());
-            playerDeaths.Add(PhotonNetwork.LocalPlayer.CustomProperties["Deaths"].ToString());
-            
-            UISetup(player);
-        }
-        else
-        {
-           // Debug.LogFormat("Ignoring scene load for {0}", SceneManagerHelper.ActiveSceneName);
+            PhotonView playerPhotonView = PhotonView.Get(player);
+
+            foreach (var views in newPhotonViewIDs)
+            {
+                Debug.Log("photonViews" + views);
+            }
+
+            photonViewIDs = newPhotonViewIDs.OfType<string>().ToList();
+            photonViewIDs.Add(playerPhotonView.ViewID.ToString());
+            newPhotonViewIDs = photonViewIDs.ToArray();
+
+            foreach (var names in newPlayerNames)
+            {
+                Debug.Log("playerNames" + names);
+            }
+
+            playerNames = newPlayerNames.OfType<string>().ToList();
+            playerNames.Add(playerPhotonView.Owner.NickName);
+            newPlayerNames = playerNames.ToArray();
+
+            photonView.RPC("RPC_PlayerInstantiated", RpcTarget.All, string.Join("\r", newPlayerNames), string.Join("\r", newPhotonViewIDs));
         }
     }
 
-    void UISetup(GameObject player)
+    [PunRPC]
+    void RPC_PlayerInstantiated(string players, string playerViewIDs)
     {
-        player.transform.Find("Canvas/UI").GetComponent<UpdateUI>().UpdateValues(maxTime, "TeamDeathMatch");
-        player.transform.Find("Canvas/UI").GetComponent<UpdateUI>().UpdateScores(playerNames, playerKills, playerDeaths, "test");
+        string[] playersArray = players.Split('\r');
+
+        string[] playerViewsArray = playerViewIDs.Split('\r');
+
+        foreach (string playerViewID in playerViewsArray)
+        {
+            PhotonView.Find(Int32.Parse(playerViewID)).gameObject.transform.Find("Canvas").Find("UI").GetComponent<UpdateUI>().playerInstantiated(playersArray);
+        }
+
+        /*
+        var photonViews = UnityEngine.Object.FindObjectsOfType<PhotonView>();
+
+        foreach (var view in photonViews)
+        {
+            view.gameObject.transform.Find("Canvas").Find("UI").GetComponent<UpdateUI>().playerInstantiated(playersArray);
+        }*/
+    }
+
+    void MatchTimer()
+    {
+        if (deathmatchTimer > 0)
+        {
+            deathmatchTimer -= Time.deltaTime;
+        }
+
+        if (deathmatchTimer > 59)
+        {
+            minutes = deathmatchTimer / 60;
+            if (seconds <= 0)
+            {
+                seconds = 60;
+            }
+        }
+        else
+        {
+            seconds = deathmatchTimer;
+            minutes = 0;
+        }
+
+        if (seconds <= 0)
+        {
+            seconds = 0;
+        }
+        else seconds -= Time.deltaTime;
+
+        if (seconds < 10 && seconds != 0)
+        {
+            decimals = "0";
+        }
+        else decimals = "";
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(newPhotonViewIDs);
+            stream.SendNext(newPlayerNames);
+        }
+        else
+        {
+            this.newPhotonViewIDs = (string[])stream.ReceiveNext();
+            this.newPlayerNames = (string[])stream.ReceiveNext();
+        }
     }
 }

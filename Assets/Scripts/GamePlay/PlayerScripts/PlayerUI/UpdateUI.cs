@@ -10,38 +10,37 @@ public class UpdateUI : MonoBehaviourPunCallbacks
     public GameObject Player;
     public GameObject[] Score;
 
-    private float timeRemaining;
-    private float totalTime;
-    private float seconds = 0;
-    private float minutes;
-    private string decimals = "0";
-    private bool hasUpdated = false;
     private string currentGameMode;
+    private List<string> playerNames;
+    private List<int> playerKills;
+    private List<int> playerDeaths;
+
 
     void Update()
     {
-        if (!hasUpdated)
-        {
-            return;
-        }
-
         switch(currentGameMode)
         {
             case "TeamDeathMatch":
-                MatchTimer();
                 break;
             default:
                 break;
         }
-
     }
 
-    public void UpdateValues(float maxTime, string gameMode)
+    public void playerInstantiated(string[] intantiatedPlayerNames)
     {
-        timeRemaining = maxTime;
-        totalTime = maxTime;
-        currentGameMode = gameMode;
-        hasUpdated = true;
+        playerNames = new List<string>();
+        playerKills = new List<int>();
+        playerDeaths = new List<int>();
+
+        foreach (var players in intantiatedPlayerNames)
+        {
+            playerNames.Add(players);
+        }
+
+        playerKills.Add(0);
+        playerDeaths.Add(0);
+        UpdateScores();
     }
 
     public void RoundOver()
@@ -49,52 +48,38 @@ public class UpdateUI : MonoBehaviourPunCallbacks
         this.transform.GetChild(4).gameObject.SetActive(true);
     }
 
-    public void UpdateScores(List<string> playerNames, List<string> playerKills, List<string> playerDeaths, string MapName)
+    public void PlayerDied(string playerDied, string playerKiller)
+    {
+        for (int i = 0; i < playerNames.Count; i++)
+        {
+            if(playerDied == playerNames[i])
+            {
+                playerDeaths[i]++;
+            }
+
+            if (playerKiller == playerNames[i])
+            {
+                playerKills[i]++;
+            }
+        }
+        UpdateScores();
+    }
+
+    public void UpdateScores()
     {
         for(int i = 0; i < playerNames.Count; i++)
         {
             Score[i].SetActive(true);
             Score[i].transform.GetChild(0).GetComponent<Text>().text = playerNames[i];
-            Score[i].transform.GetChild(1).GetComponent<Text>().text = playerKills[i];
-            Score[i].transform.GetChild(2).GetComponent<Text>().text = playerDeaths[i];
+            Score[i].transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerKills[i].ToString();
+            Score[i].transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerDeaths[i].ToString();
         }
     }
 
-    void MatchTimer()
+    public void UpdateTimer(float timeRemaining, float totalTime, float seconds, float minutes, string decimals)
     {
-        if (timeRemaining > 0)
-        {
-            timeRemaining -= Time.deltaTime;
-        }
-
         Timer.transform.GetChild(0).GetComponent<Slider>().value = (timeRemaining * 100) / totalTime;
         Timer.transform.GetChild(1).GetComponent<Slider>().value = (timeRemaining * 100) / totalTime;
-
-        if (timeRemaining > 59)
-        {
-            minutes = timeRemaining / 60;
-            if (seconds <= 0)
-            {
-                seconds = 60;
-            }
-        }
-        else {
-            seconds = timeRemaining;
-            minutes = 0;
-        }
-
-        if (seconds <= 0)
-        {
-            seconds = 0;
-        }
-        else seconds -= Time.deltaTime;
-
-        if (seconds < 10 && seconds != 0)
-        {
-            decimals = "0";
-        }
-        else decimals = "";
-
         Timer.transform.GetChild(2).GetComponent<Text>().text = (int)minutes + ":" + decimals + (int)seconds;
     }
 }

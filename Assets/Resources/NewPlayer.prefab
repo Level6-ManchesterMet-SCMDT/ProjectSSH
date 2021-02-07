@@ -6894,7 +6894,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarRef: {fileID: 8077995263797960038}
   rog_layers_hand_IK: {fileID: 4846458336598626578}
-  UpdateUI: {fileID: 0}
+  UpdateUI: {fileID: 8077995263072708315}
   maxHealth: 100
   animator: {fileID: 128864864605220760}
 --- !u!1 &6793580518739362743
@@ -17765,15 +17765,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1437649599493424565}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8077995263797960038 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7199359512396880083, guid: 53d05ef737786eb459d45483afe69c50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1437649599493424565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8077995263072708318 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7199359511981024107, guid: 53d05ef737786eb459d45483afe69c50,
     type: 3}
   m_PrefabInstance: {fileID: 1437649599493424565}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8077995263797960038 stripped
+--- !u!1 &8077995263072708315 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 7199359512396880083, guid: 53d05ef737786eb459d45483afe69c50,
+  m_CorrespondingSourceObject: {fileID: 7199359511981024110, guid: 53d05ef737786eb459d45483afe69c50,
     type: 3}
   m_PrefabInstance: {fileID: 1437649599493424565}
   m_PrefabAsset: {fileID: 0}

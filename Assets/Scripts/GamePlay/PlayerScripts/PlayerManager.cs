@@ -82,6 +82,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             Move();
             Jump();
             Rifle();
+            UI();
         }
 
         if (holdingGun)
@@ -165,6 +166,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+    }
+
+    void UI()
+    {
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            canvas.transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
+        }else canvas.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
     }
 
 
