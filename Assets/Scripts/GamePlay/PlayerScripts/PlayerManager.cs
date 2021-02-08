@@ -115,10 +115,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         
         if (holdingGun)
         {
-            constrainthands.weight += 0.01f;
+            constrainthands.weight = 1.0f;
         }
         else
-            constrainthands.weight -= 0.01f;
+            constrainthands.weight = 0.0f;
     }
 
     void Rifle()
@@ -195,11 +195,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         Armed = false;
         gun.SetActive(false);
+        SetHoldingGunState(false);
     }
 
     void StartEquipping()
     {
+        SetHoldingGunState(true);
         gun.SetActive(true);
+        //constraintLeftHand.weight = 1.0f;
+
     }
 
     void FinishedEquipping()
@@ -210,7 +214,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     void StartedPuttingBack()
     {
-        SetHoldingGunState(false);
+       // constraintLeftHand.weight = 0.0f;
     }
 
     void Look()
