@@ -12,8 +12,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject connectPanel;
     public GameObject homePanel;
     public GameObject lobbyPanel;
+    public GameObject pModel;
 
     public Camera mainCam;
+    
     GrabCamera grabCam;
     //public Text input;
     //public Text roomInput;
@@ -105,6 +107,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         homePanel.SetActive(false);
         lobbyPanel.SetActive(true);
+        pModel.gameObject.SetActive(false);
         //grabCam.DisableCam();
         //mainCam.enabled = false;
     }
