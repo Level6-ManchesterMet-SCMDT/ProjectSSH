@@ -9,6 +9,7 @@ public class UpdateUI : MonoBehaviourPunCallbacks
 {
     [SerializeField] GameObject Player;
     [SerializeField] Camera Camera;
+    [SerializeField] Camera FPSCamera;
 
     public GameObject Timer;
     public GameObject[] Score;
@@ -67,6 +68,7 @@ public class UpdateUI : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
         Player.GetComponent<PlayerManager>().keyboardEnabled = false;
         Camera.enabled = false;
+        FPSCamera.enabled = false;
     }
 
     public void PlayerDied(string playerDied, string playerKiller)
