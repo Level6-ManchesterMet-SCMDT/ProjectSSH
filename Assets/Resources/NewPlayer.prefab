@@ -1163,6 +1163,51 @@ Transform:
   m_Father: {fileID: 2238665213034063589}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3406093153507285674
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2742456574088250857}
+  - component: {fileID: 6901486317913056293}
+  m_Layer: 0
+  m_Name: Rig 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2742456574088250857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3406093153507285674}
+  m_LocalRotation: {x: -0, y: 0.00018680097, z: -0, w: 1}
+  m_LocalPosition: {x: 0.010173442, y: 0, z: 0.0048907218}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6280829597465408994}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6901486317913056293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3406093153507285674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Weight: 1
+  m_Effectors: []
 --- !u!1 &3725047066818123453
 GameObject:
   m_ObjectHideFlags: 0
@@ -6608,7 +6653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5302884300806900473}
   m_LocalRotation: {x: 0.59791124, y: 0.37066746, z: -0.58900386, w: -0.39772132}
-  m_LocalPosition: {x: -4.98, y: -0.04, z: -2.11}
+  m_LocalPosition: {x: -1.5101537, y: 5.4634833, z: -1.814338}
   m_LocalScale: {x: 65.68168, y: 65.433495, z: 281.24872}
   m_Children: []
   m_Father: {fileID: 6128402731285158157}
@@ -6850,7 +6895,11 @@ Transform:
   - {fileID: 7154151289290600147}
   - {fileID: 8603032013435408870}
   - {fileID: 6564483805153901869}
+<<<<<<< HEAD
   - {fileID: 3028754079102300378}
+=======
+  - {fileID: 2742456574088250857}
+>>>>>>> main
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6980,8 +7029,12 @@ MonoBehaviour:
   animator: {fileID: 128864864605220760}
   gun: {fileID: 6793580518739362743}
   rog_layers_hand_IK: {fileID: 4846458336598626578}
+<<<<<<< HEAD
   canvas: {fileID: 2902098908979512226}
   speed: 12
+=======
+  speed: 6
+>>>>>>> main
   gravity: -9.81
   jumpHeight: 3
   mouseSensitivity: 3
@@ -7038,6 +7091,8 @@ MonoBehaviour:
   m_RigLayers:
   - m_Rig: {fileID: 4832657841176423490}
     m_Active: 1
+  - m_Rig: {fileID: 6901486317913056293}
+    m_Active: 1
   m_Effectors: []
 --- !u!114 &1410276617123661861
 MonoBehaviour:
@@ -7084,9 +7139,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6793580518739362743}
+<<<<<<< HEAD
   m_LocalRotation: {x: 0.102575324, y: -0.79035324, z: 0.4135824, w: -0.4401929}
   m_LocalPosition: {x: 0.032, y: 0.075, z: 0.037}
   m_LocalScale: {x: 0.039829455, y: 0.05148953, z: 0.051491175}
+=======
+  m_LocalRotation: {x: 0.62842226, y: -0.27661428, z: 0.63587695, w: -0.3524637}
+  m_LocalPosition: {x: 0.085, y: 0.356, z: 0.081}
+  m_LocalScale: {x: 0.03982945, y: 0.05148953, z: 0.051491186}
+>>>>>>> main
   m_Children:
   - {fileID: 8703016859742351978}
   - {fileID: 5017537839216217211}
@@ -7097,7 +7158,11 @@ Transform:
   - {fileID: 887773102375825130}
   m_Father: {fileID: 5266652497626918337}
   m_RootOrder: 0
+<<<<<<< HEAD
   m_LocalEulerAnglesHint: {x: 145.705, y: 289.102, z: 500.432}
+=======
+  m_LocalEulerAnglesHint: {x: 185.233, y: 266.711, z: 413.05798}
+>>>>>>> main
 --- !u!114 &8328087776058866410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7119,7 +7184,7 @@ MonoBehaviour:
   fpsCam: {fileID: 7099254593329799169}
   muzzleFlash: {fileID: 5120797422599544177}
   cartridgeEffect: {fileID: 8824251179173178518}
-  genericImpactEffect: {fileID: 701823643922576493, guid: bb35623b782cccb42912328af4cd0bdf,
+  genericImpactEffect: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980,
     type: 3}
   playerNLImpactEffect: {fileID: 4959930900347233005, guid: 1e7db4d60ea8b074a8a5283ea4ea6465,
     type: 3}

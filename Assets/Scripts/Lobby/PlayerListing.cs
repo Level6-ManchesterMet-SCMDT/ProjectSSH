@@ -27,8 +27,25 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     {
         players = PhotonNetwork.PlayerList;
         playerList = new Dictionary<int, GameObject>();
+<<<<<<< HEAD
 
         updatePlayerList();
+=======
+        updatePlayerList();
+
+
+
+        //foreach (Player p in PhotonNetwork.PlayerList)
+        //{
+        //    GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
+        //    card.transform.SetParent(gameObject.transform);
+        //    card.transform.localScale = Vector3.one;
+        //    card.GetComponent<PlayerCard>().setValue(p.NickName, p.ActorNumber.ToString());
+        //    playerList.Add(p.ActorNumber, card);
+        //}
+
+        
+>>>>>>> main
 
         foreach (Player p in PhotonNetwork.PlayerList)
         {
@@ -40,6 +57,11 @@ public class PlayerListing : MonoBehaviourPunCallbacks
             card.transform.localRotation = Quaternion.identity;
             card.GetComponent<PlayerCard>().setValue(p.NickName);
             playerList.Add(p.ActorNumber, card);
+<<<<<<< HEAD
+=======
+            
+            //pCount++;
+>>>>>>> main
             
         }
     }

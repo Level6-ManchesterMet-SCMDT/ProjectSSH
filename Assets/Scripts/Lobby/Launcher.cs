@@ -12,8 +12,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject connectPanel;
     public GameObject homePanel;
     public GameObject lobbyPanel;
+    public GameObject pModel;
 
     public Camera mainCam;
+    
     GrabCamera grabCam;
 
     void Awake()
@@ -87,6 +89,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         homePanel.SetActive(false);
         lobbyPanel.SetActive(true);
+<<<<<<< HEAD
+=======
+        pModel.gameObject.SetActive(false);
+        //grabCam.DisableCam();
+        //mainCam.enabled = false;
+>>>>>>> main
     }
 
 }
