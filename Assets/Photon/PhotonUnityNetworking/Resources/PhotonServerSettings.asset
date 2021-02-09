@@ -50,6 +50,11 @@ MonoBehaviour:
   - RPC_PlayerInstantiated
   - MatchTimer
   - enemyKilledRPC
+  - RPC_Animator
+  - RPC_AnimatorRespawn
+  - TakeDamage
+  - RPC_TakeDamage
+  - RPC_RespawnWait
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

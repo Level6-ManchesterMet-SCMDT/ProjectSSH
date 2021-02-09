@@ -33,7 +33,6 @@ public class Scoreboard_Updater : MonoBehaviourPunCallbacks
 
         foreach (UpdateUI UI in playerUIs)
         {
-            Debug.Log("All");
             UI.PlayerDied(playerDied, playerKiller);
         }
     }

@@ -135,7 +135,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                     GameObject impactGO = PhotonNetwork.Instantiate(genericImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
                     Destroy(impactGO, 2f);
                 }
-
             }
         }
     }

@@ -537,7 +537,6 @@ MonoBehaviour:
   - {fileID: 649033296206514305}
   - {fileID: 7503341980548481019}
   - {fileID: -8461816267462683696}
-  - {fileID: 4758563279333738491}
   - {fileID: 403819289336942968}
   viewIdField: 0
   InstantiationId: 0
@@ -583,6 +582,7 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  keyboardEnabled: 1
   player: {fileID: 6526113479677393013}
 --- !u!114 &7854313109238225411
 MonoBehaviour:
@@ -723,8 +723,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarRef: {fileID: 0}
   rog_layers_hand_IK: {fileID: 0}
+  UpdateUI: {fileID: 0}
+  sbUpdater: {fileID: 0}
   maxHealth: 100
   animator: {fileID: 0}
+  currentHealth: 0
+  dead: 0
 --- !u!1 &1366062407573760399
 GameObject:
   m_ObjectHideFlags: 0
@@ -3391,6 +3395,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8117931326970618889}
     m_Modifications:
+    - target: {fileID: 3934923843482080886, guid: 53d05ef737786eb459d45483afe69c50,
+        type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1178322069742943659}
+    - target: {fileID: 3934923843482080886, guid: 53d05ef737786eb459d45483afe69c50,
+        type: 3}
+      propertyPath: PlayerManager
+      value: 
+      objectReference: {fileID: 1178322069742943659}
     - target: {fileID: 5116606683964951681, guid: 53d05ef737786eb459d45483afe69c50,
         type: 3}
       propertyPath: m_AnchorMax.x

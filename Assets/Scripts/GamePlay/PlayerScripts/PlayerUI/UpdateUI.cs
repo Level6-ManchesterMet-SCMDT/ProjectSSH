@@ -7,8 +7,10 @@ using Photon.Realtime;
 
 public class UpdateUI : MonoBehaviourPunCallbacks
 {
+    [SerializeField] GameObject Player;
+    [SerializeField] Camera Camera;
+
     public GameObject Timer;
-    public GameObject Player;
     public GameObject[] Score;
 
     private string currentGameMode;
@@ -39,11 +41,6 @@ public class UpdateUI : MonoBehaviourPunCallbacks
 
     public override void OnPlayerLeftRoom(Player other)
     {
-/*        playerNames.Remove(other.NickName);
-        Score[other.ActorNumber].SetActive(false);
-        Score[other.ActorNumber].transform.GetChild(0).GetComponent<Text>().text = playerNames[other.ActorNumber];
-        Score[other.ActorNumber].transform.GetChild(1).GetChild(0).GetComponent<Text>().text = playerKills[other.ActorNumber].ToString();
-        Score[other.ActorNumber].transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerDeaths[other.ActorNumber].ToString();*/
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -56,20 +53,19 @@ public class UpdateUI : MonoBehaviourPunCallbacks
         Score[n].transform.GetChild(2).GetChild(0).GetComponent<Text>().text = playerDeaths[n].ToString();
     }
 
-
-    void Update()
-    {
-
-    }
-
-/*    public void playerInstantiated(string[] intantiatedPlayerNames)
-    {
-        UpdateScores();
-    }*/
-
     public void RoundOver()
     {
+        this.transform.GetChild(0).gameObject.SetActive(false);
+        this.transform.GetChild(1).gameObject.SetActive(false);
+        this.transform.GetChild(2).gameObject.SetActive(false);
+        this.transform.GetChild(3).gameObject.SetActive(false);
         this.transform.GetChild(4).gameObject.SetActive(true);
+        //this.transform.GetChild(5).gameObject.SetActive(true);
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Player.GetComponent<PlayerManager>().keyboardEnabled = false;
+        Camera.enabled = false;
     }
 
     public void PlayerDied(string playerDied, string playerKiller)
@@ -104,5 +100,10 @@ public class UpdateUI : MonoBehaviourPunCallbacks
         Timer.transform.GetChild(0).GetComponent<Slider>().value = (timeRemaining * 100) / totalTime;
         Timer.transform.GetChild(1).GetComponent<Slider>().value = (timeRemaining * 100) / totalTime;
         Timer.transform.GetChild(2).GetComponent<Text>().text = (int)minutes + ":" + decimals + (int)seconds;
+    }
+
+    public void BackToLobby()
+    {
+        PhotonNetwork.LoadLevel("DemoTesting");
     }
 }

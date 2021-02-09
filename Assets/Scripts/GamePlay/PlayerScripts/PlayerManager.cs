@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public LayerMask groundMask;
 
     public static GameObject LocalPlayerInstance;
+    public bool keyboardEnabled = true;
 
     private Vector3 moveDirection = Vector3.zero;
 
@@ -84,11 +85,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if(photonView.IsMine || !PhotonNetwork.IsConnected)
         {
             Gravity();
-            Look();
-            Move();
-            Jump();
-            Rifle();
-            UI();
+            if (keyboardEnabled)
+            {
+                Look();
+                Move();
+                Jump();
+                Rifle();
+                UI();
+            }
         }
 
         if (holdingGun)
@@ -191,13 +195,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         //Wait for 4 seconds
         yield return new WaitForSeconds(5);
-        this.GetComponent<PlayerStats>().currentHealth = this.GetComponent<PlayerStats>().maxHealth;
-        this.GetComponent<PlayerStats>().dead = false;
-        animator.SetBool(deathAnim, false);
+
+        this.photonView.RPC("RPC_RespawnWait", RpcTarget.All, deathAnim);
         Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
         this.transform.position = spawnpoint.position;
     }
 
+
+    [PunRPC]
+
+    void RPC_RespawnWait(string deathAnim)
+    {
+        this.GetComponent<PlayerStats>().Spawned();
+        animator.SetBool(deathAnim, false);
+    }
     //Animations
 
     void FinishedJump()

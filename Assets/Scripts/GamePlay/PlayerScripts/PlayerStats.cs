@@ -26,10 +26,15 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        Spawned();
+
+    }
+
+    public void Spawned()
+    {
         currentHealth = maxHealth;
         healthBar = healthBarRef.GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
-        SetKinematic(true);
         constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
 
         sbUpdater = FindObjectOfType<Scoreboard_Updater>();
@@ -68,10 +73,13 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         if (currentHealth <= 0f && dead == false)
         {
             dead = true;
-            animator.SetBool(deathAnim, true);
+            //animator.SetBool(deathAnim, true);
+            
             PhotonView photonView = PhotonView.Get(this);
             sbUpdater.enemyKilled(photonView.Owner.NickName, playerReference);
             this.GetComponent<PlayerManager>().RespawnPlayer(deathAnim);
+            //this.photonView.RPC("RPC_Animator", RpcTarget.All, deathAnim);
+            animator.SetBool(deathAnim, true);
         }
     }
 
@@ -80,6 +88,13 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         Debug.Log("RPC_PlayerDied");
         UpdateUI.GetComponent<UpdateUI>().PlayerDied(playerDied, playerKiller);
     }
+
+/*    [PunRPC]
+
+    void RPC_Animator(string deathAnim)
+    {
+        animator.SetBool(deathAnim, true);
+    }*/
 
     public void HealDamage(float damage)
     {
@@ -92,21 +107,4 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
         healthBar.SetHealth(currentHealth);
     }
-
-    void KinematicDeathFinished()
-    {
-        SetKinematic(false);
-        GetComponent<Animator>().enabled = false;
-        //Destroy(gameObject, 5);
-    }
-
-    void SetKinematic(bool newValue)
-    {
-        Rigidbody[] bodies = GetComponentsInChildren<Rigidbody>();
-        foreach (Rigidbody rb in bodies)
-        {
-            rb.isKinematic = newValue;
-        }
-    }
-
 }
