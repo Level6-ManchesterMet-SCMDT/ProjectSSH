@@ -17,8 +17,9 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     public float maxHealth = 100f;
     public Animator animator;
 
-    private float currentHealth;
-    private bool dead = false;
+    public float currentHealth;
+    public bool dead = false;
+
     private HealthBar healthBar;
 
     TwoBoneIKConstraint constraintLeftHand;
@@ -66,16 +67,14 @@ public class PlayerStats : MonoBehaviourPunCallbacks
 
         if (currentHealth <= 0f && dead == false)
         {
-            Debug.Log("currentHealth");
             dead = true;
             animator.SetBool(deathAnim, true);
             PhotonView photonView = PhotonView.Get(this);
-            //photonView.RPC("RPC_PlayerDied", RpcTarget.All, photonView.Owner.NickName, playerReference);
             sbUpdater.enemyKilled(photonView.Owner.NickName, playerReference);
+            this.GetComponent<PlayerManager>().RespawnPlayer(deathAnim);
         }
     }
 
-    //[PunRPC]
     void RPC_PlayerDied(string playerDied, string playerKiller)
     {
         Debug.Log("RPC_PlayerDied");

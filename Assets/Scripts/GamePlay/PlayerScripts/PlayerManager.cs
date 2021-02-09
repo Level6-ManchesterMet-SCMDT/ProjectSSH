@@ -182,6 +182,21 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }else canvas.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
     }
 
+    public void RespawnPlayer(string deathAnim)
+    {
+        StartCoroutine(respawnWait(deathAnim));
+    }
+
+    IEnumerator respawnWait(string deathAnim)
+    {
+        //Wait for 4 seconds
+        yield return new WaitForSeconds(5);
+        this.GetComponent<PlayerStats>().currentHealth = this.GetComponent<PlayerStats>().maxHealth;
+        this.GetComponent<PlayerStats>().dead = false;
+        animator.SetBool(deathAnim, false);
+        Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
+        this.transform.position = spawnpoint.position;
+    }
 
     //Animations
 
