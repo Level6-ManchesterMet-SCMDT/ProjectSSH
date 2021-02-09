@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] public GameObject playerPrefab;
     [SerializeField] public GameObject GameModesContainer;
 
+
+
     private List<GameModes> gameModeList;
     private GameModes currentGameMode;
     private int gameModeNumber;
@@ -29,6 +31,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     void Start()
     {
         gameModeNumber = Int32.Parse(PhotonNetwork.CurrentRoom.CustomProperties["GameMode"].ToString());
+
+
     }
 
     void Update()

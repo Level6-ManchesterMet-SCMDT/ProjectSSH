@@ -58,7 +58,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (!photonView.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-            canvas.SetActive(false);
+           // canvas.SetActive(false);
+           
+            for(int i = 0; i < canvas.transform.GetChild(0).transform.childCount; i++)
+            {
+                canvas.transform.GetChild(0).transform.GetChild(i).transform.gameObject.SetActive(false);
+            }
         }
 
         if (photonView.IsMine)

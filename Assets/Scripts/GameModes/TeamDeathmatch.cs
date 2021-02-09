@@ -16,6 +16,8 @@ public class TeamDeathmatch : GameModes
     //private List<string> playerNames;
     //private string[] newPlayerNames = new string[0];
 
+    [SerializeField] GameObject ScoreboardUpdater;
+
     private float seconds = 0;
     private float minutes;
     private string decimals = "0";
@@ -27,6 +29,8 @@ public class TeamDeathmatch : GameModes
         photonViewIDs = new List<string>();
         //playerNames = new List<string>();
         //newPhotonViews = new int[0]();
+
+        //PhotonNetwork.Instantiate(ScoreboardUpdater.name, new Vector3(0.0f, 0.0f, 0.0f), Quaternion.identity, 0);
 
     }
 
@@ -74,6 +78,8 @@ public class TeamDeathmatch : GameModes
 
            // photonView.RPC("RPC_PlayerInstantiated", RpcTarget.All, string.Join("\r", newPhotonViewIDs));
         }
+
+        
     }
 
 

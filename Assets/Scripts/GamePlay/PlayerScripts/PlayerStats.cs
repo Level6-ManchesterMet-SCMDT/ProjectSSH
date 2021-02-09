@@ -11,6 +11,9 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     [SerializeField] GameObject rog_layers_hand_IK;
     [SerializeField] GameObject UpdateUI;
 
+    [SerializeField] Scoreboard_Updater sbUpdater;
+
+
     public float maxHealth = 100f;
     public Animator animator;
 
@@ -27,6 +30,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         healthBar.SetMaxHealth(maxHealth);
         SetKinematic(true);
         constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
+
+        sbUpdater = FindObjectOfType<Scoreboard_Updater>();
     }
 
     // Update is called once per frame
@@ -65,11 +70,12 @@ public class PlayerStats : MonoBehaviourPunCallbacks
             dead = true;
             animator.SetBool(deathAnim, true);
             PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("RPC_PlayerDied", RpcTarget.All, photonView.Owner.NickName, playerReference);
+            //photonView.RPC("RPC_PlayerDied", RpcTarget.All, photonView.Owner.NickName, playerReference);
+            sbUpdater.enemyKilled(photonView.Owner.NickName, playerReference);
         }
     }
 
-    [PunRPC]
+    //[PunRPC]
     void RPC_PlayerDied(string playerDied, string playerKiller)
     {
         Debug.Log("RPC_PlayerDied");

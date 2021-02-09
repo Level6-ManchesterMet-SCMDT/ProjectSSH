@@ -6762,7 +6762,6 @@ MonoBehaviour:
   - {fileID: 3862905136323907344}
   - {fileID: 5309398927927087764}
   - {fileID: 2792527724824371244}
-  - {fileID: 1410276617123661861}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -6921,6 +6920,7 @@ MonoBehaviour:
   healthBarRef: {fileID: 8077995263797960038}
   rog_layers_hand_IK: {fileID: 4846458336598626578}
   UpdateUI: {fileID: 8077995263072708315}
+  sbUpdater: {fileID: 0}
   maxHealth: 100
   animator: {fileID: 128864864605220760}
 --- !u!1 &6793580518739362743
