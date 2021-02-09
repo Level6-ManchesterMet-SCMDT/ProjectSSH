@@ -4,12 +4,13 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerManager : MonoBehaviourPunCallbacks
+public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
     [SerializeField] GameObject cameraHolder;
     [SerializeField] Animator animator;
     [SerializeField] GameObject gun;
     [SerializeField] GameObject rog_layers_hand_IK;
+    [SerializeField] GameObject canvas;
 
     [SerializeField] GameObject arms;
 
@@ -27,6 +28,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public LayerMask groundMask;
 
     public static GameObject LocalPlayerInstance;
+    public bool keyboardEnabled = true;
 
     private Vector3 moveDirection = Vector3.zero;
 
@@ -56,6 +58,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             PlayerManager.LocalPlayerInstance = this.gameObject;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            
         }
         DontDestroyOnLoad(this.gameObject);
     }
@@ -67,6 +70,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         
         if (!photonView.IsMine)
         {
+<<<<<<< HEAD
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+           // canvas.SetActive(false);
+           
+            for(int i = 0; i < canvas.transform.GetChild(0).transform.childCount; i++)
+            {
+                canvas.transform.GetChild(0).transform.GetChild(i).transform.gameObject.SetActive(false);
+            }
+        }
+
+        if (photonView.IsMine)
+        {
+            canvas.SetActive(true);
+        }
+
+        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+=======
             Destroy(Cam.gameObject);
             
             fpsCam.enabled = false;
@@ -95,21 +115,27 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         
         
 
+>>>>>>> main
 
         //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
         //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
         //rb = transform.GetComponent<RigBuilder>();
     }
 
+
     void Update()
     {
         if(photonView.IsMine || !PhotonNetwork.IsConnected)
         {
             Gravity();
-            Look();
-            Move();
-            Jump();
-            Rifle();
+            if (keyboardEnabled)
+            {
+                Look();
+                Move();
+                Jump();
+                Rifle();
+                UI();
+            }
         }
 
         
@@ -186,6 +212,49 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         FinishedJumping = false;
     }
 
+    void Look()
+    {
+        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+
+        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+
+        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+    }
+
+    void UI()
+    {
+        if (Input.GetKey(KeyCode.Tab))
+        {
+            canvas.transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
+        }else canvas.transform.GetChild(0).GetChild(4).gameObject.SetActive(false);
+    }
+
+    public void RespawnPlayer(string deathAnim)
+    {
+        StartCoroutine(respawnWait(deathAnim));
+    }
+
+    IEnumerator respawnWait(string deathAnim)
+    {
+        //Wait for 4 seconds
+        yield return new WaitForSeconds(5);
+
+        this.photonView.RPC("RPC_RespawnWait", RpcTarget.All, deathAnim);
+        Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
+        this.transform.position = spawnpoint.position;
+    }
+
+
+    [PunRPC]
+
+    void RPC_RespawnWait(string deathAnim)
+    {
+        this.GetComponent<PlayerStats>().Spawned();
+        animator.SetBool(deathAnim, false);
+    }
+    //Animations
+
     void FinishedJump()
     {
         FinishedJumping = true;
@@ -215,16 +284,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     void StartedPuttingBack()
     {
        // constraintLeftHand.weight = 0.0f;
-    }
-
-    void Look()
-    {
-        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
-
-        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-
-        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }
 
     public void SetGroundedState(bool _grounded)

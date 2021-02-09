@@ -17,29 +17,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     public Camera mainCam;
     
     GrabCamera grabCam;
-    //public Text input;
-    //public Text roomInput;
-    //public Text ConnectText;
 
-    //public GameObject MakeRoom;
-    //public GameObject roomCard;
-    //public GameObject roomListing;
-
-    //private ExitGames.Client.Photon.Hashtable Cproperties = new ExitGames.Client.Photon.Hashtable();
-
-    //private Dictionary<string, GameObject> roomListingCards;
     void Awake()
     {
-        //roomListingCards = new Dictionary<string, GameObject>();
-        //PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.AutomaticallySyncScene = true;
 
         grabCam = FindObjectOfType<GrabCamera>();
-        //bool ready = false;
-        //Cproperties[] = ready;
-        //PhotonNetwork.SetPlayerCustomProperties(Cproperties);
-        //Cproperties[GeomTuneGame.Player_Lives] = GeomTuneGame.MAX_LIVES;
-        //PhotonNetwork.SetPlayerCustomProperties(Cproperties);
     }
 
 
@@ -94,7 +77,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log(message);
-        //base.OnCreateRoomFailed(returnCode, message);
     }
     public void leaveRoom()
     {
@@ -107,9 +89,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         homePanel.SetActive(false);
         lobbyPanel.SetActive(true);
+<<<<<<< HEAD
+=======
         pModel.gameObject.SetActive(false);
         //grabCam.DisableCam();
         //mainCam.enabled = false;
+>>>>>>> main
     }
 
 }
