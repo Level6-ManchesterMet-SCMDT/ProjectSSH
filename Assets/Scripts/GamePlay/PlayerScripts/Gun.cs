@@ -105,7 +105,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 currentAmmo--;
 
             PhotonView photonView = PhotonView.Get(this);
-            photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
+            //photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
 
             RaycastHit hit;
             if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
@@ -147,6 +147,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
+
     public void MuzzleAndCartridgeEffect()
     {
         muzzleFlash.Play(); //play muzzleflash on shooting

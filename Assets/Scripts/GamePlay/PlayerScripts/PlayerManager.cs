@@ -66,12 +66,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     void Start()
     {
         constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
-        //Camera cam = GetComponentInChildren<Camera>();
         
         if (!photonView.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-           // canvas.SetActive(false);
            
             for(int i = 0; i < canvas.transform.GetChild(0).transform.childCount; i++)
             {
@@ -83,13 +81,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             canvas.SetActive(true);
 
-            constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
             Destroy(Cam.gameObject);
             
             fpsCam.enabled = false;
-            //Destroy(fpsCam.GetComponent<Camera>());
-            //Destroy(GetComponentInChildren<Camera>().gameObject);
-            //GetComponentInChildren<Camera>().enabled = false;
             arms.layer = 0;
             gun.layer = 0;
 
@@ -106,7 +101,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            Cam.enabled = true;
+            //Cam.enabled = true;
         }
     }
 
