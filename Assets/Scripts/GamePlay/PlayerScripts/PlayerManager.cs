@@ -70,7 +70,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         
         if (!photonView.IsMine)
         {
-<<<<<<< HEAD
             Destroy(GetComponentInChildren<Camera>().gameObject);
            // canvas.SetActive(false);
            
@@ -83,10 +82,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (photonView.IsMine)
         {
             canvas.SetActive(true);
-        }
 
         constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
-=======
             Destroy(Cam.gameObject);
             
             fpsCam.enabled = false;
@@ -111,15 +108,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             //Cam.enabled = true;
         }
-
-        
-        
-
->>>>>>> main
-
-        //constraintRightHand = rog_layers_hand_IK.transform.GetChild(0).GetComponent<TwoBoneIKConstraint>();
-        //constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
-        //rb = transform.GetComponent<RigBuilder>();
     }
 
 

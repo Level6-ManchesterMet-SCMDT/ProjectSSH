@@ -89,12 +89,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         homePanel.SetActive(false);
         lobbyPanel.SetActive(true);
-<<<<<<< HEAD
-=======
         pModel.gameObject.SetActive(false);
         //grabCam.DisableCam();
         //mainCam.enabled = false;
->>>>>>> main
     }
 
 }

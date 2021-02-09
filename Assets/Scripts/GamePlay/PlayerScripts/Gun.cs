@@ -48,22 +48,12 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     void Update()
     {
 
-<<<<<<< HEAD
         if (isReloading)
         {
             constraintLeftHand.data.targetPositionWeight -= 0.01f;
         }
         else
             constraintLeftHand.data.targetPositionWeight += 0.01f;
-=======
-       // if (isReloading)
-        //{
-            //constraintLeftHand.data.targetPositionWeight -= 0.01f;
-            //Debug.Log("Test");
-        //}
-        //else
-            //constraintLeftHand.data.targetPositionWeight += 0.01f;
->>>>>>> main
 
         if (photonView.IsMine || !PhotonNetwork.IsConnected)
         {
