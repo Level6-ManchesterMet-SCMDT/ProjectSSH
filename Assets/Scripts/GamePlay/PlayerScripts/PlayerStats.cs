@@ -89,13 +89,6 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         UpdateUI.GetComponent<UpdateUI>().PlayerDied(playerDied, playerKiller);
     }
 
-/*    [PunRPC]
-
-    void RPC_Animator(string deathAnim)
-    {
-        animator.SetBool(deathAnim, true);
-    }*/
-
     public void HealDamage(float damage)
     {
         currentHealth += damage;

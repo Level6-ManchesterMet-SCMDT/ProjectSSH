@@ -21,6 +21,7 @@ public class TeamDeathmatch : GameModes
     {
         deathmatchTimer = maxTime;
         photonViewIDs = new List<string>();
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Update()
@@ -29,6 +30,7 @@ public class TeamDeathmatch : GameModes
 
         if (deathmatchTimer <= 0)
         {
+            Debug.Log("Test1");
             foreach (string photonViewID in photonViewIDs)
             {
                 PhotonView.Find(Int32.Parse(photonViewID)).gameObject.transform.Find("Canvas/UI").GetComponent<UpdateUI>().RoundOver();

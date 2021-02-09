@@ -14,6 +14,7 @@ public class SpawnManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public Transform GetSpawnPoint()

@@ -83,7 +83,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             canvas.SetActive(true);
 
-        constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
+            constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
             Destroy(Cam.gameObject);
             
             fpsCam.enabled = false;
@@ -106,7 +106,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            //Cam.enabled = true;
+            Cam.enabled = true;
         }
     }
 

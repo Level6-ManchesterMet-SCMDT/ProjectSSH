@@ -55,6 +55,7 @@ public class UpdateUI : MonoBehaviourPunCallbacks
 
     public void RoundOver()
     {
+        Debug.Log("Test2");
         this.transform.GetChild(0).gameObject.SetActive(false);
         this.transform.GetChild(1).gameObject.SetActive(false);
         this.transform.GetChild(2).gameObject.SetActive(false);
