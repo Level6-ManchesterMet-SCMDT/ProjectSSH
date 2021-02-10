@@ -26,7 +26,6 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     private void Start()
     {
         Spawned();
-
     }
 
     public void Spawned()

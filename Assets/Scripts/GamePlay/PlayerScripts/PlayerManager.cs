@@ -118,6 +118,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
             constrainthands.weight = 0.0f;
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("hello");
+            this.transform.GetComponent<Abilities>().GunpowderAbilityPurchased = !this.transform.GetComponent<Abilities>().GunpowderAbilityPurchased;
+        }
     }
 
     void Rifle()
@@ -168,6 +174,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
         player.Move(move * speed * Time.deltaTime);
         player.Move(velocity * Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            player.Move(move * Time.deltaTime * 4);
+        }
     }
 
     void Jump()

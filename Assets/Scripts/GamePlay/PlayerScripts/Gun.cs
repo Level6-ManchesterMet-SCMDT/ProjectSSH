@@ -23,9 +23,11 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject playerNLImpactEffect;
     public GameObject playerLImpactEffect;
     public GameObject UIAmmoRef;
+    public GameObject player;
 
     private AmmoCount UIAmmo;
     private float nextTimeToFire = 0f;
+    private float nextTimeToShowParticle = 0f;
 
     public GameObject rog_layers_hand_IK;
     public Animator animator;
@@ -104,9 +106,12 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 nextTimeToFire = Time.time + 1f / fireRate;
                 currentAmmo--;
 
-            PhotonView photonView = PhotonView.Get(this);
-            //photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
-
+            //this.photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
+            if (Time.time >= nextTimeToShowParticle)
+            {
+                nextTimeToShowParticle = Time.time + 5f / fireRate;
+                player.GetComponent<Abilities>().ShootEffect();
+            }
             RaycastHit hit;
             if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
