@@ -109,7 +109,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
             //this.photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
             if (Time.time >= nextTimeToShowParticle)
             {
-                nextTimeToShowParticle = Time.time + 5f / fireRate;
+                nextTimeToShowParticle = Time.time + 10f / fireRate;
                 player.GetComponent<Abilities>().ShootEffect();
             }
             RaycastHit hit;

@@ -8,36 +8,31 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     [SerializeField] GameObject GunpowderAbility;
     [SerializeField] GameObject Gun;
+    [SerializeField] Camera Camera;
 
     public bool GunpowderAbilityPurchased = false;
     public int GunpowderAbilitypower = 1;
 
     public void ShootEffect()
     {
-        this.photonView.RPC("RPC_ShootEffect", RpcTarget.Others);
+        GameObject GunpowderEffect = PhotonNetwork.Instantiate(GunpowderAbility.name, Gun.transform.position, this.transform.rotation, 0);
+        StartCoroutine(respawnWait(GunpowderEffect, this.transform.GetComponent<Abilities>().GunpowderAbilitypower));
+        GunpowderEffect.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GunpowderAbilityPurchased)
+        if (this.photonView.IsMine && Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Gun.GetComponent<Camera>().cullingMask = (1 << LayerMask.NameToLayer("FPS") | (1 << LayerMask.NameToLayer("GunpowderEffect")));
+            Camera.GetComponent<Camera>().cullingMask = (1 << LayerMask.NameToLayer("Ground") | (1 << LayerMask.NameToLayer("GunpowderEffect")) | (1 << LayerMask.NameToLayer("UI")) | (1 << LayerMask.NameToLayer("Default")));
         }
-    }
-
-    [PunRPC]
-    public void RPC_ShootEffect()
-    {
-        GameObject GunpowderEffect = PhotonNetwork.Instantiate(GunpowderAbility.name, Gun.transform.position, this.transform.rotation, 0);
-        StartCoroutine(respawnWait(GunpowderEffect, this.transform.GetComponent<Abilities>().GunpowderAbilitypower));
     }
 
     IEnumerator respawnWait(GameObject GunpowderEffect, int GunpowderAbilitypower)
     {
         //Wait for 4 seconds
         yield return new WaitForSeconds(5 * GunpowderAbilitypower);
-        Destroy(GunpowderEffect);
-
+        PhotonNetwork.Destroy(GunpowderEffect);
     }
 }

@@ -38,6 +38,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
         sbUpdater = FindObjectOfType<Scoreboard_Updater>();
         UpdateUI.SetActive(true);
         this.GetComponent<PlayerManager>().keyboardEnabled = true;
+        dead = false;
     }
 
     // Update is called once per frame

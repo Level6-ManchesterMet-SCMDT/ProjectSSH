@@ -178,7 +178,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 128
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -11812,7 +11812,8 @@ MonoBehaviour:
   GunpowderAbility: {fileID: 5231841864810340031, guid: 545f19ac80d6ab144af9fa0760b424e4,
     type: 3}
   Gun: {fileID: 434813201298261275}
-  GunpowderAbilityPurchased: 1
+  Camera: {fileID: 7099254593329799169}
+  GunpowderAbilityPurchased: 0
   GunpowderAbilitypower: 1
 --- !u!1 &6831163184106847100
 GameObject:

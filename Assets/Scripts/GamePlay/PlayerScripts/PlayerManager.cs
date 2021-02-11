@@ -119,11 +119,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         else
             constrainthands.weight = 0.0f;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Debug.Log("hello");
-            this.transform.GetComponent<Abilities>().GunpowderAbilityPurchased = !this.transform.GetComponent<Abilities>().GunpowderAbilityPurchased;
-        }
     }
 
     void Rifle()
@@ -223,20 +218,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         //Wait for 4 seconds
         yield return new WaitForSeconds(5);
-
-        this.photonView.RPC("RPC_RespawnWait", RpcTarget.All, deathAnim);
-        Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
-        this.transform.position = spawnpoint.position;
-    }
-
-
-    [PunRPC]
-
-    void RPC_RespawnWait(string deathAnim)
-    {
         this.GetComponent<PlayerStats>().Spawned();
         animator.SetBool(deathAnim, false);
+        Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
+        Debug.Log("ThisPosition" + player.transform.position);
+        Debug.Log("spawnpoint" + spawnpoint.position);
+        player.transform.position = spawnpoint.position;
+        Debug.Log("ThisPosition2" + player.transform.position);
     }
+
     //Animations
 
     void FinishedJump()
@@ -255,19 +245,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         SetHoldingGunState(true);
         gun.SetActive(true);
-        //constraintLeftHand.weight = 1.0f;
-
     }
 
     void FinishedEquipping()
     {
         Armed = true;
         SetHoldingGunState(true);
-    }
-
-    void StartedPuttingBack()
-    {
-       // constraintLeftHand.weight = 0.0f;
     }
 
     public void SetGroundedState(bool _grounded)
