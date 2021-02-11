@@ -118,6 +118,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
             constrainthands.weight = 0.0f;
+
     }
 
     void Rifle()
@@ -140,7 +141,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("SHOOTING");
             animator.SetBool("Shooting", true);
         }
         else if (Input.GetMouseButtonUp(0)) { animator.SetBool("Shooting", false); }
@@ -168,6 +168,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
         player.Move(move * speed * Time.deltaTime);
         player.Move(velocity * Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            player.Move(move * Time.deltaTime * 4);
+        }
     }
 
     void Jump()
@@ -211,21 +216,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator respawnWait(string deathAnim)
     {
         //Wait for 4 seconds
+        player.GetComponent<CharacterController>().enabled = false;
         yield return new WaitForSeconds(5);
-
-        this.photonView.RPC("RPC_RespawnWait", RpcTarget.All, deathAnim);
-        Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
-        this.transform.position = spawnpoint.position;
-    }
-
-
-    [PunRPC]
-
-    void RPC_RespawnWait(string deathAnim)
-    {
         this.GetComponent<PlayerStats>().Spawned();
         animator.SetBool(deathAnim, false);
+        Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
+        player.transform.position = spawnpoint.position;
+        player.GetComponent<CharacterController>().enabled = true;
     }
+
     //Animations
 
     void FinishedJump()
@@ -244,19 +243,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         SetHoldingGunState(true);
         gun.SetActive(true);
-        //constraintLeftHand.weight = 1.0f;
-
     }
 
     void FinishedEquipping()
     {
         Armed = true;
         SetHoldingGunState(true);
-    }
-
-    void StartedPuttingBack()
-    {
-       // constraintLeftHand.weight = 0.0f;
     }
 
     public void SetGroundedState(bool _grounded)
