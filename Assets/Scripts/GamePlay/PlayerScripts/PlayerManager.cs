@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject gun;
     [SerializeField] GameObject rog_layers_hand_IK;
     [SerializeField] GameObject canvas;
+    [SerializeField] GameObject shopUI;
+
 
     [SerializeField] GameObject arms;
 
@@ -108,6 +110,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
                 Jump();
                 Rifle();
                 UI();
+                Shop();
             }
         }
 
@@ -120,6 +123,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             constrainthands.weight = 0.0f;
     }
 
+    void Shop()
+    {
+        if (Input.GetKey("b") && !shopUI.activeInHierarchy)
+            shopUI.SetActive(true);
+
+        if (Input.GetKey("b") && shopUI.activeInHierarchy)
+            shopUI.SetActive(false);
+    }
     void Rifle()
     {
         if (Input.GetKey("f") && !Armed)

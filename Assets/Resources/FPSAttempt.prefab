@@ -11713,6 +11713,7 @@ MonoBehaviour:
   gun: {fileID: 8807638355037873430}
   rog_layers_hand_IK: {fileID: 7336930680949985932}
   canvas: {fileID: 3218743290741794176}
+  shopUI: {fileID: 8782518527590326484, guid: c8d36efefcbc9f8468ae9e0235da4da4, type: 3}
   arms: {fileID: 1416520106662818490}
   fpsCam: {fileID: 434813201298261276}
   Cam: {fileID: 7099254593329799169}
