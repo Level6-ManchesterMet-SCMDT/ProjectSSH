@@ -168,6 +168,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
         player.Move(move * speed * Time.deltaTime);
         player.Move(velocity * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.LeftShift) && isGrounded)
+        {
+            player.Move(move * speed * Time.deltaTime * 6);
+        }
     }
 
     void Jump()
