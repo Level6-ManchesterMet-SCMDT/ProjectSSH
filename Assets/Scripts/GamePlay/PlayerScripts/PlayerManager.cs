@@ -217,14 +217,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator respawnWait(string deathAnim)
     {
         //Wait for 4 seconds
+        player.GetComponent<CharacterController>().enabled = false;
         yield return new WaitForSeconds(5);
         this.GetComponent<PlayerStats>().Spawned();
         animator.SetBool(deathAnim, false);
         Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
-        Debug.Log("ThisPosition" + player.transform.position);
-        Debug.Log("spawnpoint" + spawnpoint.position);
         player.transform.position = spawnpoint.position;
-        Debug.Log("ThisPosition2" + player.transform.position);
+        player.GetComponent<CharacterController>().enabled = true;
     }
 
     //Animations

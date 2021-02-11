@@ -24,10 +24,12 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject playerLImpactEffect;
     public GameObject UIAmmoRef;
     public GameObject player;
+    public GameObject[] hitBoxes;
 
     private AmmoCount UIAmmo;
     private float nextTimeToFire = 0f;
     private float nextTimeToShowParticle = 0f;
+    private bool hitYourself = false;
 
     public GameObject rog_layers_hand_IK;
     public Animator animator;
@@ -64,7 +66,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 return;
             }
 
-            if (currentAmmo <= 0)
+            if (currentAmmo < 0)
             {
                 StartCoroutine(Reload());
                 return;
@@ -113,7 +115,8 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 player.GetComponent<Abilities>().ShootEffect();
             }
             RaycastHit hit;
-            if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+
+            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
             {
                 if (hit.transform.tag == "SceneObject")
                 {
@@ -127,20 +130,33 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (hit.transform.tag == "PlayerNL")
                 {
-                    GameObject impactGO = PhotonNetwork.Instantiate(playerNLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
-                    Destroy(impactGO, 2f);
+                    foreach (GameObject hitbox in hitBoxes)
+                    {
+                        if (hit.transform.GetComponent<PhotonView>().ViewID == hitbox.transform.GetComponent<PhotonView>().ViewID)
+                        {
+                            hitYourself = true;
+                        }
+                    }
+                    if (!hitYourself)
+                    {
+                        GameObject impactGO = PhotonNetwork.Instantiate(playerNLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
+                        Destroy(impactGO, 2f);
 
-                    float rDamage = Random.Range(damage - 5f, damage + 5f);
-                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "Dead", PhotonNetwork.LocalPlayer.NickName.ToString());
+                        float rDamage = Random.Range(damage - 5f, damage + 5f);
+                        hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "Dead", PhotonNetwork.LocalPlayer.NickName.ToString());
+                    }
                 }
 
                 else if (hit.transform.tag == "PlayerL")
                 {
-                    GameObject impactGO = PhotonNetwork.Instantiate(playerLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
-                    Destroy(impactGO, 2f);
+                    if (!hitYourself)
+                    {
+                        GameObject impactGO = PhotonNetwork.Instantiate(playerLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
+                        Destroy(impactGO, 2f);
 
-                    float rDamage = Random.Range(damage + 40f, damage + 50f);
-                    hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "HeadshotDead", PhotonNetwork.LocalPlayer.NickName.ToString());
+                        float rDamage = Random.Range(damage + 40f, damage + 50f);
+                        hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "HeadshotDead", PhotonNetwork.LocalPlayer.NickName.ToString());
+                    }
                 }
                 else
                 {
