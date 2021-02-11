@@ -11,6 +11,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     [SerializeField] GameObject gameModeSelection;
     [SerializeField] Text roomInput;
     [SerializeField] GameObject playerNumber;
+    [SerializeField] Text SliderNumber;
 
     private byte numberOfPlayers = 2;
     private float gameMode = 0;
@@ -24,6 +25,7 @@ public class CreateRoom : MonoBehaviourPunCallbacks
     public void UpdateSlider()
     {
         numberOfPlayers = Convert.ToByte(playerNumber.GetComponent<Slider>().value);
+        SliderNumber.text = playerNumber.GetComponent<Slider>().value.ToString();
     }
 
     public void UpdateDropDown()
@@ -38,8 +40,6 @@ public class CreateRoom : MonoBehaviourPunCallbacks
         roomOpts.CustomRoomProperties.Add("GameMode", gameMode);
         roomOpts.CustomRoomProperties.Add("MaxPlayers", numberOfPlayers);
 
-        Debug.Log("GameMode: " + gameMode);
-        Debug.Log("MaxPlayers: " + numberOfPlayers);
         string room = roomInput.text;
         if (room == "") { room = "NoName"; }
         PhotonNetwork.CreateRoom(room, roomOpts);

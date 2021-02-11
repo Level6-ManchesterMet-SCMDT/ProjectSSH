@@ -88,7 +88,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator Reload ()
     {
         isReloading = true;
-        Debug.Log("Reloading...");
         animator.SetBool("Reloading", true);
 
         yield return new WaitForSeconds(reloadTime - .25f);

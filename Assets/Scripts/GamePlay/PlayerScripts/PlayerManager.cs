@@ -141,7 +141,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("SHOOTING");
             animator.SetBool("Shooting", true);
         }
         else if (Input.GetMouseButtonUp(0)) { animator.SetBool("Shooting", false); }
