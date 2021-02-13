@@ -17,6 +17,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     private bool isReloading = false;
 
     public Camera fpsCam;
+    public Camera tpvCam;
     public ParticleSystem muzzleFlash;
     public ParticleSystem cartridgeEffect;
     public GameObject genericImpactEffect;
@@ -24,11 +25,15 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject playerLImpactEffect;
     public GameObject UIAmmoRef;
     public GameObject player;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawnFPV;
+    public Transform bulletSpawnTPV;
 
     private AmmoCount UIAmmo;
     private float nextTimeToFire = 0f;
     private float nextTimeToShowParticle = 0f;
-    private bool hitYourself = false;
+    public float bulletSpeed = 30;
+    public float lifeTime = 5;
 
     public GameObject rog_layers_hand_IK;
     public Animator animator;
@@ -105,13 +110,31 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         {
                 nextTimeToFire = Time.time + 1f / fireRate;
                 currentAmmo--;
+            //TPV Bullet
+            GameObject bulletTPV = PhotonNetwork.Instantiate(bulletPrefab.name, bulletSpawnTPV.position, bulletPrefab.transform.rotation, 0);
+            bulletTPV.GetComponent<Rigidbody>().AddForce(bulletSpawnTPV.forward * bulletSpeed, ForceMode.Impulse);
+            StartCoroutine(DestroyBulletAfterTime(bulletTPV, lifeTime));
+            bulletTPV.SetActive(false);
+
+            //FPV Bullet
+            GameObject bulletFPV = Instantiate(bulletPrefab);
+            bulletFPV.transform.position = bulletSpawnFPV.position;
+            Vector3 rotation = bulletFPV.transform.rotation.eulerAngles;
+            bulletFPV.transform.rotation = Quaternion.Euler(rotation.x, transform.eulerAngles.y, rotation.z);
+            bulletFPV.GetComponent<Rigidbody>().AddForce(bulletSpawnFPV.forward * bulletSpeed, ForceMode.Impulse);
+            StartCoroutine(DestroyBulletAfterTime(bulletFPV, lifeTime));
 
             //this.photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
+
+            //AbilitiesShootEffect
             if (Time.time >= nextTimeToShowParticle)
             {
                 nextTimeToShowParticle = Time.time + 10f / fireRate;
                 player.GetComponent<Abilities>().ShootEffect();
             }
+
+            //Gun Hits
+
             RaycastHit hit;
 
             if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
@@ -150,6 +173,12 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
         }
+    }
+
+    private IEnumerator DestroyBulletAfterTime(GameObject bullet, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        PhotonNetwork.Destroy(bullet);
     }
 
     [PunRPC]
