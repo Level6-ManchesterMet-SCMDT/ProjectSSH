@@ -40,8 +40,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     bool FinishedJumping = false;
     bool isGrounded;
     bool holdingGun = true;
+    bool shopActive = false;
 
-   
     Vector3 velocity;
 
     Rig constrainthands;
@@ -125,12 +125,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Shop()
     {
-        if (Input.GetKey("b") && !shopUI.activeInHierarchy)
-            shopUI.SetActive(true);
-
-        if (Input.GetKey("b") && shopUI.activeInHierarchy)
-            shopUI.SetActive(false);
+        if (Input.GetKeyDown("b") && shopActive)
+        {
+            canvas.transform.GetChild(0).GetChild(6).gameObject.SetActive(false);
+            shopActive = false;
+            Debug.Log("test2");
+        }else if(Input.GetKeyDown("b") && !shopActive)
+        {
+            canvas.transform.GetChild(0).GetChild(6).gameObject.SetActive(true);
+            shopActive = true;
+            Debug.Log("test1");
+        }
     }
+
     void Rifle()
     {
         if (Input.GetKey("f") && !Armed)
