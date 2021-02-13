@@ -4691,7 +4691,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh71238
+  m_Name: pb_Mesh31504
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10706,17 +10706,47 @@ PrefabInstance:
     - target: {fileID: 5047556738652496260, guid: cfa31bd80696aa24a8d40589ce015224,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.28235295
+      value: 0.76470596
       objectReference: {fileID: 0}
     - target: {fileID: 5047556738652496260, guid: cfa31bd80696aa24a8d40589ce015224,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.16862746
+      value: 0.28235295
       objectReference: {fileID: 0}
     - target: {fileID: 5047556738652496260, guid: cfa31bd80696aa24a8d40589ce015224,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.7411765
+      value: 0.098039225
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047556738739837554, guid: cfa31bd80696aa24a8d40589ce015224,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.76470596
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047556738739837554, guid: cfa31bd80696aa24a8d40589ce015224,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.28235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047556738739837554, guid: cfa31bd80696aa24a8d40589ce015224,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.098039225
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047556739167781807, guid: cfa31bd80696aa24a8d40589ce015224,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.76470596
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047556739167781807, guid: cfa31bd80696aa24a8d40589ce015224,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.28235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5047556739167781807, guid: cfa31bd80696aa24a8d40589ce015224,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.098039225
       objectReference: {fileID: 0}
     - target: {fileID: 8101907907721910925, guid: cfa31bd80696aa24a8d40589ce015224,
         type: 3}
