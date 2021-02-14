@@ -50,6 +50,11 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     private bool isReloading = false;
     private int currentAmmo;
 
+    public AudioSource[] sounds;
+    public AudioSource reloadSound;
+    public AudioSource shootSound;
+    public AudioSource aimInSound;
+
     TwoBoneIKConstraint constraintLeftHand;
 
     void Start ()
@@ -63,6 +68,11 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
+
+        sounds = GetComponents<AudioSource>();
+        reloadSound = sounds[0];
+        shootSound = sounds[1];
+        aimInSound = sounds[2];
     }
 
     void Update()
@@ -97,12 +107,18 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
             Shoot();
         }
+
+        if (Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            aimInSound.Play();
+        }
     }
 
     IEnumerator Reload ()
     {
         isReloading = true;
         animator.SetBool("Reloading", true);
+        reloadSound.Play();
 
         yield return new WaitForSeconds(reloadTime - .25f);
 
@@ -120,8 +136,9 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             currentAmmo--;
+            shootSound.Play();
 
-            
+
             Vector3 shootDirection = Cam.transform.forward;
 
             if (Input.GetKey(KeyCode.Mouse1)) //if aim
