@@ -11,7 +11,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject gun;
     [SerializeField] GameObject rog_layers_hand_IK;
     [SerializeField] GameObject canvas;
-
+    [SerializeField] GameObject upperBody;
     [SerializeField] GameObject arms;
 
     [SerializeField] Camera fpsCam;
@@ -58,7 +58,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             PlayerManager.LocalPlayerInstance = this.gameObject;
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            
         }
         DontDestroyOnLoad(this.gameObject);
     }
@@ -67,7 +66,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         constrainthands = rog_layers_hand_IK.GetComponent<Rig>();
 
-        if (!photonView.IsMine)
+        if (!photonView.IsMine || !PhotonNetwork.IsConnected)
         {
             Destroy(Cam.GetComponent<Camera>());
 
@@ -136,8 +135,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (Input.GetKey(KeyCode.Mouse1) && Armed)
         {
             animator.SetBool("Aiming", true);
+            if(Cam.fieldOfView >= 70)
+            {
+                Cam.fieldOfView -= 0.1f;
+            }
         }
-        else animator.SetBool("Aiming", false);
+        else
+        {
+            animator.SetBool("Aiming", false);
+            if (Cam.fieldOfView <= 80)
+            {
+                Cam.fieldOfView += 0.1f;
+            }
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -195,7 +205,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
 
         verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -80f, 80f);
 
         cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
     }

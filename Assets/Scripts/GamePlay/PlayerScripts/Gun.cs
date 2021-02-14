@@ -6,37 +6,49 @@ using UnityEngine.Animations.Rigging;
 
 public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 {
+    [Header("Weapon Firing")]
     public float damage = 10f;
     public float range = 100f;
     public float impactForce = 30;
     public float fireRate = 15f;
-
     public int maxAmmo = 10;
-    private int currentAmmo;
     public float reloadTime = 1f;
-    private bool isReloading = false;
+    public float camerShakeIntensity;
+    public float camerShakeDuration;
 
-    public Camera fpsCam;
-    public Camera tpvCam;
+    public GameObject UIAmmoRef;
+
+    [Header("Bullet")]
+    public float bulletSpeed = 30;
+    public float bulletLifeTime = 5;
+    public float spreadFactorAimF;
+    public float spreadFactorHipF;
+
+    public Transform bulletSpawnFPV;
+    public Transform bulletSpawnTPV;
+
+    public GameObject bulletPrefab;
+
+    [Header("FX")]
     public ParticleSystem muzzleFlash;
     public ParticleSystem cartridgeEffect;
     public GameObject genericImpactEffect;
     public GameObject playerNLImpactEffect;
     public GameObject playerLImpactEffect;
-    public GameObject UIAmmoRef;
+
+    public GameObject rog_layers_hand_IK;
+    public Animator animator;
+
+    [Header("Other")]
+    public Camera Cam;
     public GameObject player;
-    public GameObject bulletPrefab;
-    public Transform bulletSpawnFPV;
-    public Transform bulletSpawnTPV;
+    public PhotonView pv;
 
     private AmmoCount UIAmmo;
     private float nextTimeToFire = 0f;
     private float nextTimeToShowParticle = 0f;
-    public float bulletSpeed = 30;
-    public float lifeTime = 5;
-
-    public GameObject rog_layers_hand_IK;
-    public Animator animator;
+    private bool isReloading = false;
+    private int currentAmmo;
 
     TwoBoneIKConstraint constraintLeftHand;
 
@@ -77,7 +89,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
             }
             UIAmmo.ammo = currentAmmo;
 
-
             //if (Input.GetKey(KeyCode.Mouse1))
             //{
             //    animator.SetBool("Aiming", true);
@@ -86,7 +97,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
             Shoot();
         }
-
     }
 
     IEnumerator Reload ()
@@ -108,23 +118,40 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
         {
-                nextTimeToFire = Time.time + 1f / fireRate;
-                currentAmmo--;
+            nextTimeToFire = Time.time + 1f / fireRate;
+            currentAmmo--;
+
+            
+            Vector3 shootDirection = Cam.transform.forward;
+
+            if (Input.GetKey(KeyCode.Mouse1)) //if aim
+            {
+                shootDirection.x += Random.Range(-spreadFactorAimF, spreadFactorAimF);
+                shootDirection.y += Random.Range(-spreadFactorAimF, spreadFactorAimF);
+                StartCoroutine(Cam.GetComponent<CameraShake>().Shake(camerShakeDuration, camerShakeIntensity/2)); //camera shake
+            }
+            else
+            {
+                shootDirection.x += Random.Range(-spreadFactorHipF, spreadFactorHipF);
+                shootDirection.y += Random.Range(-spreadFactorHipF, spreadFactorHipF);
+                StartCoroutine(Cam.GetComponent<CameraShake>().Shake(camerShakeDuration, camerShakeIntensity)); //camera shake
+            }
+/*
             //TPV Bullet
             GameObject bulletTPV = PhotonNetwork.Instantiate(bulletPrefab.name, bulletSpawnTPV.position, bulletPrefab.transform.rotation, 0);
+            //bulletTPV.transform.forward = new Vector3(Cam.transform.forward.x, Cam.transform.forward.y, Cam.transform.forward.z);
             bulletTPV.GetComponent<Rigidbody>().AddForce(bulletSpawnTPV.forward * bulletSpeed, ForceMode.Impulse);
-            StartCoroutine(DestroyBulletAfterTime(bulletTPV, lifeTime));
+            StartCoroutine(DestroyBulletAfterTime(bulletTPV, bulletLifeTime));
             bulletTPV.SetActive(false);
 
             //FPV Bullet
             GameObject bulletFPV = Instantiate(bulletPrefab);
             bulletFPV.transform.position = bulletSpawnFPV.position;
-            Vector3 rotation = bulletFPV.transform.rotation.eulerAngles;
-            bulletFPV.transform.rotation = Quaternion.Euler(rotation.x, transform.eulerAngles.y, rotation.z);
+            bulletFPV.transform.forward = new Vector3(shootDirection.x, shootDirection.y, shootDirection.z);
             bulletFPV.GetComponent<Rigidbody>().AddForce(bulletSpawnFPV.forward * bulletSpeed, ForceMode.Impulse);
-            StartCoroutine(DestroyBulletAfterTime(bulletFPV, lifeTime));
+            StartCoroutine(DestroyBulletAfterTime(bulletFPV, bulletLifeTime));*/
 
-            //this.photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
+            this.photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
 
             //AbilitiesShootEffect
             if (Time.time >= nextTimeToShowParticle)
@@ -137,7 +164,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
             RaycastHit hit;
 
-            if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
+            if (Physics.Raycast(Cam.transform.position, shootDirection, out hit, range))
             {
                 if (hit.transform.tag == "SceneObject")
                 {
@@ -185,8 +212,8 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     public void MuzzleAndCartridgeEffect()
     {
-        muzzleFlash.Play(); //play muzzleflash on shooting
-        cartridgeEffect.Play();
+       muzzleFlash.Play(); //play muzzleflash on shooting
+       cartridgeEffect.Play();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
