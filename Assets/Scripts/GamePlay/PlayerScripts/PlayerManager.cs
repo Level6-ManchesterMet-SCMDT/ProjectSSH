@@ -130,11 +130,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             canvas.transform.GetChild(0).GetChild(6).gameObject.SetActive(false);
             shopActive = false;
             Debug.Log("test2");
-        }else if(Input.GetKeyDown("b") && !shopActive)
+            gun.GetComponent<Gun>().enabled = true;
+            //this.GetComponent<PlayerManager>().Look().enabled = false;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else if(Input.GetKeyDown("b") && !shopActive)
         {
             canvas.transform.GetChild(0).GetChild(6).gameObject.SetActive(true);
             shopActive = true;
+            gun.GetComponent<Gun>().enabled = false;
             Debug.Log("test1");
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
         }
     }
 
@@ -158,7 +167,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("SHOOTING");
+            //Debug.Log("SHOOTING");
             animator.SetBool("Shooting", true);
         }
         else if (Input.GetMouseButtonUp(0)) { animator.SetBool("Shooting", false); }
@@ -205,12 +214,15 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Look()
     {
-        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+        if (!shopActive)
+        {
+            transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
 
-        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+            verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
 
-        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+            cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        }
     }
 
     void UI()
