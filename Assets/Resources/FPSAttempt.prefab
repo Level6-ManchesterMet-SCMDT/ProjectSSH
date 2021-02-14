@@ -17399,7 +17399,7 @@ MonoBehaviour:
   range: 100
   impactForce: 30
   fireRate: 15
-  maxAmmo: 200
+  maxAmmo: 15
   reloadTime: 1
   camerShakeIntensity: 0.025
   camerShakeDuration: 0.1
