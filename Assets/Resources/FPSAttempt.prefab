@@ -11635,7 +11635,13 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightHandThumb2'\n\tTransform
+    'mixamorig:RightForeArm'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightHandThumb2'\n\tTransform
+    'mixamorig:RightForeArm'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -11749,7 +11755,7 @@ MonoBehaviour:
   Cam: {fileID: 7099254593329799169}
   speed: 6
   gravity: -9.81
-  jumpHeight: 3
+  jumpHeight: 6
   mouseSensitivity: 3
   groundCheck: {fileID: 6280829597465408994}
   groundDistance: 0.4
