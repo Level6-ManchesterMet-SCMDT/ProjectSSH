@@ -38,8 +38,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     bool FinishedJumping = false;
     bool isGrounded;
     bool holdingGun = true;
+    bool shopActive = false;
 
-   
     Vector3 velocity;
 
     Rig constrainthands;
@@ -107,6 +107,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
                 Jump();
                 Rifle();
                 UI();
+                Shop();
             }
         }
 
@@ -118,6 +119,27 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         else
             constrainthands.weight = 0.0f;
 
+    }
+
+    void Shop()
+    {
+        if (Input.GetKeyDown("b") && shopActive)
+        {
+            canvas.transform.GetChild(0).GetChild(6).gameObject.SetActive(false);
+            shopActive = false;
+            gun.GetComponent<Gun>().enabled = true;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else if (Input.GetKeyDown("b") && !shopActive)
+        {
+            canvas.transform.GetChild(0).GetChild(6).gameObject.SetActive(true);
+            shopActive = true;
+            gun.GetComponent<Gun>().enabled = false;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
+        }
     }
 
     void Rifle()
