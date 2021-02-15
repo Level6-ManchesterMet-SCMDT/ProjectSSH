@@ -10,8 +10,8 @@ public class Abilities : MonoBehaviourPunCallbacks
     [SerializeField] GameObject Gun;
     [SerializeField] Camera Camera;
 
-    public bool GunpowderAbilityPurchased = false;
-    public int GunpowderAbilitypower = 1;
+    public int GunpowderAbilitypower = 0;
+    public bool GunpowderAbilityUpgraded = false;
 
     public void ShootEffect()
     {
@@ -20,10 +20,15 @@ public class Abilities : MonoBehaviourPunCallbacks
         GunpowderEffect.SetActive(false);
     }
 
-    // Update is called once per frame
+    public void AbilityBought()
+    {
+        GunpowderAbilityUpgraded = true;
+        GunpowderAbilitypower++;
+    }
+
     void Update()
     {
-        if (this.photonView.IsMine && Input.GetKeyDown(KeyCode.Alpha1))
+        if (this.photonView.IsMine && GunpowderAbilityUpgraded)
         {
             Camera.GetComponent<Camera>().cullingMask = (1 << LayerMask.NameToLayer("Ground") | (1 << LayerMask.NameToLayer("GunpowderEffect")) | (1 << LayerMask.NameToLayer("UI")) | (1 << LayerMask.NameToLayer("Default")));
         }

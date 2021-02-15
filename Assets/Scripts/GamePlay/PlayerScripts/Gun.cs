@@ -39,10 +39,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject rog_layers_hand_IK;
     public Animator animator;
 
-    [Header("Other")]
-    public Camera Cam;
-    public GameObject player;
-    public PhotonView pv;
+    [Header("Ammo")]
 
     private AmmoCount UIAmmo;
     private float nextTimeToFire = 0f;
@@ -50,10 +47,17 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     private bool isReloading = false;
     private int currentAmmo;
 
+    [Header("Audio")]
+
     public AudioSource[] sounds;
     public AudioSource reloadSound;
     public AudioSource shootSound;
     public AudioSource aimInSound;
+
+    [Header("Other")]
+    public Camera Cam;
+    public GameObject player;
+    public PhotonView pv;
 
     TwoBoneIKConstraint constraintLeftHand;
 
@@ -138,7 +142,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
             currentAmmo--;
             shootSound.Play();
 
-
             Vector3 shootDirection = Cam.transform.forward;
 
             if (Input.GetKey(KeyCode.Mouse1)) //if aim
@@ -176,7 +179,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 nextTimeToShowParticle = Time.time + 10f / fireRate;
                 player.GetComponent<Abilities>().ShootEffect();
             }
-
             //Gun Hits
 
             RaycastHit hit;

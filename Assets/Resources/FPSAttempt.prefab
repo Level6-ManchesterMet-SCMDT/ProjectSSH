@@ -14986,7 +14986,7 @@ GameObject:
   - component: {fileID: 3710615623987826755}
   - component: {fileID: 1410276617123661861}
   - component: {fileID: 6670095359110613960}
-  - component: {fileID: 9109986717216420922}
+  - component: {fileID: 6827141713624212309}
   m_Layer: 2
   m_Name: FPSAttempt
   m_TagString: Player
@@ -15032,7 +15032,13 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightHandThumb2'\n\tTransform
+    'mixamorig:RightForeArm'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightHandThumb2'\n\tTransform
+    'mixamorig:RightForeArm'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -15224,7 +15230,7 @@ MonoBehaviour:
   - m_Rig: {fileID: 4161779829460312346}
     m_Active: 1
   m_Effectors: []
---- !u!114 &9109986717216420922
+--- !u!114 &6827141713624212309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15238,10 +15244,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GunpowderAbility: {fileID: 5231841864810340031, guid: 545f19ac80d6ab144af9fa0760b424e4,
     type: 3}
-  Gun: {fileID: 434813201298261275}
+  Gun: {fileID: 8807638355037873430}
   Camera: {fileID: 7099254593329799169}
-  GunpowderAbilityPurchased: 0
   GunpowderAbilitypower: 1
+  GunpowderAbilityUpgraded: 0
 --- !u!1 &6755651604713090411
 GameObject:
   m_ObjectHideFlags: 0
@@ -16105,7 +16111,7 @@ GameObject:
   - component: {fileID: 7276688735842984553}
   - component: {fileID: 1457817063036969912}
   m_Layer: 0
-  m_Name: Smell Rare (1)
+  m_Name: Gunpowder Smell Common
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16213,9 +16219,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AShop, Assembly-CSharp
-        m_MethodName: PinpointSmell
+      - m_Target: {fileID: 6827141713624212309}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: AbilityBought
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16259,8 +16265,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688735871243816
 CanvasRenderer:
@@ -16292,7 +16298,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -16303,7 +16309,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688735913299635
 GameObject:
   m_ObjectHideFlags: 0
@@ -16338,8 +16344,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.1011, y: 0}
-  m_SizeDelta: {x: 174.2021, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688735913299632
 CanvasRenderer:
@@ -16371,7 +16377,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -16382,7 +16388,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688735934136834
 GameObject:
   m_ObjectHideFlags: 0
@@ -16418,7 +16424,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 510, y: 253}
-  m_SizeDelta: {x: 130.805, y: 63.7964}
+  m_SizeDelta: {x: 145.6, y: 63.7964}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688735934136847
 CanvasRenderer:
@@ -16461,7 +16467,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Smell
+  m_Text: Sound
 --- !u!1 &7276688736035518303
 GameObject:
   m_ObjectHideFlags: 0
@@ -16475,7 +16481,7 @@ GameObject:
   - component: {fileID: 7276688736035518301}
   - component: {fileID: 2630066475800983108}
   m_Layer: 0
-  m_Name: Smell Common 1 (1)
+  m_Name: Smell Rare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16629,8 +16635,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688736046429822
 CanvasRenderer:
@@ -16662,7 +16668,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -16673,7 +16679,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688736165109191
 GameObject:
   m_ObjectHideFlags: 0
@@ -16687,7 +16693,7 @@ GameObject:
   - component: {fileID: 7276688736165109189}
   - component: {fileID: 6499212334440915304}
   m_Layer: 0
-  m_Name: Sight Common 1
+  m_Name: Sight Rare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16820,7 +16826,7 @@ GameObject:
   - component: {fileID: 7276688736244993780}
   - component: {fileID: 5745208144699134069}
   m_Layer: 0
-  m_Name: Sight Rare
+  m_Name: Sight Common 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17087,8 +17093,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688736362481053
 CanvasRenderer:
@@ -17120,7 +17126,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -17131,7 +17137,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688736413230946
 GameObject:
   m_ObjectHideFlags: 0
@@ -17320,8 +17326,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688736482373055
 CanvasRenderer:
@@ -17353,7 +17359,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -17364,7 +17370,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688736609912737
 GameObject:
   m_ObjectHideFlags: 0
@@ -17399,8 +17405,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688736609912750
 CanvasRenderer:
@@ -17432,7 +17438,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -17443,7 +17449,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688736772805979
 GameObject:
   m_ObjectHideFlags: 0
@@ -17456,7 +17462,7 @@ GameObject:
   - component: {fileID: 7276688736772805976}
   - component: {fileID: 7276688736772805977}
   m_Layer: 0
-  m_Name: Hearing Rare (2)
+  m_Name: Hearing Common 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17712,8 +17718,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.1011, y: 0}
-  m_SizeDelta: {x: 174.2021, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688736882485134
 CanvasRenderer:
@@ -17745,7 +17751,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -17756,7 +17762,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Gunpowder Smell
 --- !u!1 &7276688737054900783
 GameObject:
   m_ObjectHideFlags: 0
@@ -17791,8 +17797,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688737054900780
 CanvasRenderer:
@@ -17824,7 +17830,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -17835,7 +17841,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688737559400880
 GameObject:
   m_ObjectHideFlags: 0
@@ -17848,7 +17854,7 @@ GameObject:
   - component: {fileID: 7276688737559400893}
   - component: {fileID: 7276688737559400894}
   m_Layer: 0
-  m_Name: Hearing Common 2 (2)
+  m_Name: Hearing Common 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17924,7 +17930,7 @@ GameObject:
   - component: {fileID: 7276688737653976607}
   - component: {fileID: 7276688737653976592}
   m_Layer: 0
-  m_Name: Hearing Common 1 (2)
+  m_Name: Hearing Rare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18022,8 +18028,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.1011, y: 0}
-  m_SizeDelta: {x: 174.2021, y: 30}
+  m_AnchoredPosition: {x: 11.3, y: -16.74}
+  m_SizeDelta: {x: 175.1, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688737662908102
 CanvasRenderer:
@@ -18055,7 +18061,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 28
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -18066,7 +18072,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ability Placeholder
+  m_Text: Not Yet Implemented
 --- !u!1 &7276688737831409413
 GameObject:
   m_ObjectHideFlags: 0
@@ -18080,7 +18086,7 @@ GameObject:
   - component: {fileID: 7276688737831409411}
   - component: {fileID: 1965950966987995042}
   m_Layer: 0
-  m_Name: Smell Common 2 (1)
+  m_Name: Smell Common 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24960,14 +24966,14 @@ MonoBehaviour:
     type: 3}
   rog_layers_hand_IK: {fileID: 7336930680949985932}
   animator: {fileID: 128864864605220760}
-  Cam: {fileID: 7099254593329799169}
-  player: {fileID: 6656933301093085016}
-  pv: {fileID: 2712842534995974280}
   sounds:
   - {fileID: 0}
   reloadSound: {fileID: 611580516694450365}
   shootSound: {fileID: 1742902469213510596}
   aimInSound: {fileID: 5589801664633277409}
+  Cam: {fileID: 7099254593329799169}
+  player: {fileID: 6656933301093085016}
+  pv: {fileID: 2712842534995974280}
 --- !u!114 &6175615499935614431
 MonoBehaviour:
   m_ObjectHideFlags: 0
