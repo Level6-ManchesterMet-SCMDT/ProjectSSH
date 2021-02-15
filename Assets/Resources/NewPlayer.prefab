@@ -6722,6 +6722,7 @@ MonoBehaviour:
   gun: {fileID: 6793580518739362743}
   rog_layers_hand_IK: {fileID: 4846458336598626578}
   canvas: {fileID: 2902098908979512226}
+  smellTrail: {fileID: 0}
   arms: {fileID: 0}
   fpsCam: {fileID: 0}
   Cam: {fileID: 0}
@@ -6798,9 +6799,11 @@ MonoBehaviour:
   healthBarRef: {fileID: 8077995263797960038}
   rog_layers_hand_IK: {fileID: 4846458336598626578}
   UpdateUI: {fileID: 8077995263072708315}
-  sbUpdater: {fileID: 0}
+  playerHead: {fileID: 0}
+  FPSCam: {fileID: 0}
   maxHealth: 100
   animator: {fileID: 128864864605220760}
+  sbUpdater: {fileID: 0}
   currentHealth: 0
   dead: 0
 --- !u!1 &6793580518739362743

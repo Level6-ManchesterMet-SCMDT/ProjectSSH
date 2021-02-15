@@ -5519,7 +5519,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 375
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -11714,6 +11714,9 @@ MonoBehaviour:
   rog_layers_hand_IK: {fileID: 7336930680949985932}
   canvas: {fileID: 3218743290741794176}
   arms: {fileID: 1416520106662818490}
+  upperBody: {fileID: 4604731651018223205}
+  legs: {fileID: 6852115378923851409}
+  lowerbody: {fileID: 860531379041835437}
   fpsCam: {fileID: 434813201298261276}
   Cam: {fileID: 7099254593329799169}
   speed: 6

@@ -12,7 +12,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     [SerializeField] GameObject rog_layers_hand_IK;
     [SerializeField] GameObject canvas;
 
+    
+
     [SerializeField] GameObject arms;
+    [SerializeField] GameObject upperBody;
+    [SerializeField] GameObject legs;
+    [SerializeField] GameObject lowerbody;
+
+
 
     [SerializeField] Camera fpsCam;
     [SerializeField] Camera Cam;
@@ -93,6 +100,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         {
             canvas.SetActive(true);
         }
+
+        //houndAbility();
+        OutlineAbility();
+
+
     }
 
 
@@ -278,6 +290,27 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         else
         {
             this.holdingGun = (bool)stream.ReceiveNext();
+        }
+    }
+
+    public void OutlineAbility()
+    {
+        PlayerManager[] outlineP = FindObjectsOfType<PlayerManager>();
+
+        foreach (PlayerManager p in outlineP)
+        {
+            p.setOutline();
+        }
+    }
+
+    public void setOutline()
+    {
+        if(!this.photonView.IsMine)
+        {
+            arms.layer = 8;
+            upperBody.layer = 8;
+            legs.layer = 8;
+            lowerbody.layer = 8;
         }
     }
 }
