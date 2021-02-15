@@ -224,12 +224,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Look()
     {
-        transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
+        if (!shopActive)
+        {
+            transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
 
-        verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-        verticalLookRotation = Mathf.Clamp(verticalLookRotation, -80f, 80f);
+            verticalLookRotation += Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -80f, 80f);
 
-        cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+            cameraHolder.transform.localEulerAngles = Vector3.left * verticalLookRotation;
+        }
+
     }
 
     void UI()
