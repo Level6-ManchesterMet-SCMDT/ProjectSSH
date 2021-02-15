@@ -176,7 +176,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
             //AbilitiesShootEffect
             if (Time.time >= nextTimeToShowParticle)
             {
-                Debug.Log("TEST");
                 nextTimeToShowParticle = Time.time + 10f / fireRate;
                 player.GetComponent<Abilities>().ShootEffect();
             }

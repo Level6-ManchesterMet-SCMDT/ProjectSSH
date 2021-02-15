@@ -15032,7 +15032,13 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightHandThumb2'\n\tTransform
+    'mixamorig:RightForeArm'\n\tTransform 'mixamorig:RightArm'\n\tTransform 'mixamorig:LeftArm'\n\tTransform
+    'mixamorig:LeftForeArm'\n\tTransform 'mixamorig:RightHandThumb2'\n\tTransform
+    'mixamorig:RightForeArm'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -15236,11 +15242,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc315cbc5788bce40ae51d6892728bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gun: {fileID: 8807638355037873430}
-  Camera: {fileID: 2641990971724583906}
-  GunpowderAbilityEffect: {fileID: 5231841864810340031, guid: 545f19ac80d6ab144af9fa0760b424e4,
+  GunpowderAbility: {fileID: 5231841864810340031, guid: 545f19ac80d6ab144af9fa0760b424e4,
     type: 3}
-  GunpowderAbilitypower: 0
+  Gun: {fileID: 8807638355037873430}
+  Camera: {fileID: 7099254593329799169}
+  GunpowderAbilitypower: 1
+  GunpowderAbilityUpgraded: 0
 --- !u!1 &6755651604713090411
 GameObject:
   m_ObjectHideFlags: 0
@@ -16214,7 +16221,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 6827141713624212309}
         m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
-        m_MethodName: GunpowderUpgraded
+        m_MethodName: AbilityBought
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
