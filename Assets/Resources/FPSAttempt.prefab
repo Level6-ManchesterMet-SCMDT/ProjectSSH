@@ -24940,13 +24940,13 @@ MonoBehaviour:
   fireRate: 15
   maxAmmo: 15
   reloadTime: 1
-  camerShakeIntensity: 5
+  camerShakeIntensity: 0.05
   camerShakeDuration: 0.1
   UIAmmoRef: {fileID: 8428446606698058535}
   bulletSpeed: 30
   bulletLifeTime: 5
-  spreadFactorAimF: 2.5
-  spreadFactorHipF: 5
+  spreadFactorAimF: 0.025
+  spreadFactorHipF: 0.05
   bulletSpawnFPV: {fileID: 0}
   bulletSpawnTPV: {fileID: 0}
   bulletPrefab: {fileID: 0}
