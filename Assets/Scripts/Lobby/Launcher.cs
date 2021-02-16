@@ -12,6 +12,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject connectPanel;
     public GameObject homePanel;
     public GameObject lobbyPanel;
+    public GameObject PlayerListing;
 
     public GameObject Model;
     public GameObject[] pModelTransforms;
@@ -26,10 +27,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         int randomModel = Random.Range(0, pModelTransforms.Length);
+        PlayerListing.GetComponent<PlayerListing>().currentPlayerPose = randomModel;
         //int randomModel = Random.Range(3,3);
         grabCam = FindObjectOfType<GrabCamera>();
-        Debug.Log("Length"+ (pModelTransforms.Length - 1));
-        Debug.Log("Number" + randomModel);
         grabCam.transform.position = grabCamTransforms[randomModel].transform.position;
         grabCam.transform.rotation = grabCamTransforms[randomModel].transform.rotation;
 
