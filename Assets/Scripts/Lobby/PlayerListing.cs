@@ -34,8 +34,10 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         {
             GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
             card.GetComponent<Animator>().SetInteger("RandomAnimation", currentPlayerPose);
-            card.transform.position = pCardSpawners[currentPlayerPose].transform.position;
-            card.transform.rotation = pCardSpawners[currentPlayerPose].transform.rotation;
+
+            card.transform.position = pCardSpawners[currentPlayerPose].GetChild(p.ActorNumber - 1).transform.position;
+            card.transform.rotation = pCardSpawners[currentPlayerPose].GetChild(p.ActorNumber - 1).transform.rotation;
+
             card.transform.GetChild(0).gameObject.SetActive(true);
             card.GetComponent<PlayerCard>().setValue(p.NickName);
             playerList.Add(p.ActorNumber, card);
@@ -50,19 +52,12 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
-        /*        GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
-
-                card.transform.SetParent(pCardSpawners[newPlayer.ActorNumber - 1].transform);
-                card.transform.localScale = Vector3.one;
-                card.transform.localPosition = new Vector3(0f, 0f, 0f);
-                card.transform.localRotation = Quaternion.identity;
-                card.GetComponent<PlayerCard>().setValue(newPlayer.NickName);
-                playerList.Add(newPlayer.ActorNumber, card);*/
-
         GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
         card.GetComponent<Animator>().SetInteger("RandomAnimation", currentPlayerPose);
+
         card.transform.position = pCardSpawners[currentPlayerPose].GetChild(newPlayer.ActorNumber - 1).transform.position;
         card.transform.rotation = pCardSpawners[currentPlayerPose].GetChild(newPlayer.ActorNumber - 1).transform.rotation;
+
         card.transform.GetChild(0).gameObject.SetActive(true);
         card.GetComponent<PlayerCard>().setValue(newPlayer.NickName);
         playerList.Add(newPlayer.ActorNumber, card);

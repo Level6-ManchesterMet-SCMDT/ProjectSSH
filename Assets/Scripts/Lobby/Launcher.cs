@@ -33,8 +33,10 @@ public class Launcher : MonoBehaviourPunCallbacks
         grabCam.transform.position = grabCamTransforms[randomModel].transform.position;
         grabCam.transform.rotation = grabCamTransforms[randomModel].transform.rotation;
 
-        pModel = Instantiate(Model, pModelTransforms[randomModel].transform.position, Quaternion.identity);
-        pModel.transform.rotation = pModelTransforms[randomModel].transform.rotation;
+
+
+        pModel = Instantiate(Model, pModelTransforms[randomModel].transform.GetChild(0).transform.position, Quaternion.identity);
+        pModel.transform.rotation = pModelTransforms[randomModel].transform.GetChild(0).transform.rotation;
 
         pModel.GetComponent<Animator>().SetInteger("RandomAnimation", randomModel);
 
