@@ -6,12 +6,35 @@ using Photon.Pun;
 public class Abilities : MonoBehaviourPunCallbacks
 {
 
-    [SerializeField] GameObject GunpowderAbility;
+    [Header("General")]
     [SerializeField] GameObject Gun;
     [SerializeField] Camera Camera;
 
+    [Header("Gunpowder Ability")]
+    [SerializeField] GameObject GunpowderAbility;
     public int GunpowderAbilitypower = 0;
     public bool GunpowderAbilityUpgraded = false;
+
+    //[Header("Pinpoint Smell Ability")]
+
+
+    void Update()
+    {
+        if (this.photonView.IsMine && GunpowderAbilityUpgraded)
+        {
+            Camera.GetComponent<Camera>().cullingMask = (1 << LayerMask.NameToLayer("Ground") | (1 << LayerMask.NameToLayer("GunpowderEffect")) | (1 << LayerMask.NameToLayer("UI")) | (1 << LayerMask.NameToLayer("Default")));
+        }
+    }
+
+    //Pinpoint Smell Ability
+
+    public void PinpointAbilityBought()
+    {
+        GunpowderAbilityUpgraded = true;
+        GunpowderAbilitypower++;
+    }
+
+    //Gunpowder Ability
 
     public void ShootEffect()
     {
@@ -20,18 +43,10 @@ public class Abilities : MonoBehaviourPunCallbacks
         GunpowderEffect.SetActive(false);
     }
 
-    public void AbilityBought()
+    public void GupowderAbilityBought()
     {
         GunpowderAbilityUpgraded = true;
         GunpowderAbilitypower++;
-    }
-
-    void Update()
-    {
-        if (this.photonView.IsMine && GunpowderAbilityUpgraded)
-        {
-            Camera.GetComponent<Camera>().cullingMask = (1 << LayerMask.NameToLayer("Ground") | (1 << LayerMask.NameToLayer("GunpowderEffect")) | (1 << LayerMask.NameToLayer("UI")) | (1 << LayerMask.NameToLayer("Default")));
-        }
     }
 
     IEnumerator respawnWait(GameObject GunpowderEffect, int GunpowderAbilitypower)
