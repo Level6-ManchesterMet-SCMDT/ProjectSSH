@@ -12,17 +12,34 @@ public class Launcher : MonoBehaviourPunCallbacks
     public GameObject connectPanel;
     public GameObject homePanel;
     public GameObject lobbyPanel;
-    public GameObject pModel;
+    public GameObject PlayerListing;
+
+    public GameObject Model;
+    public GameObject[] pModelTransforms;
+    GameObject pModel;
+
+    public GameObject[] grabCamTransforms;
+    GrabCamera grabCam;
 
     public Camera mainCam;
-    
-    GrabCamera grabCam;
 
     void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-
+        int randomModel = Random.Range(0, pModelTransforms.Length);
+        PlayerListing.GetComponent<PlayerListing>().currentPlayerPose = randomModel;
+        //int randomModel = Random.Range(3,3);
         grabCam = FindObjectOfType<GrabCamera>();
+        grabCam.transform.position = grabCamTransforms[randomModel].transform.position;
+        grabCam.transform.rotation = grabCamTransforms[randomModel].transform.rotation;
+
+
+
+        pModel = Instantiate(Model, pModelTransforms[randomModel].transform.GetChild(0).transform.position, Quaternion.identity);
+        pModel.transform.rotation = pModelTransforms[randomModel].transform.GetChild(0).transform.rotation;
+
+        pModel.GetComponent<Animator>().SetInteger("RandomAnimation", randomModel);
+
     }
 
 

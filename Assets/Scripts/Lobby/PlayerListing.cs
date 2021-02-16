@@ -13,6 +13,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     public GameObject PlayerCard;
     public GameObject startGameButton;
     public Transform[] pCardSpawners;
+    public int currentPlayerPose;
 
     public GameObject PlayerIdleCard;
 
@@ -29,23 +30,15 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         playerList = new Dictionary<int, GameObject>();
         updatePlayerList();
 
-
-        //foreach (Player p in PhotonNetwork.PlayerList)
-        //{
-        //    GameObject card = PhotonNetwork.Instantiate(PlayerCard.name, new Vector3(0f, 0f, 0f), Quaternion.identity, 0);
-        //    card.transform.SetParent(gameObject.transform);
-        //    card.transform.localScale = Vector3.one;
-        //    card.GetComponent<PlayerCard>().setValue(p.NickName, p.ActorNumber.ToString());
-        //    playerList.Add(p.ActorNumber, card);
-        //}
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            card.GetComponent<Animator>().SetInteger("RandomAnimation", currentPlayerPose);
 
-            card.transform.SetParent(pCardSpawners[p.ActorNumber - 1].transform);
-            card.transform.localScale = Vector3.one;
-            card.transform.localPosition = new Vector3(0f, 0f, 0f);
-            card.transform.localRotation = Quaternion.identity;
+            card.transform.position = pCardSpawners[currentPlayerPose].GetChild(p.ActorNumber - 1).transform.position;
+            card.transform.rotation = pCardSpawners[currentPlayerPose].GetChild(p.ActorNumber - 1).transform.rotation;
+
+            card.transform.GetChild(0).gameObject.SetActive(true);
             card.GetComponent<PlayerCard>().setValue(p.NickName);
             playerList.Add(p.ActorNumber, card);
         }
@@ -60,11 +53,12 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        card.GetComponent<Animator>().SetInteger("RandomAnimation", currentPlayerPose);
 
-        card.transform.SetParent(pCardSpawners[newPlayer.ActorNumber - 1].transform);
-        card.transform.localScale = Vector3.one;
-        card.transform.localPosition = new Vector3(0f, 0f, 0f);
-        card.transform.localRotation = Quaternion.identity;
+        card.transform.position = pCardSpawners[currentPlayerPose].GetChild(newPlayer.ActorNumber - 1).transform.position;
+        card.transform.rotation = pCardSpawners[currentPlayerPose].GetChild(newPlayer.ActorNumber - 1).transform.rotation;
+
+        card.transform.GetChild(0).gameObject.SetActive(true);
         card.GetComponent<PlayerCard>().setValue(newPlayer.NickName);
         playerList.Add(newPlayer.ActorNumber, card);
     }
