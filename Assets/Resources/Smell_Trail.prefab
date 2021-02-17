@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8129529319326025620}
   - component: {fileID: 5555118197440200842}
   - component: {fileID: 1001581470408483308}
+  - component: {fileID: 291926482721577955}
   m_Layer: 0
   m_Name: Smell_Trail
   m_TagString: Untagged
@@ -4823,3 +4824,15 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &291926482721577955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3876088463727356821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c03e414568de8b428bedc9a2c4b2974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

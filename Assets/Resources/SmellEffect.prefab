@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8667714232365826655}
   - component: {fileID: 8002218815088303192}
   - component: {fileID: 460532979020336102}
+  - component: {fileID: 669571617676603474}
   m_Layer: 10
   m_Name: SmellEffect
   m_TagString: Untagged
@@ -4847,3 +4848,15 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &669571617676603474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667714232365826653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c03e414568de8b428bedc9a2c4b2974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -81,7 +81,7 @@ public class Abilities : MonoBehaviourPunCallbacks
             if (player.GetComponent<PhotonView>().ViewID != this.GetComponent<PhotonView>().ViewID)
             {
                 GameObject SmellEffect = PhotonNetwork.Instantiate(PinpointSmellAbility.name, player.transform.position, PinpointSmellAbility.transform.rotation, 0);
-                SmellEffect.transform.parent = player.transform;
+                SmellEffect.GetComponent<FollowPlayer>().FollowPlayers(player);
                 DontDestroyOnLoad(SmellEffect.gameObject);
                 StartCoroutine(despawnWaitPinpoint(SmellEffect, PinpointSmellAbilitypower));
             }
@@ -159,19 +159,19 @@ public class Abilities : MonoBehaviourPunCallbacks
 
             foreach (Abilities p in houndS)
             {
-                p.SpawnSmellTrail(houndAbilitypower);
+                p.SpawnSmellTrail(houndAbilitypower, p);
             }
         }
     }
 
-    public void SpawnSmellTrail(int dist)
+    public void SpawnSmellTrail(int dist, Abilities player)
     {
         if (!spawnedSmellTrail)
         {
             if (!this.photonView.IsMine)
             {
                 playersSmellTrail = Instantiate(smellTrailEffect);
-                playersSmellTrail.transform.SetParent(this.transform);
+                playersSmellTrail.GetComponent<FollowPlayer>().FollowPlayers(player);
                 playersSmellTrail.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
                 spawnedSmellTrail = true;
             }
