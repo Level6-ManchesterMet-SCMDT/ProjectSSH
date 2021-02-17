@@ -27,6 +27,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
 
+    public int ZoomPower = 0;
+    public static int ZoomScale = 0;
+    public float spread;
+
     public static GameObject LocalPlayerInstance;
     public bool keyboardEnabled = true;
 
@@ -38,7 +42,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     bool FinishedJumping = false;
     bool isGrounded;
     bool holdingGun = true;
-    bool shopActive = false;
+    public bool shopActive = false;
 
     Vector3 velocity;
 
@@ -142,6 +146,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public static void UpdateZoom (int ZoomPower)
+    {
+        ZoomScale = ZoomPower;
+    }
+    
     void Rifle()
     {
         if (Input.GetKey("f") && !Armed)
@@ -157,17 +166,75 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (Input.GetKey(KeyCode.Mouse1) && Armed)
         {
             animator.SetBool("Aiming", true);
-            if(Cam.fieldOfView >= 70)
+
+            if (ZoomScale == 0) 
             {
-                Cam.fieldOfView -= 0.1f;
+                if (Cam.fieldOfView >= 70)
+                {
+                    Gun.GetSpread(0.040f); //change accuracy when scoped in
+                    mouseSensitivity = 2.7f;
+                    Cam.fieldOfView -= 0.7f;
+                }
             }
+            else if (ZoomScale == 1)
+            {
+
+                if (Cam.fieldOfView >= 50)
+                {
+                    Gun.GetSpread(0.020f);
+                    mouseSensitivity = 2.4f;
+                    Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
+                    if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                    {
+                        Cam.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 50;
+                    }
+                    if (Input.GetAxis("Mouse ScrollWheel") < 0 && Cam.fieldOfView <= 80)
+                    {
+                        Cam.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 50;
+                    }
+                }
+            }
+            else if (ZoomScale == 2)
+            {
+                if (Cam.fieldOfView >= 30)
+                {
+                    Gun.GetSpread(0.01f);
+                    mouseSensitivity = 2.1f;
+                    if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                    {
+                        Cam.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 80;
+                    }
+                    if (Input.GetAxis("Mouse ScrollWheel") < 0 && Cam.fieldOfView <= 80)
+                    {
+                        Cam.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 80;
+                    }
+                }
+            }
+            else if (ZoomScale == 3)
+            {
+                if (Cam.fieldOfView >= 10)
+                {
+                    Gun.GetSpread(0.006f);
+                    mouseSensitivity = 0.5f;
+                    if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                    {
+                        Cam.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 100;
+                    }
+                    if (Input.GetAxis("Mouse ScrollWheel") < 0 && Cam.fieldOfView <= 80)
+                    {
+                        Cam.fieldOfView -= Input.GetAxis("Mouse ScrollWheel") * 100;
+                    }
+                }
+            }
+            
         }
         else
         {
             animator.SetBool("Aiming", false);
             if (Cam.fieldOfView <= 80)
             {
-                Cam.fieldOfView += 0.1f;
+                mouseSensitivity = 3.0f;
+                Cam.fieldOfView += 0.7f;
             }
         }
 

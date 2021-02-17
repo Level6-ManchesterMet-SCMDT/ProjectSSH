@@ -21,7 +21,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     [Header("Bullet")]
     public float bulletSpeed = 30;
     public float bulletLifeTime = 5;
-    public float spreadFactorAimF;
+    public static float spreadFactorAimF;
     public float spreadFactorHipF;
 
     public Transform bulletSpawnFPV;
@@ -133,7 +133,12 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         currentAmmo = maxAmmo;
         isReloading = false;
     }
-    
+
+    public static void GetSpread(float SpreadFactor)
+    {
+            spreadFactorAimF = SpreadFactor;
+    }
+
     void Shoot()
     {
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)

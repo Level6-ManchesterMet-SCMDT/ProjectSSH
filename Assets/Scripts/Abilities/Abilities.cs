@@ -12,10 +12,15 @@ public class Abilities : MonoBehaviourPunCallbacks
     [SerializeField] Camera Camera;
     [SerializeField] Camera AbilityCamera;
     [SerializeField] Text pointsText;
+    [SerializeField] GameObject CommonAbilities;
+    [SerializeField] Button SightRare;
+    [SerializeField] Button SmellRare;
+
     public int points = 0;
     public bool rareCooldown = true;
     public int sightPoints = 0;
     public int smellPoints = 0;
+    Button[] allChildren;
 
     [Header("Gunpowder Ability")]
     [SerializeField] GameObject GunpowderAbility;
@@ -35,7 +40,16 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     [Header("Outline Ability")]
     public int OutlineAbilitypower = 0;
-    
+
+    [Header("Zoom Ability")]
+    [SerializeField] GameObject ZoomAbility;
+    public int ZoomAbilitypower = 0;
+    public bool ZoomAbilityUpgraded = false;
+
+    void Awake()
+    {
+        allChildren = CommonAbilities.GetComponentsInChildren<Button>();
+    }
 
     void Update()
     {
@@ -44,7 +58,6 @@ public class Abilities : MonoBehaviourPunCallbacks
         {
             if (PinpointSmellAbilityUpgraded)
             {
-                
                 SmellEffect();
                 rareCooldown = false;
                 Debug.Log("AbilityStarted");
@@ -55,13 +68,46 @@ public class Abilities : MonoBehaviourPunCallbacks
 
             //}
         }
+
+        if(points <= 0)
+        {
+            foreach(Button child in allChildren)
+            {
+                child.interactable = false;
+            }
+        }
+        else
+        {
+            foreach (Button child in allChildren)
+            {
+                child.interactable = true;
+            }
+        }
+
+        if (sightPoints < 3 && !PinpointSmellAbilityUpgraded)
+        {
+            SightRare.interactable = false;
+        }
+        else
+        {
+            SightRare.interactable = true;
+        }
+            
+        if (smellPoints < 3)
+        {
+            SmellRare.interactable = false;
+        }
+        else
+        {
+            SmellRare.interactable = true;
+        }
     }
 
     //Pinpoint Smell Ability
 
     public void PinpointAbilityBought()
     {
-        if (points > 0 && !PinpointSmellAbilityUpgraded && smellPoints >= 3)
+        if (!PinpointSmellAbilityUpgraded && smellPoints >= 3)
         {
             if(!PinpointSmellAbilityUpgraded)
             {
@@ -231,6 +277,24 @@ public class Abilities : MonoBehaviourPunCallbacks
             Outline.OutlineMode = Outline.Mode.OutlineVisible;
             Outline.OutlineColor = Color.black;
             Outline.OutlineWidth = 3.0f;
+        }
+    }
+
+    //Zoom ability
+
+    public void ZoomAbilityBought()
+    {
+        if(ZoomAbilitypower <= 3)
+        {
+            if (!ZoomAbilityUpgraded)
+            {
+                Camera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("ZoomEffect");
+            }
+            ZoomAbilityUpgraded = true;
+            ZoomAbilitypower++;
+            PlayerManager.UpdateZoom(ZoomAbilitypower);
+            points--;
+            sightPoints++;
         }
     }
 }
