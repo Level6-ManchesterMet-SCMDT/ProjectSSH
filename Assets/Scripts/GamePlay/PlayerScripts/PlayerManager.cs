@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     bool FinishedJumping = false;
     bool isGrounded;
     bool holdingGun = true;
-    bool shopActive = false;
+    public bool shopActive = false;
 
     Vector3 velocity;
 
@@ -111,6 +111,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
+        
         
         if (holdingGun)
         {
@@ -308,4 +309,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             this.holdingGun = (bool)stream.ReceiveNext();
         }
     }
+
+   
 }

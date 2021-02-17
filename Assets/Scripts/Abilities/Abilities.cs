@@ -35,7 +35,10 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     [Header("Outline Ability")]
     public int OutlineAbilitypower = 0;
-    
+
+    [Header("AimBot Ability")]
+    public bool hasAimBot = false;
+    public bool aimBotActive = false;
 
     void Update()
     {
@@ -54,6 +57,16 @@ public class Abilities : MonoBehaviourPunCallbacks
             //{
 
             //}
+            
+        }
+
+        if (Input.GetKeyDown("p") && hasAimBot)
+        {
+            ActivateAimBot();
+        }
+        if (aimBotActive)
+        {
+            AimBot();
         }
     }
 
@@ -192,6 +205,7 @@ public class Abilities : MonoBehaviourPunCallbacks
         {
             points--;
             OutlineAbilitypower++;
+            sightPoints++;
 
             Outline[] outline = FindObjectsOfType<Outline>();
 
@@ -231,6 +245,49 @@ public class Abilities : MonoBehaviourPunCallbacks
             Outline.OutlineMode = Outline.Mode.OutlineVisible;
             Outline.OutlineColor = Color.black;
             Outline.OutlineWidth = 3.0f;
+        }
+    }
+
+
+    //aimbot ability 
+
+    public void hasAimBotFunc()
+    {
+        if(points > 0 && !hasAimBot && sightPoints >= 3)
+        {
+            hasAimBot = true;
+            points--;
+        }
+    }
+
+    public void ActivateAimBot()
+    {
+        aimBotActive = true;
+        this.gameObject.GetComponent<PlayerManager>().shopActive = true;
+        StartCoroutine(DeActivateAimbot());
+    }
+
+    IEnumerator DeActivateAimbot()
+    {
+        yield return new WaitForSeconds(5);
+        aimBotActive = false;
+        this.gameObject.GetComponent<PlayerManager>().shopActive = false;
+    }
+
+    public void AimBot()
+    {
+        PlayerManager[] players = FindObjectsOfType<PlayerManager>();
+
+        foreach (PlayerManager p in players)
+        {
+            if (p.GetComponent<Renderer>().isVisible)
+            {
+                if (!p.photonView.IsMine)
+                {
+                    Camera.transform.LookAt(p.gameObject.transform.position + new Vector3(0.0f, 1.4f, 0.0f));
+                    return;
+                }
+            }
         }
     }
 }
