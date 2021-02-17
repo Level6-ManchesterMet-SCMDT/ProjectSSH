@@ -115,14 +115,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        
         if (holdingGun)
         {
             constrainthands.weight = 1.0f;
         }
         else
             constrainthands.weight = 0.0f;
-
     }
 
     void Shop()
@@ -375,4 +373,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             this.holdingGun = (bool)stream.ReceiveNext();
         }
     }
+
+   
 }

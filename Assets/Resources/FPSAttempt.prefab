@@ -15224,6 +15224,7 @@ GameObject:
   - component: {fileID: 1410276617123661861}
   - component: {fileID: 6670095359110613960}
   - component: {fileID: 6827141713624212309}
+  - component: {fileID: 3102210110777696325}
   m_Layer: 2
   m_Name: FPSAttempt
   m_TagString: Player
@@ -15500,9 +15501,63 @@ MonoBehaviour:
   houndAbilitypower: 0
   spawnedSmellTrail: 0
   OutlineAbilitypower: 0
-  ZoomAbility: {fileID: 0}
   ZoomAbilitypower: 0
   ZoomAbilityUpgraded: 0
+  PM: {fileID: 2792527724824371244}
+  hasAimBot: 0
+  aimBotActive: 0
+--- !u!137 &3102210110777696325
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6656933301093085016}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 3
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_SkinnedMotionVectors: 1
+  m_Mesh: {fileID: -3775289610605397007, guid: d93b21c1e3df415448ab673bf777c59a, type: 3}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: -0.0087656975, y: 1.0075941, z: 0.0182091}
+    m_Extent: {x: 0.30253077, y: 0.51940536, z: 0.22735989}
+  m_DirtyAABB: 0
 --- !u!1 &6712962221501055105
 GameObject:
   m_ObjectHideFlags: 0
@@ -17135,9 +17190,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AShop, Assembly-CSharp
-        m_MethodName: Zoom
+      - m_Target: {fileID: 6827141713624212309}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: AimBotAbilityBought
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17426,7 +17481,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 33, y: -16.74}
-  m_SizeDelta: {x: 175.1, y: 110.82}
+  m_SizeDelta: {x: 157.3, y: 110.82}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7276688736362481053
 CanvasRenderer:
@@ -17469,7 +17524,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Not Yet Implemented
+  m_Text: Aimbot Sight
 --- !u!1 &7276688736413230946
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,9 +42,13 @@ public class Abilities : MonoBehaviourPunCallbacks
     public int OutlineAbilitypower = 0;
 
     [Header("Zoom Ability")]
-    [SerializeField] GameObject ZoomAbility;
     public int ZoomAbilitypower = 0;
     public bool ZoomAbilityUpgraded = false;
+
+    [Header("AimBot Ability")]
+    [SerializeField] PlayerManager PM;
+    public bool hasAimBot = false;
+    public bool aimBotActive = false;
 
     void Awake()
     {
@@ -67,6 +71,16 @@ public class Abilities : MonoBehaviourPunCallbacks
             //{
 
             //}
+            
+        }
+
+        if (Input.GetKeyDown("q") && hasAimBot)
+        {
+            ActivateAimBot();
+        }
+        if (aimBotActive)
+        {
+            AimBot();
         }
 
         if(points <= 0)
@@ -84,22 +98,22 @@ public class Abilities : MonoBehaviourPunCallbacks
             }
         }
 
-        if (sightPoints < 3 && !PinpointSmellAbilityUpgraded)
-        {
-            SightRare.interactable = false;
-        }
-        else
+        if (sightPoints >= 3 && !PinpointSmellAbilityUpgraded && points >= 1)
         {
             SightRare.interactable = true;
         }
-            
-        if (smellPoints < 3)
+        else
         {
-            SmellRare.interactable = false;
+            SightRare.interactable = false;
+        }
+            
+        if (smellPoints >= 3 && !hasAimBot && points > 1)
+        {
+            SmellRare.interactable = true;
         }
         else
         {
-            SmellRare.interactable = true;
+            SmellRare.interactable = false;
         }
     }
 
@@ -238,6 +252,7 @@ public class Abilities : MonoBehaviourPunCallbacks
         {
             points--;
             OutlineAbilitypower++;
+            sightPoints++;
 
             Outline[] outline = FindObjectsOfType<Outline>();
 
@@ -284,7 +299,7 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     public void ZoomAbilityBought()
     {
-        if(ZoomAbilitypower <= 3)
+        if (ZoomAbilitypower <= 3)
         {
             if (!ZoomAbilityUpgraded)
             {
@@ -295,6 +310,48 @@ public class Abilities : MonoBehaviourPunCallbacks
             PlayerManager.UpdateZoom(ZoomAbilitypower);
             points--;
             sightPoints++;
+
+        }
+    }
+    //aimbot ability 
+
+    public void AimBotAbilityBought()
+    {
+        if(points > 0 && !hasAimBot && sightPoints >= 3)
+        {
+            hasAimBot = true;
+            points--;
+        }
+    }
+
+    public void ActivateAimBot()
+    {
+        aimBotActive = true;
+        PM.shopActive = true;
+        StartCoroutine(DeActivateAimbot());
+    }
+
+    IEnumerator DeActivateAimbot()
+    {
+        yield return new WaitForSeconds(5);
+        aimBotActive = false;
+        PM.shopActive = false;
+    }
+
+    public void AimBot()
+    {
+        PlayerManager[] players = FindObjectsOfType<PlayerManager>();
+
+        foreach (PlayerManager p in players)
+        {
+            if (p.GetComponent<Renderer>().isVisible)
+            {
+                if (!p.photonView.IsMine)
+                {
+                    Camera.transform.LookAt(p.gameObject.transform.position + new Vector3(0.0f, 1.4f, 0.0f));
+                    return;
+                }
+            }
         }
     }
 }
