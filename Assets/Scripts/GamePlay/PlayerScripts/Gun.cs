@@ -53,6 +53,8 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     public AudioSource reloadSound;
     public AudioSource shootSound;
     public AudioSource aimInSound;
+    public AudioSource headShot;
+    public AudioSource normalShot;
 
     [Header("Other")]
     public Camera Cam;
@@ -77,6 +79,8 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         reloadSound = sounds[0];
         shootSound = sounds[1];
         aimInSound = sounds[2];
+        headShot = sounds[3];
+        normalShot = sounds[4];
     }
 
     void Update()
@@ -204,7 +208,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     GameObject impactGO = PhotonNetwork.Instantiate(playerNLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
                     Destroy(impactGO, 2f);
-
+                    normalShot.Play();
                     float rDamage = Random.Range(damage - 5f, damage + 5f);
                     hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "Dead", PhotonNetwork.LocalPlayer.NickName.ToString());
                 }
@@ -213,7 +217,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     GameObject impactGO = PhotonNetwork.Instantiate(playerLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
                     Destroy(impactGO, 2f);
-
+                    headShot.Play();
                     float rDamage = Random.Range(damage + 40f, damage + 50f);
                     hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "HeadshotDead", PhotonNetwork.LocalPlayer.NickName.ToString());
                 }
