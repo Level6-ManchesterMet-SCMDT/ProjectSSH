@@ -27,6 +27,16 @@ public class Abilities : MonoBehaviourPunCallbacks
     public int PinpointSmellAbilitypower = 0;
     public bool PinpointSmellAbilityUpgraded = false;
 
+    [Header("Hound Ability")]
+    [SerializeField] GameObject smellTrailEffect;
+    public int houndAbilitypower = 0;
+    public bool spawnedSmellTrail = false;
+    GameObject playersSmellTrail;
+
+    [Header("Outline Ability")]
+    public int OutlineAbilitypower = 0;
+    
+
     void Update()
     {
         pointsText.text = points.ToString();
@@ -53,9 +63,12 @@ public class Abilities : MonoBehaviourPunCallbacks
     {
         if (points > 0 && !PinpointSmellAbilityUpgraded && smellPoints >= 3)
         {
+            if(!PinpointSmellAbilityUpgraded)
+            {
+                AbilityCamera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("PinpointEffect");
+            }
             PinpointSmellAbilityUpgraded = true;
             PinpointSmellAbilitypower++;
-            AbilityCamera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("PinpointEffect");
             points--;
         }
     }
@@ -105,8 +118,11 @@ public class Abilities : MonoBehaviourPunCallbacks
     {
         if (points > 0)
         {
+            if(!GunpowderAbilityUpgraded)
+            {
+                Camera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("GunpowderEffect");
+            }
             GunpowderAbilityUpgraded = true;
-            Camera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("GunpowderEffect");
             GunpowderAbilitypower++;
             points--;
             smellPoints++;
@@ -129,4 +145,92 @@ public class Abilities : MonoBehaviourPunCallbacks
         }
     }
 
+
+    //Hound ability
+
+    public void houndAbility()
+    {
+        if (points > 0)
+        {
+            Abilities[] houndS = FindObjectsOfType<Abilities>();
+
+            houndAbilitypower++;
+            points--;
+
+            foreach (Abilities p in houndS)
+            {
+                p.SpawnSmellTrail(houndAbilitypower);
+            }
+        }
+    }
+
+    public void SpawnSmellTrail(int dist)
+    {
+        if (!spawnedSmellTrail)
+        {
+            if (!this.photonView.IsMine)
+            {
+                playersSmellTrail = Instantiate(smellTrailEffect);
+                playersSmellTrail.transform.SetParent(this.transform);
+                playersSmellTrail.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                spawnedSmellTrail = true;
+            }
+        }
+        else
+        {
+            var main = playersSmellTrail.GetComponent<ParticleSystem>().main;
+            main.startLifetime = dist;
+        }
+    }
+
+
+    //outline ability
+
+    public void OutlineAbility()
+    {
+        if (points > 0)
+        {
+            points--;
+            OutlineAbilitypower++;
+
+            Outline[] outline = FindObjectsOfType<Outline>();
+
+            switch (OutlineAbilitypower)
+            {
+                case 1:
+                    Abilities[] players = FindObjectsOfType<Abilities>();
+
+
+                    foreach (Abilities p in players)   // this will need to be changed foreach ability scrip not player manager script
+                    {
+                        p.AddOutlineAbility();   //changed to abilities
+                    }
+                    break;
+                case 2:
+                    foreach (Outline p in outline)
+                    {
+                        p.OutlineColor = Color.grey;
+                    }
+                    break;
+                case 3:
+                    foreach (Outline p in outline)
+                    {
+                        p.OutlineColor = Color.white;
+                    }
+                    break;
+            }
+        }
+        
+    }
+
+    public void AddOutlineAbility()
+    {
+        if (!this.photonView.IsMine)
+        {
+            var Outline = gameObject.AddComponent<Outline>();
+            Outline.OutlineMode = Outline.Mode.OutlineVisible;
+            Outline.OutlineColor = Color.black;
+            Outline.OutlineWidth = 3.0f;
+        }
+    }
 }

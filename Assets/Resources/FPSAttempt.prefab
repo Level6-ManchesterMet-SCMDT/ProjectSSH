@@ -15450,6 +15450,11 @@ MonoBehaviour:
     type: 3}
   PinpointSmellAbilitypower: 1
   PinpointSmellAbilityUpgraded: 0
+  smellTrailEffect: {fileID: 3876088463727356821, guid: b5ace5296f1319e46bcb48698d866c4e,
+    type: 3}
+  houndAbilitypower: 0
+  spawnedSmellTrail: 0
+  OutlineAbilitypower: 0
 --- !u!1 &6712962221501055105
 GameObject:
   m_ObjectHideFlags: 0
@@ -17107,7 +17112,7 @@ GameObject:
   - component: {fileID: 7276688736244993780}
   - component: {fileID: 5745208144699134069}
   m_Layer: 0
-  m_Name: Sight Common 1
+  m_Name: Outline Sight Common
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17215,9 +17220,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AShop, Assembly-CSharp
-        m_MethodName: AimBot
+      - m_Target: {fileID: 6827141713624212309}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: OutlineAbility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18368,7 +18373,7 @@ GameObject:
   - component: {fileID: 7276688737831409411}
   - component: {fileID: 1965950966987995042}
   m_Layer: 0
-  m_Name: Smell Common 2
+  m_Name: Hound Smell Common
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18476,9 +18481,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: AShop, Assembly-CSharp
-        m_MethodName: GunpowderSmell
+      - m_Target: {fileID: 6827141713624212309}
+        m_TargetAssemblyTypeName: Abilities, Assembly-CSharp
+        m_MethodName: houndAbility
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
