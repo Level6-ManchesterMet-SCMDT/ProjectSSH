@@ -21,6 +21,11 @@ public class Abilities : MonoBehaviourPunCallbacks
     public int PinpointSmellAbilitypower = 0;
     public bool PinpointSmellAbilityUpgraded = false;
 
+    [Header("Zoom Ability")]
+    [SerializeField] GameObject ZoomAbility;
+    public int ZoomAbilitypower = 0;
+    public bool ZoomAbilityUpgraded = false;
+
     void Update()
     {
     }
@@ -78,4 +83,14 @@ public class Abilities : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(5 * GunpowderAbilitypower);
         PhotonNetwork.Destroy(GunpowderEffect);
     }
+
+    public void ZoomAbilityBought()
+    {
+        ZoomAbilityUpgraded = true;
+        Camera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("ZoomEffect");
+        ZoomAbilitypower++;
+        PlayerManager.UpdateZoom(ZoomAbilitypower);
+    }
+
+    
 }
