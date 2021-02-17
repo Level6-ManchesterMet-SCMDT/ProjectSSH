@@ -41,4 +41,44 @@ public class HoundSmell : MonoBehaviourPunCallbacks
             main.startLifetime = dist;
         }
     }
+
+    public void OutlineAbility(int num)
+    {
+        Outline[] outline = FindObjectsOfType<Outline>();
+
+        switch (num)
+        {
+            case 1:
+                PlayerManager[] players = FindObjectsOfType<PlayerManager>();
+
+
+                foreach (PlayerManager p in players)   // this will need to be changed foreach ability scrip not player manager script
+                {
+                    //p.AddOutlineAbility();   //changed to abilities
+                }
+                break;
+            case 2:
+                foreach (Outline p in outline)
+                {
+                    p.OutlineColor = Color.grey;
+                }
+                break;
+            case 3:
+                foreach (Outline p in outline)
+                {
+                    p.OutlineColor = Color.white;
+                }
+                break;
+        }
+    }
+
+    public void AddOutlineAbility()
+    {
+        if (!this.photonView.IsMine)
+        {
+            var Outline = gameObject.AddComponent<Outline>();
+            Outline.OutlineColor = Color.black;
+            Outline.OutlineWidth = 3.0f;
+        }
+    }
 }

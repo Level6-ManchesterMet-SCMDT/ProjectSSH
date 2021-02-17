@@ -6049,7 +6049,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7154151289290600147}
   - component: {fileID: 1583623353283913986}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: upperBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}

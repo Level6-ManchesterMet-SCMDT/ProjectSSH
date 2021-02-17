@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.Rendering;
+using UnityEngine.Experimental.Rendering.Universal;
+using System.Reflection;
+using UnityEditor;
 
 public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
@@ -46,10 +51,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     bool isGrounded;
     bool holdingGun = true;
 
-   
+    
+
+
     Vector3 velocity;
 
     Rig constrainthands;
+
+    ForwardRendererData urpA;
 
     RigBuilder rigBuilder;
     //TwoBoneIKConstraint constraintRightHand;
@@ -102,7 +111,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         //houndAbility();
-        OutlineAbility();
 
 
     }
@@ -124,6 +132,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         
+
         if (holdingGun)
         {
             constrainthands.weight = 1.0f;
@@ -293,24 +302,27 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    public void OutlineAbility()
-    {
-        PlayerManager[] outlineP = FindObjectsOfType<PlayerManager>();
+    
 
-        foreach (PlayerManager p in outlineP)
-        {
-            p.setOutline();
-        }
-    }
 
-    public void setOutline()
-    {
-        if(!this.photonView.IsMine)
-        {
-            arms.layer = 8;
-            upperBody.layer = 8;
-            legs.layer = 8;
-            lowerbody.layer = 8;
-        }
-    }
+    //public void OutlineAbility()
+    //{
+    //    PlayerManager[] outlineP = FindObjectsOfType<PlayerManager>();
+
+    //    foreach (PlayerManager p in outlineP)
+    //    {
+    //        p.setOutline();
+    //    }
+    //}
+
+    //public void setOutline()
+    //{
+    //    if(!this.photonView.IsMine)
+    //    {
+    //        arms.layer = 8;
+    //        upperBody.layer = 8;
+    //        legs.layer = 8;
+    //        lowerbody.layer = 8;
+    //    }
+    //}
 }

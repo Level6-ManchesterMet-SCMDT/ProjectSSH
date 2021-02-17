@@ -85,6 +85,8 @@ public class PlayerListing : MonoBehaviourPunCallbacks
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("DemoTesting");
+
+            
         }
     }
 
