@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class Abilities : MonoBehaviourPunCallbacks
 {
@@ -10,6 +11,11 @@ public class Abilities : MonoBehaviourPunCallbacks
     [SerializeField] GameObject Gun;
     [SerializeField] Camera Camera;
     [SerializeField] Camera AbilityCamera;
+    [SerializeField] Text pointsText;
+    public int points = 0;
+    public bool rareCooldown = true;
+    public int sightPoints = 0;
+    public int smellPoints = 0;
 
     [Header("Gunpowder Ability")]
     [SerializeField] GameObject GunpowderAbility;
@@ -23,16 +29,35 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     void Update()
     {
+        pointsText.text = points.ToString();
+        if ( Input.GetKeyDown("q")  && rareCooldown)
+        {
+            if (PinpointSmellAbilityUpgraded)
+            {
+                
+                SmellEffect();
+                rareCooldown = false;
+                Debug.Log("AbilityStarted");
+;
+            }
+            //else if (AimbotAbilityUpgraded)
+            //{
+
+            //}
+        }
     }
 
     //Pinpoint Smell Ability
 
     public void PinpointAbilityBought()
     {
-        PinpointSmellAbilityUpgraded = true;
-        AbilityCamera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("PinpointEffect");
-        PinpointSmellAbilitypower++;
-        SmellEffect();
+        if (points > 0 && !PinpointSmellAbilityUpgraded && smellPoints >= 3)
+        {
+            PinpointSmellAbilityUpgraded = true;
+            PinpointSmellAbilitypower++;
+            AbilityCamera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("PinpointEffect");
+            points--;
+        }
     }
 
     public void SmellEffect()
@@ -55,6 +80,16 @@ public class Abilities : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(5 * PinpointSmellAbilitypower);
         PhotonNetwork.Destroy(SmellEffect);
+        StartCoroutine(pinpointCooldown());
+
+    }
+
+    IEnumerator pinpointCooldown()
+    {
+        yield return new WaitForSeconds(10);
+        rareCooldown = true;
+        Debug.Log("CooldownEnded" + rareCooldown);
+
     }
 
     //Gunpowder Ability
@@ -68,9 +103,14 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     public void GupowderAbilityBought()
     {
-        GunpowderAbilityUpgraded = true;
-        Camera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("GunpowderEffect");
-        GunpowderAbilitypower++;
+        if (points > 0)
+        {
+            GunpowderAbilityUpgraded = true;
+            Camera.GetComponent<Camera>().cullingMask ^= 1 << LayerMask.NameToLayer("GunpowderEffect");
+            GunpowderAbilitypower++;
+            points--;
+            smellPoints++;
+        }
     }
 
     IEnumerator despawnWaitGunpowder(GameObject GunpowderEffect, int GunpowderAbilitypower)
@@ -78,4 +118,15 @@ public class Abilities : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(5 * GunpowderAbilitypower);
         PhotonNetwork.Destroy(GunpowderEffect);
     }
+
+    //Points Management
+
+    public void AddPoints(string playerKiller)
+    {
+        if (PhotonNetwork.LocalPlayer.NickName == playerKiller)
+        {
+            points++;
+        }
+    }
+
 }
