@@ -19,6 +19,12 @@ public class Scoreboard_Updater : MonoBehaviourPunCallbacks
     public void enemyKilled(string playerDied, string playerKiller)
     {
         playerUIs = FindObjectsOfType<UpdateUI>();
+        Abilities[] players = FindObjectsOfType<Abilities>();
+
+        foreach (var player in players)
+        {
+            player.GetComponent<Abilities>().AddPoints(playerKiller);
+        }
 
         foreach (UpdateUI UI in playerUIs)
         {
