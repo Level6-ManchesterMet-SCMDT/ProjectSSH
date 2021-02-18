@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5231841864810340028}
   - component: {fileID: 5231841864810340029}
   - component: {fileID: 5231841864810340030}
-  - component: {fileID: 7930406997995935496}
   - component: {fileID: 1383007655852177016}
   m_Layer: 8
   m_Name: GunPowderEffect
@@ -4864,19 +4863,6 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &7930406997995935496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5231841864810340031}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27e58e9b07d38fe429bef7d8cbb538aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  upgrade: 0
 --- !u!114 &1383007655852177016
 MonoBehaviour:
   m_ObjectHideFlags: 0
