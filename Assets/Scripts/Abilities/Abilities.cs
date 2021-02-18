@@ -76,7 +76,7 @@ public class Abilities : MonoBehaviourPunCallbacks
             }
         }
 
-        if (Input.GetKeyDown("q") && hasAimBot)
+        if (Input.GetKeyDown("q") && hasAimBot && rareCooldown)
         {
             ActivateAimBot();
         }
@@ -151,13 +151,15 @@ public class Abilities : MonoBehaviourPunCallbacks
                 DontDestroyOnLoad(SmellEffect.gameObject);
                 StartCoroutine(despawnWaitPinpoint(SmellEffect, PinpointSmellAbilitypower));
                 StartCoroutine(pinpointCooldown(PinpointSmellAbilitypower));
+                
             }
             else
             {
                 StartCoroutine(pinpointCooldown(PinpointSmellAbilitypower));
             }
         }
-        
+        rareCooldown = false;
+
     }
 
 
@@ -170,7 +172,7 @@ public class Abilities : MonoBehaviourPunCallbacks
     IEnumerator pinpointCooldown(int PinpointSmellAbilitypower)
     {
         RareAbilityImageBackground.GetComponent<Image>().color = Color.red;
-        yield return new WaitForSeconds(10 + PinpointSmellAbilitypower);
+        yield return new WaitForSeconds(20 + PinpointSmellAbilitypower);
         RareAbilityImageBackground.GetComponent<Image>().color = Color.green;
         rareCooldown = true;
     }
@@ -341,16 +343,25 @@ public class Abilities : MonoBehaviourPunCallbacks
     {
         aimBotActive = true;
         PM.shopActive = true;
+        rareCooldown = false;
         StartCoroutine(DeActivateAimbot());
+        StartCoroutine(AimbotCooldown());
     }
 
     IEnumerator DeActivateAimbot()
     {
         RareAbilityImageBackground.GetComponent<Image>().color = Color.red;
         yield return new WaitForSeconds(5);
-        RareAbilityImageBackground.GetComponent<Image>().color = Color.green;
         aimBotActive = false;
         PM.shopActive = false;
+    }
+
+    IEnumerator AimbotCooldown()
+    {
+        RareAbilityImageBackground.GetComponent<Image>().color = Color.red;
+        yield return new WaitForSeconds(20 + 5);
+        RareAbilityImageBackground.GetComponent<Image>().color = Color.green;
+        rareCooldown = true;
     }
 
     public void AimBot()
