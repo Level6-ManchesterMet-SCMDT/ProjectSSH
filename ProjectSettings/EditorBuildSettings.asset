@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Lobby.unity
     guid: 0f947e00e647a05408842e203f4eddf1
   - enabled: 1
-    path: Assets/Scenes/DemoTesting.unity
+    path: Assets/Scenes/JungleDay.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/JungleNight.unity
+    guid: 970206ab0c973224c8c05112199838f3
   m_configObjects: {}

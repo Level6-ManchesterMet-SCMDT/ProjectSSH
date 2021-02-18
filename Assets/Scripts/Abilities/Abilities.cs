@@ -15,6 +15,8 @@ public class Abilities : MonoBehaviourPunCallbacks
     [SerializeField] GameObject CommonAbilities;
     [SerializeField] Button SightRare;
     [SerializeField] Button SmellRare;
+    [SerializeField] Image RareAbilityImage;
+    [SerializeField] Image RareAbilityImageBackground;
 
     public int points = 0;
     public bool rareCooldown = true;
@@ -24,6 +26,7 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     [Header("Gunpowder Ability")]
     [SerializeField] GameObject GunpowderAbility;
+    [SerializeField] Text GunpowderUpgradeNumberText;
     public int GunpowderAbilitypower = 0;
     public bool GunpowderAbilityUpgraded = false;
 
@@ -31,17 +34,21 @@ public class Abilities : MonoBehaviourPunCallbacks
     [SerializeField] GameObject PinpointSmellAbility;
     public int PinpointSmellAbilitypower = 0;
     public bool PinpointSmellAbilityUpgraded = false;
+    public Sprite SmellSprite;
 
     [Header("Hound Ability")]
     [SerializeField] GameObject smellTrailEffect;
+    [SerializeField] Text HoundUpgradeNumberText;
     public int houndAbilitypower = 0;
     public bool spawnedSmellTrail = false;
     GameObject playersSmellTrail;
 
     [Header("Outline Ability")]
+    [SerializeField] Text OutlineUpgradeNumberText;
     public int OutlineAbilitypower = 0;
 
     [Header("Zoom Ability")]
+    [SerializeField] Text ZoomUpgradeNumberText;
     public int ZoomAbilitypower = 0;
     public bool ZoomAbilityUpgraded = false;
 
@@ -49,6 +56,7 @@ public class Abilities : MonoBehaviourPunCallbacks
     [SerializeField] PlayerManager PM;
     public bool hasAimBot = false;
     public bool aimBotActive = false;
+    public Sprite AimBotSprite;
 
     void Awake()
     {
@@ -65,13 +73,7 @@ public class Abilities : MonoBehaviourPunCallbacks
                 SmellEffect();
                 rareCooldown = false;
                 Debug.Log("AbilityStarted");
-;
             }
-            //else if (AimbotAbilityUpgraded)
-            //{
-
-            //}
-            
         }
 
         if (Input.GetKeyDown("q") && hasAimBot)
@@ -98,7 +100,7 @@ public class Abilities : MonoBehaviourPunCallbacks
             }
         }
 
-        if (sightPoints >= 3 && !PinpointSmellAbilityUpgraded && points >= 1)
+        if (sightPoints >= 3 && !PinpointSmellAbilityUpgraded && points >= 1 && !hasAimBot)
         {
             SightRare.interactable = true;
         }
@@ -107,7 +109,7 @@ public class Abilities : MonoBehaviourPunCallbacks
             SightRare.interactable = false;
         }
             
-        if (smellPoints >= 3 && !hasAimBot && points > 1)
+        if (smellPoints >= 3 && !hasAimBot && points >= 1 && !PinpointSmellAbilityUpgraded )
         {
             SmellRare.interactable = true;
         }
@@ -130,22 +132,32 @@ public class Abilities : MonoBehaviourPunCallbacks
             PinpointSmellAbilityUpgraded = true;
             PinpointSmellAbilitypower++;
             points--;
+            RareAbilityImageBackground.GetComponent<Image>().color = Color.green;
+            RareAbilityImage.GetComponent<Image>().sprite = SmellSprite;
         }
     }
 
     public void SmellEffect()
     {
+        Debug.Log("SmellEffect");
         Abilities[] Players = FindObjectsOfType<Abilities>();
         foreach (Abilities player in Players)
         {
             if (player.GetComponent<PhotonView>().ViewID != this.GetComponent<PhotonView>().ViewID)
             {
+                Debug.Log("If");
                 GameObject SmellEffect = PhotonNetwork.Instantiate(PinpointSmellAbility.name, player.transform.position, PinpointSmellAbility.transform.rotation, 0);
                 SmellEffect.GetComponent<FollowPlayer>().FollowPlayers(player);
                 DontDestroyOnLoad(SmellEffect.gameObject);
                 StartCoroutine(despawnWaitPinpoint(SmellEffect, PinpointSmellAbilitypower));
+                StartCoroutine(pinpointCooldown(PinpointSmellAbilitypower));
+            }
+            else
+            {
+                StartCoroutine(pinpointCooldown(PinpointSmellAbilitypower));
             }
         }
+        
     }
 
 
@@ -153,16 +165,14 @@ public class Abilities : MonoBehaviourPunCallbacks
     {
         yield return new WaitForSeconds(5 * PinpointSmellAbilitypower);
         PhotonNetwork.Destroy(SmellEffect);
-        StartCoroutine(pinpointCooldown());
-
     }
 
-    IEnumerator pinpointCooldown()
+    IEnumerator pinpointCooldown(int PinpointSmellAbilitypower)
     {
-        yield return new WaitForSeconds(10);
+        RareAbilityImageBackground.GetComponent<Image>().color = Color.red;
+        yield return new WaitForSeconds(10 + PinpointSmellAbilitypower);
+        RareAbilityImageBackground.GetComponent<Image>().color = Color.green;
         rareCooldown = true;
-        Debug.Log("CooldownEnded" + rareCooldown);
-
     }
 
     //Gunpowder Ability
@@ -186,6 +196,7 @@ public class Abilities : MonoBehaviourPunCallbacks
             GunpowderAbilitypower++;
             points--;
             smellPoints++;
+            GunpowderUpgradeNumberText.text = GunpowderAbilitypower.ToString();
         }
     }
 
@@ -216,7 +227,7 @@ public class Abilities : MonoBehaviourPunCallbacks
 
             houndAbilitypower++;
             points--;
-
+            HoundUpgradeNumberText.text = houndAbilitypower.ToString();
             foreach (Abilities p in houndS)
             {
                 p.SpawnSmellTrail(houndAbilitypower, p);
@@ -253,7 +264,7 @@ public class Abilities : MonoBehaviourPunCallbacks
             points--;
             OutlineAbilitypower++;
             sightPoints++;
-
+            OutlineUpgradeNumberText.text = OutlineAbilitypower.ToString();
             Outline[] outline = FindObjectsOfType<Outline>();
 
             switch (OutlineAbilitypower)
@@ -310,14 +321,16 @@ public class Abilities : MonoBehaviourPunCallbacks
             PlayerManager.UpdateZoom(ZoomAbilitypower);
             points--;
             sightPoints++;
-
+            ZoomUpgradeNumberText.text = ZoomAbilitypower.ToString();
         }
     }
     //aimbot ability 
 
     public void AimBotAbilityBought()
     {
-        if(points > 0 && !hasAimBot && sightPoints >= 3)
+        RareAbilityImageBackground.GetComponent<Image>().color = Color.green;
+        RareAbilityImage.GetComponent<Image>().sprite = AimBotSprite;
+        if (points > 0 && !hasAimBot && sightPoints >= 3)
         {
             hasAimBot = true;
             points--;
@@ -333,7 +346,9 @@ public class Abilities : MonoBehaviourPunCallbacks
 
     IEnumerator DeActivateAimbot()
     {
+        RareAbilityImageBackground.GetComponent<Image>().color = Color.red;
         yield return new WaitForSeconds(5);
+        RareAbilityImageBackground.GetComponent<Image>().color = Color.green;
         aimBotActive = false;
         PM.shopActive = false;
     }

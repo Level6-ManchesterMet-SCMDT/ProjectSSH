@@ -14,6 +14,7 @@ public class PlayerListing : MonoBehaviourPunCallbacks
     public GameObject startGameButton;
     public Transform[] pCardSpawners;
     public int currentPlayerPose;
+    public int MapChosen;
 
     public GameObject PlayerIdleCard;
 
@@ -29,7 +30,6 @@ public class PlayerListing : MonoBehaviourPunCallbacks
         players = PhotonNetwork.PlayerList;
         playerList = new Dictionary<int, GameObject>();
         updatePlayerList();
-
         foreach (Player p in PhotonNetwork.PlayerList)
         {
             GameObject card = Instantiate(PlayerIdleCard, new Vector3(0f, 0f, 0f), Quaternion.identity);
@@ -78,7 +78,18 @@ public class PlayerListing : MonoBehaviourPunCallbacks
             }
 
             PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("DemoTesting");
+            Debug.Log(PhotonNetwork.CurrentRoom.CustomProperties["Map"]);
+            switch (PhotonNetwork.CurrentRoom.CustomProperties["Map"])
+            {
+                case (0):
+                    PhotonNetwork.LoadLevel("JungleDay");
+                    break;
+                case (1):
+                    PhotonNetwork.LoadLevel("JungleNight");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
