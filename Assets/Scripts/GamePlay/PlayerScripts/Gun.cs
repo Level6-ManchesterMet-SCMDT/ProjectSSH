@@ -61,7 +61,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     TwoBoneIKConstraint constraintLeftHand;
 
-    void Start ()
+    void Start()
     {
         if (photonView.IsMine || !PhotonNetwork.IsConnected)
         {
@@ -118,12 +118,11 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    IEnumerator Reload ()
+    IEnumerator Reload()
     {
         isReloading = true;
         animator.SetBool("Reloading", true);
-        reloadSound.Play();
-
+        this.photonView.RPC("reloadSoundRPC", RpcTarget.All);
         yield return new WaitForSeconds(reloadTime - .25f);
 
         animator.SetBool("Reloading", false);
@@ -136,7 +135,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     public static void GetSpread(float SpreadFactor)
     {
-            spreadFactorAimF = SpreadFactor;
+        spreadFactorAimF = SpreadFactor;
     }
 
     void Shoot()
@@ -145,7 +144,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             currentAmmo--;
-            shootSound.Play();
+            this.photonView.RPC("shootSoundRPC", RpcTarget.All);
 
             Vector3 shootDirection = Cam.transform.forward;
 
@@ -153,7 +152,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
             {
                 shootDirection.x += Random.Range(-spreadFactorAimF, spreadFactorAimF);
                 shootDirection.y += Random.Range(-spreadFactorAimF, spreadFactorAimF);
-                StartCoroutine(Cam.GetComponent<CameraShake>().Shake(camerShakeDuration, camerShakeIntensity/2)); //camera shake
+                StartCoroutine(Cam.GetComponent<CameraShake>().Shake(camerShakeDuration, camerShakeIntensity / 2)); //camera shake
             }
             else
             {
@@ -161,20 +160,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 shootDirection.y += Random.Range(-spreadFactorHipF, spreadFactorHipF);
                 StartCoroutine(Cam.GetComponent<CameraShake>().Shake(camerShakeDuration, camerShakeIntensity)); //camera shake
             }
-/*
-            //TPV Bullet
-            GameObject bulletTPV = PhotonNetwork.Instantiate(bulletPrefab.name, bulletSpawnTPV.position, bulletPrefab.transform.rotation, 0);
-            //bulletTPV.transform.forward = new Vector3(Cam.transform.forward.x, Cam.transform.forward.y, Cam.transform.forward.z);
-            bulletTPV.GetComponent<Rigidbody>().AddForce(bulletSpawnTPV.forward * bulletSpeed, ForceMode.Impulse);
-            StartCoroutine(DestroyBulletAfterTime(bulletTPV, bulletLifeTime));
-            bulletTPV.SetActive(false);
-
-            //FPV Bullet
-            GameObject bulletFPV = Instantiate(bulletPrefab);
-            bulletFPV.transform.position = bulletSpawnFPV.position;
-            bulletFPV.transform.forward = new Vector3(shootDirection.x, shootDirection.y, shootDirection.z);
-            bulletFPV.GetComponent<Rigidbody>().AddForce(bulletSpawnFPV.forward * bulletSpeed, ForceMode.Impulse);
-            StartCoroutine(DestroyBulletAfterTime(bulletFPV, bulletLifeTime));*/
 
             this.photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
 
@@ -195,7 +180,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                     hit.transform.GetComponent<SceneObjectHealth>().TakeDamage(damage); //deal damage to object or player
                 }
 
-                if(hit.rigidbody != null)
+                if (hit.rigidbody != null)
                 {
                     hit.rigidbody.AddForce(-hit.normal * impactForce); //add force to object with rigidbody
                 }
@@ -236,8 +221,22 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     public void MuzzleAndCartridgeEffect()
     {
-       muzzleFlash.Play(); //play muzzleflash on shooting
-       cartridgeEffect.Play();
+        muzzleFlash.Play(); //play muzzleflash on shooting
+        cartridgeEffect.Play();
+    }
+
+    [PunRPC]
+
+    public void shootSoundRPC()
+    {
+        shootSound.Play();
+    }
+
+    [PunRPC]
+
+    public void reloadSoundRPC()
+    {
+        reloadSound.Play();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
