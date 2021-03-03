@@ -58,7 +58,8 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     public Camera Cam;
     public GameObject player;
     public PhotonView pv;
-
+    public float volumeShoot;
+    public float volumeReload;
     TwoBoneIKConstraint constraintLeftHand;
 
     void Start()
@@ -122,7 +123,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     {
         isReloading = true;
         animator.SetBool("Reloading", true);
-        this.photonView.RPC("reloadSoundRPC", RpcTarget.All);
+        this.photonView.RPC("reloadSoundRPC", RpcTarget.All, this.transform.position);
         yield return new WaitForSeconds(reloadTime - .25f);
 
         animator.SetBool("Reloading", false);
@@ -211,11 +212,11 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    private IEnumerator DestroyBulletAfterTime(GameObject bullet, float delay)
+/*    private IEnumerator DestroyBulletAfterTime(GameObject bullet, float delay)
     {
         yield return new WaitForSeconds(delay);
         PhotonNetwork.Destroy(bullet);
-    }
+    }*/
 
     [PunRPC]
 
@@ -229,14 +230,14 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     public void shootSoundRPC( Vector3 position)
     {
-        AudioSource.PlayClipAtPoint(shootSound.clip, position);
+        AudioSource.PlayClipAtPoint(shootSound.clip, position, volumeShoot);
     }
 
     [PunRPC]
 
-    public void reloadSoundRPC()
+    public void reloadSoundRPC(Vector3 position)
     {
-        reloadSound.Play();
+        AudioSource.PlayClipAtPoint(reloadSound.clip, position, volumeReload);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
