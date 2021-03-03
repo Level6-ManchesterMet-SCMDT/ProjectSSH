@@ -144,7 +144,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             currentAmmo--;
-            this.photonView.RPC("shootSoundRPC", RpcTarget.All);
+            this.photonView.RPC("shootSoundRPC", RpcTarget.All, this.photonView.ViewID);
 
             Vector3 shootDirection = Cam.transform.forward;
 
@@ -227,9 +227,13 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     [PunRPC]
 
-    public void shootSoundRPC()
+    public void shootSoundRPC(int viewID)
     {
-        shootSound.Play();
+        if(this.photonView.ViewID == viewID)
+        {
+            shootSound.Play();
+        }
+        
     }
 
     [PunRPC]
