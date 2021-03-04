@@ -15953,6 +15953,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: HeadshotDead
+  - Type: 4
+    SynchronizeType: 0
+    Name: Running
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
@@ -15985,26 +15988,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7722ac0fbef04af4bac51d8bb36f8460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraHolder: {fileID: 2641990971724583906}
-  animator: {fileID: 128864864605220760}
-  gun: {fileID: 8807638355037873430}
-  rog_layers_hand_IK: {fileID: 7336930680949985932}
-  canvas: {fileID: 3218743290741794176}
-  upperBody: {fileID: 4604731651018223205}
-  arms: {fileID: 1416520106662818490}
-  fpsCam: {fileID: 434813201298261276}
-  Cam: {fileID: 7099254593329799169}
   speed: 6
   gravity: -9.81
   jumpHeight: 6
-  mouseSensitivity: 3
   groundCheck: {fileID: 6280829597465408994}
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 64
+  gun: {fileID: 8807638355037873430}
+  fpsCam: {fileID: 434813201298261276}
+  mouseSensitivity: 3
   ZoomPower: 0
-  spread: 0
+  Cam: {fileID: 7099254593329799169}
+  cameraHolder: {fileID: 2641990971724583906}
+  rog_layers_hand_IK: {fileID: 7336930680949985932}
+  upperBody: {fileID: 4604731651018223205}
+  arms: {fileID: 1416520106662818490}
+  animator: {fileID: 128864864605220760}
+  canvas: {fileID: 3218743290741794176}
   keyboardEnabled: 1
   shopActive: 0
   player: {fileID: 3710615623987826755}
@@ -26256,6 +26258,7 @@ MonoBehaviour:
   reloadTime: 1
   camerShakeIntensity: 0.05
   camerShakeDuration: 0.1
+  cameraRecoilIntensity: 2
   UIAmmoRef: {fileID: 8428446606698058535}
   bulletSpeed: 30
   bulletLifeTime: 5
