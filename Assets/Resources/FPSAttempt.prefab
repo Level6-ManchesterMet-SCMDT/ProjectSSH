@@ -26226,8 +26226,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8807638355037873430}
-  m_LocalRotation: {x: 0.50000006, y: 0.49999994, z: -0.49999997, w: 0.50000006}
-  m_LocalPosition: {x: 0, y: -0.109996796, z: 0.40000916}
+  m_LocalRotation: {x: 0.5105333, y: 0.44486758, z: -0.4604496, w: 0.5739641}
+  m_LocalPosition: {x: 0.056710612, y: -0.15719904, z: 0.35929453}
   m_LocalScale: {x: 0.034999996, y: 0.035000008, z: 0.03499999}
   m_Children:
   - {fileID: 4972381176538735817}
@@ -26241,7 +26241,7 @@ Transform:
   - {fileID: 7129622221564308179}
   m_Father: {fileID: 434813201298261279}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 84.706, y: 26.053, z: -53.656}
 --- !u!114 &4319349628760175406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26284,8 +26284,6 @@ MonoBehaviour:
   reloadSound: {fileID: 611580516694450365}
   shootSound: {fileID: 1742902469213510596}
   aimInSound: {fileID: 5589801664633277409}
-  headShot: {fileID: 611580516694450365}
-  normalShot: {fileID: 611580516694450365}
   Cam: {fileID: 7099254593329799169}
   player: {fileID: 6656933301093085016}
   pv: {fileID: 2712842534995974280}
