@@ -15,7 +15,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
     public float reloadTime = 1f;
     public float camerShakeIntensity;
     public float camerShakeDuration;
-
+    public float cameraRecoilIntensity;
     public GameObject UIAmmoRef;
 
     [Header("Bullet")]
@@ -96,24 +96,17 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
             {
                 return;
             }
-
-            if (currentAmmo < 0)
+            
+            UIAmmo.ammo = currentAmmo;
+            if (currentAmmo < 1 || (Input.GetKey("r") && currentAmmo < maxAmmo))
             {
                 StartCoroutine(Reload());
                 return;
             }
-            UIAmmo.ammo = currentAmmo;
-
-            //if (Input.GetKey(KeyCode.Mouse1))
-            //{
-            //    animator.SetBool("Aiming", true);
-            //}
-            //else animator.SetBool("Aiming", false);
-
             Shoot();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse1))
+        if (Input.GetKeyDown(KeyCode.Mouse1) && !animator.GetBool("Running"))
         {
             aimInSound.Play();
         }
@@ -141,7 +134,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     void Shoot()
     {
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !animator.GetBool("Running"))
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             currentAmmo--;
@@ -154,12 +147,14 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 shootDirection.x += Random.Range(-spreadFactorAimF, spreadFactorAimF);
                 shootDirection.y += Random.Range(-spreadFactorAimF, spreadFactorAimF);
                 StartCoroutine(Cam.GetComponent<CameraShake>().Shake(camerShakeDuration, camerShakeIntensity / 2)); //camera shake
+               // StartCoroutine(Cam.GetComponent<CameraShake>().Recoil(cameraRecoilIntensity / 2)); //camera recoil
             }
             else
             {
                 shootDirection.x += Random.Range(-spreadFactorHipF, spreadFactorHipF);
                 shootDirection.y += Random.Range(-spreadFactorHipF, spreadFactorHipF);
                 StartCoroutine(Cam.GetComponent<CameraShake>().Shake(camerShakeDuration, camerShakeIntensity)); //camera shake
+               // StartCoroutine(Cam.GetComponent<CameraShake>().Recoil(cameraRecoilIntensity)); //camera recoil
             }
 
             this.photonView.RPC("MuzzleAndCartridgeEffect", RpcTarget.All);
@@ -212,11 +207,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-/*    private IEnumerator DestroyBulletAfterTime(GameObject bullet, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        PhotonNetwork.Destroy(bullet);
-    }*/
 
     [PunRPC]
 

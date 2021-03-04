@@ -25,4 +25,15 @@ public class CameraShake : MonoBehaviour
         transform.localPosition = new Vector3(0, 0, 0);
     }
 
+    public IEnumerator Recoil(float magnitude)
+    {
+        Vector3 originalRot = transform.localEulerAngles;
+
+        float x = originalRot.x - magnitude;
+
+        transform.localEulerAngles = new Vector3(x, originalRot.y, originalRot.z);
+
+        yield return null;
+    }
+
 }

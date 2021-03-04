@@ -6,54 +6,55 @@ using UnityEngine.Animations.Rigging;
 
 public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 {
-    [SerializeField] GameObject cameraHolder;
-    [SerializeField] Animator animator;
-    [SerializeField] GameObject gun;
-    [SerializeField] GameObject rog_layers_hand_IK;
-    [SerializeField] GameObject canvas;
-    [SerializeField] GameObject upperBody;
-    [SerializeField] GameObject arms;
-
-    [SerializeField] Camera fpsCam;
-    [SerializeField] Camera Cam;
-    //[SerializeField] Transform spine2;
+    [Header("Movement")]
 
     public float speed = 12f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
-    public float mouseSensitivity;
-
     public Transform groundCheck;
     public float groundDistance = 0.4f;
     public LayerMask groundMask;
-
-    public int ZoomPower = 0;
-    public static int ZoomScale = 0;
-    public float spread;
-
-    public static GameObject LocalPlayerInstance;
-    public bool keyboardEnabled = true;
-
-    private Vector3 moveDirection = Vector3.zero;
-
-    float verticalLookRotation;
-    bool grounded;
-    bool Armed = true;
     bool FinishedJumping = false;
     bool isGrounded;
+    bool grounded;
+
+    [Header("Gun")]
+
+    [SerializeField] GameObject gun;
+    [SerializeField] Camera fpsCam;
+    public float mouseSensitivity;
+    public int ZoomPower = 0;
+    public static int ZoomScale = 0;
+    bool Armed = true;
     bool holdingGun = true;
-    public bool shopActive = false;
 
-    Vector3 velocity;
+    [Header("Looking")]
 
+    [SerializeField] Camera Cam;
+    [SerializeField] GameObject cameraHolder;
+    float verticalLookRotation;
+
+    [Header("Rig")]
+
+    [SerializeField] GameObject rog_layers_hand_IK;
+    [SerializeField] GameObject upperBody;
+    [SerializeField] GameObject arms;
     Rig constrainthands;
-
     RigBuilder rigBuilder;
     //TwoBoneIKConstraint constraintRightHand;
     //TwoBoneIKConstraint constraintLeftHand;
     //RigBuilder rb;
 
+    [Header("Other")]
+
+    [SerializeField] Animator animator;
+    [SerializeField] GameObject canvas;
+    public static GameObject LocalPlayerInstance;
+    public bool keyboardEnabled = true;
+    public bool shopActive = false;
     public CharacterController player;
+    Vector3 velocity;
+
 
     private void Awake()
     {
@@ -161,7 +162,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             animator.SetBool("Armed", false);
         }
 
-        if (Input.GetKey(KeyCode.Mouse1) && Armed)
+        if (Input.GetKey(KeyCode.Mouse1) && Armed && !animator.GetBool("Running"))
         {
             animator.SetBool("Aiming", true);
 
@@ -236,7 +237,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !animator.GetBool("Running"))
         {
             animator.SetBool("Shooting", true);
         }
@@ -269,6 +270,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         if (Input.GetKey(KeyCode.LeftShift))
         {
             player.Move(move * Time.deltaTime * 4);
+            animator.SetBool("Running", true);
+        }
+        else
+        {
+            animator.SetBool("Running", false);
         }
     }
 
@@ -289,7 +295,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     void Look()
     {
-        if (!shopActive)
+        if (!shopActive && (Input.GetAxis("Mouse X") != 0) || (Input.GetAxis("Mouse Y") != 0))
         {
             transform.Rotate(Vector3.up * Input.GetAxisRaw("Mouse X") * mouseSensitivity);
 
