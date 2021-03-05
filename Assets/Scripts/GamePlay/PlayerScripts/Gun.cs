@@ -82,34 +82,37 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     void Update()
     {
-
-        if (isReloading)
-        {
-            constraintLeftHand.data.targetPositionWeight -= 0.01f;
-        }
-        else
-            constraintLeftHand.data.targetPositionWeight += 0.01f;
-
-        if (photonView.IsMine || !PhotonNetwork.IsConnected)
+        if (!animator.GetBool("Dead") || !animator.GetBool("HeadshotDead"))
         {
             if (isReloading)
             {
-                return;
+                constraintLeftHand.data.targetPositionWeight -= 0.01f;
             }
-            
-            UIAmmo.ammo = currentAmmo;
-            if (currentAmmo < 1 || (Input.GetKey("r") && currentAmmo < maxAmmo))
-            {
-                StartCoroutine(Reload());
-                return;
-            }
-            Shoot();
-        }
+            else
+                constraintLeftHand.data.targetPositionWeight += 0.01f;
 
-        if (Input.GetKeyDown(KeyCode.Mouse1) && !animator.GetBool("Running"))
-        {
-            aimInSound.Play();
+            if (photonView.IsMine || !PhotonNetwork.IsConnected)
+            {
+                if (isReloading)
+                {
+                    return;
+                }
+
+                UIAmmo.ammo = currentAmmo;
+                if (currentAmmo < 1 || (Input.GetKey("r") && currentAmmo < maxAmmo))
+                {
+                    StartCoroutine(Reload());
+                    return;
+                }
+                Shoot();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse1) && !animator.GetBool("Running"))
+            {
+                aimInSound.Play();
+            }
         }
+        
     }
 
     IEnumerator Reload()

@@ -53,6 +53,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
     public bool keyboardEnabled = true;
     public bool shopActive = false;
     public CharacterController player;
+    private bool dead;
     Vector3 velocity;
 
 
@@ -116,7 +117,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
-        if (holdingGun)
+        if (holdingGun && !dead)
         {
             constrainthands.weight = 1.0f;
         }
@@ -266,8 +267,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
         player.Move(move * speed * Time.deltaTime);
         player.Move(velocity * Time.deltaTime);
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        Debug.Log(move);
+        if (Input.GetKey(KeyCode.LeftShift) && move != new Vector3(0,0,0))
         {
             player.Move(move * Time.deltaTime * 4);
             animator.SetBool("Running", true);
@@ -317,6 +318,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
     public void RespawnPlayer(string deathAnim)
     {
+        dead = true;
         StartCoroutine(respawnWait(deathAnim));
     }
 
@@ -330,6 +332,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
         Transform spawnpoint = SpawnManager.Instance.GetSpawnPoint();
         player.transform.position = spawnpoint.position;
         player.GetComponent<CharacterController>().enabled = true;
+        dead = false;
     }
 
     //Animations
