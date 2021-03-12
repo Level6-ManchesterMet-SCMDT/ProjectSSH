@@ -229,6 +229,7 @@ public class Abilities : MonoBehaviourPunCallbacks
 
             houndAbilitypower++;
             points--;
+            smellPoints++;
             HoundUpgradeNumberText.text = houndAbilitypower.ToString();
             foreach (Abilities p in houndS)
             {
@@ -273,7 +274,6 @@ public class Abilities : MonoBehaviourPunCallbacks
             {
                 case 1:
                     Abilities[] players = FindObjectsOfType<Abilities>();
-
 
                     foreach (Abilities p in players)   // this will need to be changed foreach ability scrip not player manager script
                     {

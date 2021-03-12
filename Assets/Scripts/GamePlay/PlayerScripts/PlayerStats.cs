@@ -13,6 +13,7 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     [SerializeField] GameObject playerHead;
     [SerializeField] Camera FPSCam;
 
+    public AudioSource gotHitSound;
     public float maxHealth = 100f;
     public Animator animator;
     public Scoreboard_Updater sbUpdater;
@@ -63,8 +64,8 @@ public class PlayerStats : MonoBehaviourPunCallbacks
     public void TakeDamage(float damage, string deathAnim, string playerReference)
     {
         currentHealth -= damage;
-
-        if(currentHealth < 0f)
+        gotHitSound.Play();
+        if (currentHealth < 0f)
         {
             currentHealth = 0f;
         }

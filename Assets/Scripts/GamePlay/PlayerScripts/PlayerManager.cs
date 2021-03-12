@@ -171,7 +171,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (Cam.fieldOfView >= 70)
                 {
-                    Gun.GetSpread(0.040f); //change accuracy when scoped in
+                    Gun.GetSpread(0.020f); //change accuracy when scoped in
                     mouseSensitivity = 2.7f;
                     Cam.fieldOfView -= 0.7f;
                 }
@@ -181,7 +181,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (Cam.fieldOfView >= 50)
                 {
-                    Gun.GetSpread(0.020f);
+                    Gun.GetSpread(0.010f);
                     mouseSensitivity = 2.4f;
                     Debug.Log(Input.GetAxis("Mouse ScrollWheel"));
                     if (Input.GetAxis("Mouse ScrollWheel") > 0)
@@ -214,7 +214,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (Cam.fieldOfView >= 10)
                 {
-                    Gun.GetSpread(0.006f);
+                    Gun.GetSpread(0.005f);
                     mouseSensitivity = 0.5f;
                     if (Input.GetAxis("Mouse ScrollWheel") > 0)
                     {

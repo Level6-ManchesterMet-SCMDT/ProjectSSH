@@ -49,17 +49,18 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
 
     [Header("Audio")]
 
-    public AudioSource[] sounds;
     public AudioSource reloadSound;
     public AudioSource shootSound;
     public AudioSource aimInSound;
+    public AudioSource headshotSound;
+    public AudioSource bodyshotSound;
+    public float volumeShoot;
+    public float volumeReload;
 
     [Header("Other")]
     public Camera Cam;
     public GameObject player;
     public PhotonView pv;
-    public float volumeShoot;
-    public float volumeReload;
     TwoBoneIKConstraint constraintLeftHand;
 
     void Start()
@@ -73,11 +74,6 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         constraintLeftHand = rog_layers_hand_IK.transform.GetChild(1).GetComponent<TwoBoneIKConstraint>();
-
-        sounds = GetComponents<AudioSource>();
-        reloadSound = sounds[0];
-        shootSound = sounds[1];
-        aimInSound = sounds[2];
     }
 
     void Update()
@@ -188,7 +184,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     GameObject impactGO = PhotonNetwork.Instantiate(playerNLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
                     Destroy(impactGO, 2f);
-
+                    bodyshotSound.Play();
                     float rDamage = Random.Range(damage - 5f, damage + 5f);
                     hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "Dead", PhotonNetwork.LocalPlayer.NickName.ToString());
                 }
@@ -197,7 +193,7 @@ public class Gun : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     GameObject impactGO = PhotonNetwork.Instantiate(playerLImpactEffect.name, hit.point, Quaternion.LookRotation(hit.normal), 0); //spawn impact effect on target
                     Destroy(impactGO, 2f);
-
+                    headshotSound.Play();
                     float rDamage = Random.Range(damage + 40f, damage + 50f);
                     hit.transform.gameObject.GetComponent<PlayerHit>().TakeDamage(rDamage, "HeadshotDead", PhotonNetwork.LocalPlayer.NickName.ToString());
                 }

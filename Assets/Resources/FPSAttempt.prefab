@@ -15837,6 +15837,7 @@ GameObject:
   - component: {fileID: 6670095359110613960}
   - component: {fileID: 6827141713624212309}
   - component: {fileID: 3102210110777696325}
+  - component: {fileID: 4399776336978961973}
   m_Layer: 2
   m_Name: FPSAttempt
   m_TagString: Player
@@ -16058,6 +16059,7 @@ MonoBehaviour:
   UpdateUI: {fileID: 8428446606011875577}
   playerHead: {fileID: 4027376799710007661}
   FPSCam: {fileID: 434813201298261276}
+  gotHitSound: {fileID: 4399776336978961973}
   maxHealth: 100
   animator: {fileID: 128864864605220760}
   sbUpdater: {fileID: 0}
@@ -16180,6 +16182,102 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.0087656975, y: 1.0075941, z: 0.0182091}
     m_Extent: {x: 0.30253077, y: 0.51940536, z: 0.22735989}
   m_DirtyAABB: 0
+--- !u!82 &4399776336978961973
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6656933301093085016}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: aab8f4da1514e374a8939516fe6e779a, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.9
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 0
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6712962221501055105
 GameObject:
   m_ObjectHideFlags: 0
@@ -26276,16 +26374,16 @@ MonoBehaviour:
     type: 3}
   rog_layers_hand_IK: {fileID: 7336930680949985932}
   animator: {fileID: 128864864605220760}
-  sounds:
-  - {fileID: 0}
   reloadSound: {fileID: 611580516694450365}
   shootSound: {fileID: 1742902469213510596}
   aimInSound: {fileID: 5589801664633277409}
+  headshotSound: {fileID: 4790127972450725884}
+  bodyshotSound: {fileID: 3812648288597149100}
+  volumeShoot: 0.05
+  volumeReload: 0.03
   Cam: {fileID: 7099254593329799169}
   player: {fileID: 6656933301093085016}
   pv: {fileID: 2712842534995974280}
-  volumeShoot: 0.1
-  volumeReload: 0.5
 --- !u!114 &6175615499935614431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26531,7 +26629,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 33f854a7467e5414096a0c2c23d4ac16, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -26627,13 +26725,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a8b274148ea829f47a24a9b3930331b7, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -26723,13 +26821,13 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: a192e3242d993ca4a9f0870fd4e3cf59, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.71
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 0
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
